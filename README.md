@@ -2,7 +2,7 @@
 
 **Workout tracker local-first, com Web/PWA instalável e IA opcional.**
 
-Release Candidate. Publicação suspensa até autorização separada para public dogfooding. Sem release estável `v1.0.0` nesta rodada.
+**Release Candidate disponível para testes públicos.** O foco atual é validação em uso real antes da primeira versão estável.
 
 ![Projeto Titã: progresso e registro de treino](docs/public-showcase/showcase-hero.png)
 
