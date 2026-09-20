@@ -1,0 +1,67 @@
+.tita-onboarding__brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 24px;
+  font-family: var(--tita-font-display);
+  font-size: 24px;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+}
+.tita-onboarding__starter {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 24px;
+  background: var(--tita-surface);
+  border: 1px solid var(--tita-accent-border);
+  border-radius: var(--tita-radius-lg);
+}
+.tita-onboarding__eyebrow {
+  color: var(--tita-accent);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+}
+.tita-onboarding__starter h2 {
+  font-family: var(--tita-font-display);
+  font-size: 32px;
+  line-height: 1.1;
+}
+.tita-onboarding__starter h2 span {
+  display: inline-block;
+  margin-left: 8px;
+  color: var(--tita-text-muted);
+  font-family: var(--tita-font-sans);
+  font-size: 14px;
+  font-weight: 500;
+}
+.tita-onboarding__starter p,
+.tita-onboarding__starter small {
+  color: var(--tita-text-muted);
+  font-size: 14px;
+}
+.tita-onboarding__starter small {
+  text-align: center;
+  font-size: 12px;
+}
+.tita-onboarding__starter .tita-button {
+  width: 100%;
+  margin-top: 4px;
+  font-size: 16px;
+}
+.tita-onboarding__options .tita-card {
+  padding: 16px;
+}
+.tita-onboarding__options .tita-card h3 {
+  font-size: 16px !important;
+}
+.tita-onboarding__options .tita-card > div:last-child:empty {
+  display: none;
+}
+.tita-onboarding__options .tita-card > div:first-child > div:last-child {
+  flex-shrink: 0;
+}
+.tita-onboarding__options .tita-button__content {
+  white-space: nowrap;
+}

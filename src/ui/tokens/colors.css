@@ -1,0 +1,80 @@
+:root {
+  /* Athletic Dark Theme (Default) — OLED Stealth & Emerald (Palette B) */
+  --tita-bg: #060709;
+  --tita-surface: #0f1217;
+  --tita-surface-2: #161b22;
+  --tita-surface-hover: #1e242e;
+  --tita-surface-active: #262e3b;
+  --tita-border: #212833;
+  --tita-border-strong: #303947;
+  --tita-border-focus: #10b981;
+
+  --tita-text: #f8fafc;
+  --tita-text-secondary: #cbd5e1;
+  --tita-text-muted: #94a3b8;
+  --tita-text-subtle: #8493a7;
+
+  /* Primary Accent: Precision Emerald (Palette B) */
+  --tita-primary: #10b981;
+  --tita-primary-hover: #059669;
+  --tita-primary-active: #047857;
+  --tita-primary-contrast: #060709;
+  --tita-primary-glow: rgba(16, 185, 129, 0.18);
+
+  /* Action & Completed Sets: Precision Emerald */
+  --tita-accent: #10b981;
+  --tita-accent-hover: #059669;
+  --tita-accent-bg: rgba(16, 185, 129, 0.12);
+  --tita-accent-border: rgba(16, 185, 129, 0.32);
+
+  --tita-success: #10b981;
+  --tita-success-bg: rgba(16, 185, 129, 0.12);
+  --tita-warning: #f59e0b;
+  --tita-warning-bg: rgba(245, 158, 11, 0.12);
+  --tita-error: #ef4444;
+  --tita-error-bg: rgba(239, 68, 68, 0.12);
+  --tita-danger: #ef4444;
+  --tita-danger-hover: #dc2626;
+  --tita-danger-bg: rgba(239, 68, 68, 0.12);
+  --tita-info: #38bdf8;
+  --tita-info-bg: rgba(56, 189, 248, 0.12);
+}
+
+[data-theme='light'] {
+  --tita-bg: #f8fafc;
+  --tita-surface: #ffffff;
+  --tita-surface-2: #f1f5f9;
+  --tita-surface-hover: #e2e8f0;
+  --tita-surface-active: #cbd5e1;
+  --tita-border: #cbd5e1;
+  --tita-border-strong: #94a3b8;
+  --tita-border-focus: #059669;
+
+  --tita-text: #090a0f;
+  --tita-text-secondary: #334155;
+  --tita-text-muted: #475569;
+  --tita-text-subtle: #475569;
+
+  --tita-primary: #047857;
+  --tita-primary-hover: #065f46;
+  --tita-primary-active: #065f46;
+  --tita-primary-contrast: #ffffff;
+  --tita-primary-glow: rgba(5, 150, 105, 0.18);
+
+  --tita-accent: #046044;
+  --tita-accent-hover: #047857;
+  --tita-accent-bg: rgba(16, 185, 129, 0.12);
+  --tita-accent-border: rgba(16, 185, 129, 0.28);
+
+  --tita-success: #046044;
+  --tita-success-bg: rgba(16, 185, 129, 0.14);
+  --tita-warning: #92400e;
+  --tita-warning-bg: rgba(245, 158, 11, 0.14);
+  --tita-error: #b91c1c;
+  --tita-error-bg: rgba(239, 68, 68, 0.14);
+  --tita-danger: #dc2626;
+  --tita-danger-hover: #b91c1c;
+  --tita-danger-bg: rgba(239, 68, 68, 0.14);
+  --tita-info: #075985;
+  --tita-info-bg: rgba(14, 165, 233, 0.14);
+}

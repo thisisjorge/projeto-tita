@@ -1,0 +1,31 @@
+:root {
+  --tita-space-0-5: 0.125rem; /* 2px */
+  --tita-space-1: 0.25rem; /* 4px */
+  --tita-space-2: 0.5rem; /* 8px */
+  --tita-space-3: 0.75rem; /* 12px */
+  --tita-space-4: 1rem; /* 16px */
+  --tita-space-5: 1.25rem; /* 20px */
+  --tita-space-6: 1.5rem; /* 24px */
+  --tita-space-8: 2rem; /* 32px */
+  --tita-space-10: 2.5rem; /* 40px */
+  --tita-space-12: 3rem; /* 48px */
+  --tita-space-16: 4rem; /* 64px */
+
+  --tita-radius-xs: 4px;
+  --tita-radius-sm: 6px;
+  --tita-radius-md: 10px;
+  --tita-radius-lg: 14px;
+  --tita-radius-xl: 20px;
+  --tita-radius-full: 9999px;
+
+  /* Touch target standard: WCAG 2.2 AA (≥ 44x44 CSS px) */
+  --tita-touch-min: 44px;
+
+  /* App shell layout dimensions */
+  --tita-nav-height-mobile: 64px;
+  --tita-hud-height-mobile: 72px;
+  --tita-nav-width-rail: 80px;
+  --tita-nav-width-desktop: 240px;
+  --tita-content-max-width: 1440px;
+  --tita-workstation-max-width: 1600px;
+}

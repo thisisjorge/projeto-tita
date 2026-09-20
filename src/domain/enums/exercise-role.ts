@@ -1,0 +1,18 @@
+/**
+ * Abstract exercise roles for equipment-aware template substitution.
+ * Based on TRAINING_MODEL.md and design.md specifications.
+ */
+export enum ExerciseRole {
+  HORIZONTAL_PRESS = 'HORIZONTAL_PRESS',
+  VERTICAL_PRESS = 'VERTICAL_PRESS',
+  HORIZONTAL_PULL = 'HORIZONTAL_PULL',
+  VERTICAL_PULL = 'VERTICAL_PULL',
+  SQUAT_PATTERN = 'SQUAT_PATTERN',
+  HIP_HINGE = 'HIP_HINGE',
+  KNEE_FLEXION = 'KNEE_FLEXION',
+  ELBOW_FLEXION = 'ELBOW_FLEXION',
+  ELBOW_EXTENSION = 'ELBOW_EXTENSION',
+  LATERAL_RAISE = 'LATERAL_RAISE',
+  CALF = 'CALF',
+  CORE = 'CORE',
+}

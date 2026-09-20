@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">Projeto Titã</string>
+    <string name="title_activity_main">Projeto Titã</string>
+    <string name="package_name">app.tita.workout</string>
+    <string name="custom_url_scheme">app.tita.workout</string>
+</resources>

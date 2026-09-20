@@ -1,0 +1,53 @@
+@import './intelligence.css';
+.tita-help-trigger {
+  min-height: 44px;
+  white-space: nowrap;
+}
+.tita-help__questions {
+  display: grid;
+  gap: 8px;
+}
+.tita-help__questions button {
+  text-align: left;
+  justify-content: flex-start;
+  white-space: normal;
+}
+.tita-help textarea {
+  width: 100%;
+  min-height: 72px;
+  padding: 10px;
+  background: var(--tita-surface-2);
+  color: var(--tita-text);
+  border: 1px solid var(--tita-border-strong);
+  border-radius: var(--tita-radius-sm);
+  font: inherit;
+  resize: vertical;
+}
+.tita-help form {
+  display: grid;
+  gap: 8px;
+}
+.tita-help__answer {
+  border-left: 3px solid var(--tita-primary);
+  padding: 0 14px;
+}
+.tita-help__answer p {
+  white-space: pre-line;
+}
+.tita-help-embedded {
+  padding: 16px;
+  border: 1px solid var(--tita-border);
+  border-radius: var(--tita-radius-md);
+}
+@media (max-width: 767px) {
+  .tita-help-dialog {
+    align-items: flex-end !important;
+    padding: 0 !important;
+  }
+  .tita-help-dialog .tita-dialog {
+    max-width: 100% !important;
+    max-height: 90dvh !important;
+    border-radius: 20px 20px 0 0 !important;
+    padding: 20px !important;
+  }
+}

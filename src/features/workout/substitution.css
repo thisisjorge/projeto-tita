@@ -1,0 +1,107 @@
+.tita-substitution {
+  display: grid;
+  gap: 12px;
+}
+.tita-substitution p {
+  font-size: 13px;
+  line-height: 1.5;
+}
+.tita-substitution__note {
+  color: var(--tita-text-muted);
+}
+.tita-substitution__reasons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.tita-substitution__list {
+  display: grid;
+  gap: 8px;
+}
+.tita-substitution__candidate {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  padding: 12px;
+  text-align: left;
+  background: var(--tita-surface-2);
+  border: 1px solid var(--tita-border);
+  border-radius: var(--tita-radius-md);
+  color: var(--tita-text);
+  cursor: pointer;
+}
+.tita-substitution__candidate[aria-pressed='true'] {
+  border: 2px solid var(--tita-accent);
+  padding: 11px;
+}
+.tita-substitution__candidate > span {
+  display: grid;
+  gap: 4px;
+  min-width: 0;
+}
+.tita-substitution__candidate span span {
+  font-size: 12px;
+  line-height: 1.4;
+  color: var(--tita-text-muted);
+}
+.tita-substitution__candidate strong {
+  font-size: 15px;
+}
+.tita-substitution__candidate b,
+.tita-substitution__candidate .tita-substitution__equivalence {
+  color: var(--tita-accent);
+  font-size: 12px;
+}
+.tita-substitution__candidate img {
+  flex: 0 0 56px;
+  object-fit: contain;
+}
+.tita-exercise-options {
+  position: relative;
+}
+.tita-exercise-options summary {
+  display: grid;
+  place-items: center;
+  list-style: none;
+  width: 44px;
+  min-height: 44px;
+  border: 1px solid var(--tita-border);
+  border-radius: var(--tita-radius-sm);
+  cursor: pointer;
+}
+.tita-exercise-options summary::-webkit-details-marker {
+  display: none;
+}
+.tita-exercise-options__menu {
+  position: absolute;
+  right: 0;
+  top: 48px;
+  min-width: 180px;
+  z-index: 5;
+  padding: 4px;
+  background: var(--tita-surface);
+  border: 1px solid var(--tita-border);
+  border-radius: var(--tita-radius-sm);
+  box-shadow: var(--tita-shadow-md);
+}
+@media (max-width: 600px) {
+  .tita-substitution-sheet.tita-dialog-backdrop {
+    align-items: flex-end !important;
+    padding: 0 !important;
+  }
+  .tita-substitution-sheet .tita-dialog {
+    max-height: 92dvh !important;
+    padding: 20px 16px max(20px, env(safe-area-inset-bottom)) !important;
+    border-radius: 20px 20px 0 0 !important;
+  }
+  .tita-substitution-sheet .tita-dialog > div:last-child {
+    position: sticky;
+    bottom: -20px;
+    padding: 12px 0;
+    background: var(--tita-surface);
+  }
+  .tita-substitution-sheet .tita-dialog > div:last-child > button {
+    width: 100%;
+  }
+}

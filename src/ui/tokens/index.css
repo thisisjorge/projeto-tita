@@ -1,0 +1,106 @@
+@import './colors.css';
+@import './typography.css';
+@import './spacing.css';
+@import './animations.css';
+@import './rc-polish.css';
+
+/* Global Box Sizing and Reset */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html,
+body {
+  width: 100%;
+  min-height: 100%;
+  background-color: var(--tita-bg);
+  color: var(--tita-text);
+  font-family: var(--tita-font-sans);
+  font-size: 16px;
+  line-height: var(--tita-line-normal);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden; /* Prevent horizontal scroll across 320-1920px */
+}
+
+#root {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Accessible focus ring across all interactive elements */
+:focus-visible {
+  outline: 2px solid var(--tita-border-focus);
+  outline-offset: 2px;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+  color: inherit;
+}
+
+/* Cross-browser suppression of native number input spinners (Guardrail 9) */
+input[type='number']::-webkit-outer-spin-button,
+input[type='number']::-webkit-inner-spin-button {
+  -webkit-appearance: none !important;
+  margin: 0 !important;
+}
+
+input[type='number'] {
+  -moz-appearance: textfield !important;
+  appearance: textfield !important;
+}
+
+a {
+  color: var(--tita-primary);
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* Utilities for screen reader only text */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+/* Accessible skip to main content link */
+.tita-skip-link {
+  position: absolute;
+  top: -120px;
+  left: 1rem;
+  z-index: 9999;
+  padding: 0.75rem 1.25rem;
+  background-color: var(--tita-primary);
+  color: var(--tita-primary-contrast);
+  font-weight: var(--tita-weight-bold);
+  font-size: var(--tita-text-sm);
+  border-radius: var(--tita-radius-sm);
+  text-decoration: none;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+  transition: top 0.15s ease-out;
+}
+
+.tita-skip-link:focus,
+.tita-skip-link:focus-visible {
+  top: 1rem;
+  outline: 3px solid #ffffff;
+  outline-offset: 2px;
+}

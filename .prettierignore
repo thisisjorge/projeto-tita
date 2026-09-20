@@ -1,0 +1,12 @@
+node_modules
+dist
+coverage
+android
+ios
+public/index.html
+public/icons
+.agents
+.kiro
+docs
+*.md
+package-lock.json

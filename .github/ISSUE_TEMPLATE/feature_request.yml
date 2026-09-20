@@ -1,0 +1,39 @@
+name: Sugestão de Melhoria
+description: Sugira uma ideia ou nova funcionalidade para o Projeto Titã.
+title: '[Sugestão]: '
+labels: ['enhancement']
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Obrigado por propor uma ideia para o Projeto Titã! Lembre-se de que o projeto prioriza velocidade durante o treino e arquitetura local-first.
+  - type: textarea
+    id: problem
+    attributes:
+      label: Qual problema sua sugestão resolve?
+      description: Uma explicação clara e objetiva do problema ou limitação atual.
+    validations:
+      required: true
+  - type: textarea
+    id: solution
+    attributes:
+      label: Qual é a solução sugerida?
+      description: Como você imagina a experiência ideal ou o comportamento do recurso.
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternativas consideradas
+      description: Quaisquer abordagens alternativas ou soluções de contorno que você já experimentou.
+    validations:
+      required: false
+  - type: checkboxes
+    id: principles
+    attributes:
+      label: Alinhamento com Princípios
+      options:
+        - label: Esta melhoria preserva o funcionamento 100% offline e local-first do aplicativo.
+          required: true
+        - label: Esta melhoria não adiciona fricção desnecessária durante o registro de séries na academia.
+          required: true

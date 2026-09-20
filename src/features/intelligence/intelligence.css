@@ -1,0 +1,77 @@
+.tita-intelligence {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  min-width: 0;
+}
+.tita-intelligence p {
+  font-size: 14px;
+  color: var(--tita-text-secondary);
+  overflow-wrap: anywhere;
+}
+.tita-intelligence .tita-intelligence__meta {
+  font-size: 12px;
+  color: var(--tita-text-muted);
+}
+.tita-intelligence h3 {
+  margin: 16px 0 8px;
+  font-family: var(--tita-font-display);
+  font-size: 23px;
+}
+.tita-intelligence ul {
+  padding-left: 22px;
+}
+.tita-intelligence li {
+  margin-bottom: 8px;
+  overflow-wrap: anywhere;
+}
+.tita-intelligence__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.tita-intelligence__toggle {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 44px;
+  font-weight: 600;
+}
+.tita-intelligence__toggle input {
+  width: 24px;
+  height: 24px;
+  accent-color: var(--tita-primary);
+}
+.tita-intelligence__field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.tita-intelligence__field select {
+  min-height: 44px;
+  padding: 8px 12px;
+  background: var(--tita-surface-2);
+  border: 1px solid var(--tita-border-strong);
+  border-radius: var(--tita-radius-sm);
+  color: var(--tita-text);
+}
+.tita-intelligence summary {
+  min-height: 44px;
+  padding-block: 10px;
+  cursor: pointer;
+  color: var(--tita-text);
+}
+.tita-intelligence pre {
+  max-height: 260px;
+  overflow: auto;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  font-size: 12px;
+  padding: 12px;
+  background: var(--tita-surface-2);
+  border: 1px solid var(--tita-border);
+  border-radius: var(--tita-radius-sm);
+}
+.tita-intelligence-action {
+  max-width: 100%;
+}

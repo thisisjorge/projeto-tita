@@ -1,0 +1,23 @@
+:root {
+  --tita-transition-fast: 0.12s cubic-bezier(0.4, 0, 0.2, 1);
+  --tita-transition-normal: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  --tita-transition-slow: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Strict prefers-reduced-motion suppression per REQ-8 and REQ-19 */
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --tita-transition-fast: 0s !important;
+    --tita-transition-normal: 0s !important;
+    --tita-transition-slow: 0s !important;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001s !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001s !important;
+    scroll-behavior: auto !important;
+  }
+}

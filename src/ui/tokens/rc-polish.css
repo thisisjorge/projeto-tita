@@ -1,0 +1,210 @@
+/* Keep icons and labels in the same flex formatting context, including legacy callers. */
+.tita-desktop-session {
+  display: grid;
+  gap: 12px;
+  padding: 20px;
+  background: var(--tita-surface);
+  border: 1px solid var(--tita-border);
+  border-radius: var(--tita-radius-md);
+}
+.tita-desktop-session h3 {
+  font-size: 24px;
+}
+.tita-desktop-session p,
+.tita-desktop-session dt {
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--tita-text-muted);
+}
+.tita-desktop-session dl {
+  display: grid;
+  gap: 12px;
+}
+.tita-desktop-session dd {
+  margin: 0;
+  font-size: 24px;
+  font-weight: 600;
+}
+.tita-desktop-session a {
+  display: flex;
+  align-items: center;
+  min-height: 44px;
+  font-size: 14px;
+  color: var(--tita-accent);
+}
+@media (min-width: 1025px) {
+  .tita-home__plan {
+    order: -1;
+    background: var(--tita-primary) !important;
+    color: var(--tita-primary-contrast) !important;
+  }
+  .tita-home__quick-start {
+    background: var(--tita-surface-2) !important;
+    color: var(--tita-text) !important;
+    border-color: var(--tita-border) !important;
+  }
+}
+.tita-button__content {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--tita-space-2);
+  min-width: 0;
+}
+.tita-button svg {
+  flex-shrink: 0;
+  vertical-align: middle;
+}
+.tita-routines-secondary {
+  flex-basis: 100%;
+}
+.tita-routines-secondary .tita-button {
+  font-size: 12px !important;
+  min-width: 0;
+  padding-inline: 10px;
+  background: transparent !important;
+}
+.tita-set-row__heading {
+  flex-wrap: wrap;
+  gap: 4px 8px;
+  position: relative;
+  padding-right: 40px;
+  min-height: 36px;
+}
+.tita-set-row__references {
+  flex-wrap: wrap;
+}
+.tita-set-row__references strong {
+  font-family: var(--tita-font-sans) !important;
+  font-weight: 500;
+}
+.tita-set-row__previous {
+  color: var(--tita-text-muted) !important;
+}
+.tita-set-row__menu {
+  position: absolute;
+  right: -8px;
+  top: -10px;
+  z-index: 2;
+}
+.tita-set-row__menu summary {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 44px;
+  height: 44px;
+  cursor: pointer;
+  list-style: none;
+  font-size: 22px;
+}
+.tita-set-row__menu summary::-webkit-details-marker {
+  display: none;
+}
+.tita-set-row__menu[open] {
+  z-index: 3;
+}
+.tita-set-row__menu button {
+  position: absolute;
+  right: 0;
+  top: 44px;
+  white-space: nowrap;
+  min-height: 44px;
+  padding: 8px 16px;
+  background: var(--tita-surface-2);
+  color: var(--tita-text);
+  border: 1px solid var(--tita-border-strong);
+  border-radius: var(--tita-radius-sm);
+  cursor: pointer;
+}
+/* Bundled workout-guide SVGs use white lines on a transparent canvas. */
+[data-theme='light'] .tita-exercise-illustration {
+  filter: invert(1);
+}
+@media (max-width: 768px) {
+  .tita-routines-header {
+    gap: 12px !important;
+  }
+  .tita-routines-header > div:first-child {
+    flex: 1 1 100%;
+  }
+  .tita-routines-header > .tita-button {
+    width: 100%;
+  }
+  .tita-routines-secondary {
+    display: grid !important;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+  .tita-routines-secondary .tita-button__content {
+    gap: 6px;
+  }
+  .tita-progress-view {
+    gap: 12px !important;
+  }
+  .tita-progress-view > div:first-child {
+    gap: 8px !important;
+  }
+  .tita-progress-view > div:first-child h2 {
+    font-size: 26px !important;
+  }
+  .tita-progress-view button[data-testid^='time-range-'] {
+    min-width: 44px;
+    padding: 0 8px !important;
+  }
+  .tita-progress-view [role='tablist'] {
+    flex-wrap: nowrap !important;
+    gap: 6px !important;
+  }
+  .tita-progress-view [role='tab'] {
+    flex: 1;
+    padding: 8px !important;
+    justify-content: center;
+  }
+  .tita-progress-chart-col > div:first-child {
+    padding: 12px !important;
+    gap: 8px !important;
+  }
+  .tita-progress-chart-col > div:first-child > div:last-child {
+    display: grid !important;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 4px !important;
+  }
+  .tita-progress-chart-col > div:first-child > div:last-child button {
+    padding: 0 4px !important;
+    font-size: 11px !important;
+  }
+  .tita-progress-chart-col > div:nth-child(2) {
+    padding: 16px !important;
+  }
+  .tita-progress-chart-col h3 {
+    font-size: 22px !important;
+    line-height: 1.15;
+  }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .tita-set-row--completed {
+    transition:
+      border-color 150ms ease,
+      background-color 150ms ease;
+  }
+  .tita-set-row--completed button[aria-checked='true'] {
+    animation: tita-set-check 150ms ease-out;
+  }
+  [data-testid='rest-timer-display'] {
+    animation: tita-rest-enter 200ms ease-out;
+  }
+}
+@keyframes tita-set-check {
+  50% {
+    transform: scale(1.08);
+  }
+}
+@keyframes tita-rest-enter {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
