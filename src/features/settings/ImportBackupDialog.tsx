@@ -93,15 +93,36 @@ export const ImportBackupDialog: React.FC<ImportBackupDialogProps> = ({
               backgroundColor: 'rgba(239, 68, 68, 0.1)',
               border: '1px solid var(--tita-danger, #ef4444)',
               borderRadius: 'var(--tita-radius-md)',
-              color: 'var(--tita-danger, #ef4444)',
+              color: 'var(--tita-error)',
             }}
           >
-            <strong>Arquivo Inválido:</strong>
-            <ul style={{ marginTop: 'var(--tita-space-1)', paddingLeft: '20px' }}>
-              {preflight.errors.map((e, idx) => (
-                <li key={idx}>{e}</li>
-              ))}
-            </ul>
+            <strong>Não foi possível ler este backup.</strong>
+            <p style={{ marginTop: 'var(--tita-space-2)' }}>
+              Escolha um arquivo JSON exportado pelo Titã. Seus dados não foram alterados.
+            </p>
+            <details>
+              <summary
+                style={{
+                  minHeight: '44px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  cursor: 'pointer',
+                }}
+              >
+                Detalhes do arquivo
+              </summary>
+              <ul
+                style={{
+                  marginTop: 'var(--tita-space-1)',
+                  paddingLeft: '20px',
+                  overflowWrap: 'anywhere',
+                }}
+              >
+                {preflight.errors.map((e, idx) => (
+                  <li key={idx}>{e}</li>
+                ))}
+              </ul>
+            </details>
           </div>
         ) : (
           <>

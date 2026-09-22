@@ -47,6 +47,8 @@ export const Field: React.FC<FieldProps> = ({
         flexDirection: 'column',
         gap: 'var(--tita-space-1)',
         width: '100%',
+        minWidth: 0,
+        boxSizing: 'border-box',
       }}
       className="tita-field"
     >
@@ -72,6 +74,9 @@ export const Field: React.FC<FieldProps> = ({
         aria-invalid={hasError ? 'true' : undefined}
         aria-describedby={hasError ? errorId : helperText ? helperId : undefined}
         style={{
+          width: '100%',
+          minWidth: 0,
+          boxSizing: 'border-box',
           minHeight: 'var(--tita-touch-min)',
           padding: '0 var(--tita-space-3)',
           backgroundColor: 'var(--tita-surface-2)',

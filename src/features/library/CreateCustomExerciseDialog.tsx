@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import type { Exercise } from '../../domain/entities/exercise.js';
 import { ExerciseLibraryService } from '../../services/exercise-library-service.js';
 import { Dialog, Button, Field } from '../../ui/components/index.js';
@@ -6,9 +6,11 @@ import { Dialog, Button, Field } from '../../ui/components/index.js';
 interface CreateCustomExerciseDialogProps {
   isOpen: boolean;
   onClose: () => void;
-  service: ExerciseLibraryService;
-  onSuccess: (exercise: Exercise) => void;
+  service?: ExerciseLibraryService;
+  onSuccess?: (exercise: Exercise) => void;
   exerciseToEdit?: Exercise | null;
+  exercise?: Exercise | null;
+  onSaved?: () => void | Promise<void>;
 }
 
 const MUSCLE_OPTIONS = [
@@ -35,13 +37,52 @@ const EQUIPMENT_OPTIONS = [
   'Outro',
 ];
 
+const twoColumnGridStyle: React.CSSProperties = {
+  display: 'grid',
+  gridTemplateColumns: 'repeat(2, minmax(0, 1fr))',
+  alignItems: 'stretch',
+  gap: 'var(--tita-space-3)',
+  width: '100%',
+  maxWidth: '100%',
+  minWidth: 0,
+  boxSizing: 'border-box',
+};
+
+const selectFieldStyle: React.CSSProperties = {
+  display: 'flex',
+  flexDirection: 'column',
+  gap: 'var(--tita-space-1)',
+  width: '100%',
+  maxWidth: '100%',
+  minWidth: 0,
+  boxSizing: 'border-box',
+};
+
+const selectStyle: React.CSSProperties = {
+  width: '100%',
+  maxWidth: '100%',
+  minWidth: 0,
+  boxSizing: 'border-box',
+  height: 'var(--tita-touch-min)',
+  backgroundColor: 'var(--tita-surface-2)',
+  color: 'var(--tita-text)',
+  border: '1px solid var(--tita-border)',
+  borderRadius: 'var(--tita-radius-sm)',
+  padding: '0 var(--tita-space-3)',
+  fontSize: 'var(--tita-text-base)',
+};
+
 export const CreateCustomExerciseDialog: React.FC<CreateCustomExerciseDialogProps> = ({
   isOpen,
   onClose,
   service,
   onSuccess,
   exerciseToEdit,
+  exercise,
+  onSaved,
 }) => {
+  const resolvedService = useMemo(() => service ?? new ExerciseLibraryService(), [service]);
+  const editingExercise = exerciseToEdit ?? exercise ?? null;
   const [name, setName] = useState('');
   const [primaryMuscle, setPrimaryMuscle] = useState('Peito');
   const [equipment, setEquipment] = useState('Barra');
@@ -53,14 +94,14 @@ export const CreateCustomExerciseDialog: React.FC<CreateCustomExerciseDialogProp
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   useEffect(() => {
-    if (exerciseToEdit) {
-      setName(exerciseToEdit.name);
-      setPrimaryMuscle(exerciseToEdit.primaryMuscle);
-      setEquipment(exerciseToEdit.equipment);
-      setCategory(exerciseToEdit.category);
-      setInstructionsText(exerciseToEdit.instructions.join('\n'));
-      setDefaultRestSeconds(exerciseToEdit.defaultRestSeconds ?? 90);
-      setIncrement(exerciseToEdit.increment ?? 2.0);
+    if (editingExercise) {
+      setName(editingExercise.name);
+      setPrimaryMuscle(editingExercise.primaryMuscle);
+      setEquipment(editingExercise.equipment);
+      setCategory(editingExercise.category);
+      setInstructionsText(editingExercise.instructions.join('\n'));
+      setDefaultRestSeconds(editingExercise.defaultRestSeconds ?? 90);
+      setIncrement(editingExercise.increment ?? 2.0);
     } else {
       setName('');
       setPrimaryMuscle('Peito');
@@ -71,7 +112,13 @@ export const CreateCustomExerciseDialog: React.FC<CreateCustomExerciseDialogProp
       setIncrement(2.0);
     }
     setErrorMsg(null);
-  }, [exerciseToEdit, isOpen]);
+  }, [editingExercise, isOpen]);
+
+  const finishSave = async (savedExercise: Exercise) => {
+    onSuccess?.(savedExercise);
+    await onSaved?.();
+    onClose();
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -89,8 +136,8 @@ export const CreateCustomExerciseDialog: React.FC<CreateCustomExerciseDialogProp
       .filter((s) => s.length > 0);
 
     try {
-      if (exerciseToEdit) {
-        const updated = await service.updateCustomExercise(exerciseToEdit.id, {
+      if (editingExercise) {
+        const updated = await resolvedService.updateCustomExercise(editingExercise.id, {
           name,
           primaryMuscle,
           equipment,
@@ -99,10 +146,9 @@ export const CreateCustomExerciseDialog: React.FC<CreateCustomExerciseDialogProp
           defaultRestSeconds,
           increment,
         });
-        onSuccess(updated);
-        onClose();
+        await finishSave(updated);
       } else {
-        const created = await service.createCustomExercise({
+        const created = await resolvedService.createCustomExercise({
           name,
           primaryMuscle,
           equipment,
@@ -111,8 +157,7 @@ export const CreateCustomExerciseDialog: React.FC<CreateCustomExerciseDialogProp
           defaultRestSeconds,
           increment,
         });
-        onSuccess(created);
-        onClose();
+        await finishSave(created);
       }
     } catch (err) {
       setErrorMsg(err instanceof Error ? err.message : 'Erro ao salvar exercício.');
@@ -123,9 +168,10 @@ export const CreateCustomExerciseDialog: React.FC<CreateCustomExerciseDialogProp
 
   return (
     <Dialog
+      className="tita-custom-exercise-dialog"
       isOpen={isOpen}
       onClose={onClose}
-      title={exerciseToEdit ? 'Editar Exercício' : 'Criar Exercício Personalizado'}
+      title={editingExercise ? 'Editar Exercício' : 'Criar Exercício Personalizado'}
       footer={
         <>
           <Button variant="secondary" onClick={onClose} disabled={isSubmitting}>
@@ -134,7 +180,7 @@ export const CreateCustomExerciseDialog: React.FC<CreateCustomExerciseDialogProp
           <Button variant="primary" onClick={handleSubmit} disabled={isSubmitting || !name.trim()}>
             {isSubmitting
               ? 'Salvando...'
-              : exerciseToEdit
+              : editingExercise
                 ? 'Salvar Alterações'
                 : 'Criar Exercício'}
           </Button>
@@ -143,16 +189,24 @@ export const CreateCustomExerciseDialog: React.FC<CreateCustomExerciseDialogProp
     >
       <form
         onSubmit={handleSubmit}
-        style={{ display: 'flex', flexDirection: 'column', gap: 'var(--tita-space-3)' }}
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          gap: 'var(--tita-space-4)',
+          width: '100%',
+          minWidth: 0,
+          boxSizing: 'border-box',
+        }}
       >
         {errorMsg && (
           <div
             style={{
               padding: 'var(--tita-space-2) var(--tita-space-3)',
               backgroundColor: 'rgba(239, 68, 68, 0.1)',
-              color: '#ef4444',
+              color: 'var(--tita-error)',
               borderRadius: 'var(--tita-radius-sm)',
               fontSize: 'var(--tita-text-sm)',
+              overflowWrap: 'anywhere',
             }}
           >
             {errorMsg}
@@ -166,10 +220,8 @@ export const CreateCustomExerciseDialog: React.FC<CreateCustomExerciseDialogProp
           onChange={(e) => setName(e.target.value)}
         />
 
-        <div
-          style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 'var(--tita-space-3)' }}
-        >
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--tita-space-1)' }}>
+        <div className="tita-custom-exercise-grid" style={twoColumnGridStyle}>
+          <div style={selectFieldStyle}>
             <label
               htmlFor="muscle-select"
               style={{
@@ -184,15 +236,7 @@ export const CreateCustomExerciseDialog: React.FC<CreateCustomExerciseDialogProp
               id="muscle-select"
               value={primaryMuscle}
               onChange={(e) => setPrimaryMuscle(e.target.value)}
-              style={{
-                height: 'var(--tita-touch-min)',
-                backgroundColor: 'var(--tita-surface-2)',
-                color: 'var(--tita-text)',
-                border: '1px solid var(--tita-border)',
-                borderRadius: 'var(--tita-radius-sm)',
-                padding: '0 var(--tita-space-2)',
-                fontSize: 'var(--tita-text-base)',
-              }}
+              style={selectStyle}
             >
               {MUSCLE_OPTIONS.map((m) => (
                 <option key={m} value={m}>
@@ -202,7 +246,7 @@ export const CreateCustomExerciseDialog: React.FC<CreateCustomExerciseDialogProp
             </select>
           </div>
 
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--tita-space-1)' }}>
+          <div style={selectFieldStyle}>
             <label
               htmlFor="equipment-select"
               style={{
@@ -217,15 +261,7 @@ export const CreateCustomExerciseDialog: React.FC<CreateCustomExerciseDialogProp
               id="equipment-select"
               value={equipment}
               onChange={(e) => setEquipment(e.target.value)}
-              style={{
-                height: 'var(--tita-touch-min)',
-                backgroundColor: 'var(--tita-surface-2)',
-                color: 'var(--tita-text)',
-                border: '1px solid var(--tita-border)',
-                borderRadius: 'var(--tita-radius-sm)',
-                padding: '0 var(--tita-space-2)',
-                fontSize: 'var(--tita-text-base)',
-              }}
+              style={selectStyle}
             >
               {EQUIPMENT_OPTIONS.map((eq) => (
                 <option key={eq} value={eq}>
@@ -236,25 +272,34 @@ export const CreateCustomExerciseDialog: React.FC<CreateCustomExerciseDialogProp
           </div>
         </div>
 
-        <div
-          style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 'var(--tita-space-3)' }}
-        >
+        <div className="tita-custom-exercise-grid" style={twoColumnGridStyle}>
           <Field
             label="Descanso Padrão (segundos)"
             type="number"
+            inputMode="numeric"
+            min={10}
             value={defaultRestSeconds}
             onChange={(e) => setDefaultRestSeconds(Math.max(10, parseInt(e.target.value) || 90))}
           />
           <Field
             label="Incremento Mínimo (kg)"
             type="number"
+            inputMode="decimal"
+            min={0.5}
             step="0.5"
             value={increment}
             onChange={(e) => setIncrement(Math.max(0.5, parseFloat(e.target.value) || 2.0))}
           />
         </div>
 
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--tita-space-1)' }}>
+        <div
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+            gap: 'var(--tita-space-1)',
+            minWidth: 0,
+          }}
+        >
           <label
             htmlFor="instructions-textarea"
             style={{
@@ -272,6 +317,10 @@ export const CreateCustomExerciseDialog: React.FC<CreateCustomExerciseDialogProp
             onChange={(e) => setInstructionsText(e.target.value)}
             placeholder="1. Posição inicial dos pés&#10;2. Pegada e alinhamento&#10;3. Cadência de descida"
             style={{
+              width: '100%',
+              maxWidth: '100%',
+              minWidth: 0,
+              boxSizing: 'border-box',
               backgroundColor: 'var(--tita-surface-2)',
               color: 'var(--tita-text)',
               border: '1px solid var(--tita-border)',

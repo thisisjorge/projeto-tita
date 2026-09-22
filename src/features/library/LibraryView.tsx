@@ -222,12 +222,13 @@ export const LibraryView: React.FC = () => {
               key={muscle}
               type="button"
               onClick={() => setSelectedMuscle(muscle)}
+              aria-pressed={isSelected}
               style={{
                 display: 'inline-flex',
                 alignItems: 'center',
                 justifyContent: 'center',
                 padding: '0 var(--tita-space-3)',
-                minHeight: '38px',
+                minHeight: '44px',
                 borderRadius: 'var(--tita-radius-pill)',
                 fontSize: 'var(--tita-text-sm)',
                 fontWeight: isSelected ? 'var(--tita-weight-bold)' : 'var(--tita-weight-medium)',
@@ -238,7 +239,7 @@ export const LibraryView: React.FC = () => {
                   : '1px solid var(--tita-border)',
                 cursor: 'pointer',
                 whiteSpace: 'nowrap',
-                transition: 'all 0.15s ease',
+                transition: 'background-color 0.15s ease, color 0.15s ease',
               }}
             >
               {muscle}
@@ -399,6 +400,7 @@ export const LibraryView: React.FC = () => {
         >
           {exercises.map((ex) => {
             const isFav = favoriteIds.has(ex.id);
+            const hasAnimation = (mediaProvider.resolveMedia(ex).frames?.length ?? 0) > 1;
             const iconSvg = mediaProvider.getFallbackProvider().getIconSvg(ex);
 
             return (
@@ -438,6 +440,7 @@ export const LibraryView: React.FC = () => {
                     >
                       {mediaProvider.getPrimaryProvider().getThumbnail(ex) ? (
                         <img
+                          className="tita-exercise-illustration"
                           src={mediaProvider.getPrimaryProvider().getThumbnail(ex)!}
                           alt={ex.name}
                           loading="lazy"
@@ -595,7 +598,7 @@ export const LibraryView: React.FC = () => {
                         gap: '2px',
                       }}
                     >
-                      <span>Ver Detalhes</span>
+                      <span>{hasAnimation ? 'Ver animação' : 'Ver Detalhes'}</span>
                       <ArrowRightIcon size={12} />
                     </span>
                   </div>
@@ -618,61 +621,26 @@ export const LibraryView: React.FC = () => {
           color: 'var(--tita-text-muted)',
           display: 'flex',
           alignItems: 'center',
-          justifyContent: 'space-between',
-          flexWrap: 'wrap',
           gap: 'var(--tita-space-2)',
         }}
       >
-        <span>
-          Ilustrações de movimento do catálogo sob licença <strong>CC BY-SA 4.0</strong>{' '}
-          (@bryllim/workout-guide).
-        </span>
-        <span style={{ color: 'var(--tita-accent)', fontWeight: 'var(--tita-weight-bold)' }}>
-          100% Offline • Vetores Biomecânicos
-        </span>
+        <FilterIcon size={14} color="var(--tita-text-muted)" />
+        <span>Ilustrações biomecânicas disponíveis offline quando incluídas no pacote local.</span>
       </div>
 
-      {/* Dialogs */}
       <ExerciseDetailDialog
         exercise={selectedExercise}
         isOpen={isDetailOpen}
         onClose={() => setIsDetailOpen(false)}
-        service={service}
-        onExerciseUpdated={loadExercises}
-        onOpenEdit={handleOpenEdit}
+        onEdit={handleOpenEdit}
       />
 
       <CreateCustomExerciseDialog
         isOpen={isCreateOpen}
+        exercise={exerciseToEdit}
         onClose={() => setIsCreateOpen(false)}
-        service={service}
-        exerciseToEdit={exerciseToEdit}
-        onSuccess={() => {
-          loadExercises();
-        }}
+        onSaved={loadExercises}
       />
-
-      <style>{`
-        .tita-exercise-thumb {
-          width: 84px !important;
-          height: 84px !important;
-          min-width: 84px !important;
-          min-height: 84px !important;
-        }
-        @media (min-width: 769px) {
-          .tita-exercise-thumb {
-            width: 96px !important;
-            height: 96px !important;
-            min-width: 96px !important;
-            min-height: 96px !important;
-          }
-        }
-        @media (max-width: 640px) {
-          .tita-library-subtitle {
-            display: none !important;
-          }
-        }
-      `}</style>
     </div>
   );
 };

@@ -272,7 +272,16 @@ export const SettingsView: React.FC = () => {
                 Permite registrar RPE, RIR, tipo de série, tempo de execução e notas
               </div>
             </div>
-            <label style={{ display: 'flex', alignItems: 'center', cursor: 'pointer' }}>
+            <label
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                minWidth: '44px',
+                minHeight: '44px',
+                cursor: 'pointer',
+              }}
+            >
               <input
                 type="checkbox"
                 checked={advancedSettings.enabled}

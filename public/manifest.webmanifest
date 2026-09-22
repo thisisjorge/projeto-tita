@@ -4,8 +4,8 @@
   "description": "Workout tracker local-first. Treinos, rotinas, progresso e backup.",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#07090d",
-  "theme_color": "#b8ff4a",
+  "background_color": "#060709",
+  "theme_color": "#060709",
   "orientation": "portrait-primary",
   "icons": [
     { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png" },

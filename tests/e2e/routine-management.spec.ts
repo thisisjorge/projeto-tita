@@ -34,6 +34,7 @@ test.describe('Projeto Titã — React Routine Management & Discovery E2E (REQ-5
     await pickerExercise.click();
 
     // Save routine
+    await expect(nameInput).toHaveValue('Treino A — Peito & Tríceps');
     const saveBtn = dialog.locator('[data-testid="save-routine-btn"]');
     await saveBtn.click();
     await expect(dialog).not.toBeVisible();

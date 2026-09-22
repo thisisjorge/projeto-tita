@@ -1,5 +1,26 @@
 import { test, expect } from '@playwright/test';
 
+test('first PWA installation prepares the shell for offline reload', async ({ page, context }) => {
+  await page.goto('/app');
+  await page.getByTestId('start-workout-button').waitFor();
+  await page.waitForFunction(() => Boolean(navigator.serviceWorker.controller));
+  await page.waitForLoadState('networkidle');
+  await expect(page.getByTestId('start-workout-button')).toBeVisible();
+  const scriptsCached = await page.evaluate(async () =>
+    Promise.all(
+      [...document.querySelectorAll<HTMLScriptElement>('script[src]')].map(async (script) =>
+        Boolean(await caches.match(script.src)),
+      ),
+    ),
+  );
+  expect(scriptsCached.length).toBeGreaterThan(0);
+  expect(scriptsCached.every(Boolean)).toBe(true);
+  await context.setOffline(true);
+  await page.reload();
+  await expect(page.getByTestId('start-workout-button')).toBeVisible();
+  await expect(page.locator('.tita-sidebar nav button')).toHaveCount(6);
+});
+
 test.describe('Projeto Titã — PWA & Offline Support (REQ-8, Phase 9)', () => {
   test('completes entire Core Workout Flow offline after initial load (Task 10.3)', async ({
     page,

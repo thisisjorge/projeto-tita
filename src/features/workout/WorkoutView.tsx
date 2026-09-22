@@ -90,13 +90,14 @@ export const WorkoutView: React.FC = () => {
   const announcedMilestones = React.useRef<Set<number>>(new Set());
 
   useEffect(() => {
+    const remaining = timer ? Math.ceil(calculateRemainingMs(timer, Date.now()) / 1000) : 0;
     const isRunning = timer?.status === TimerStatus.RUNNING;
-    const isFinished = timerRemainingSeconds <= 0;
-    const m = Math.floor(Math.max(0, timerRemainingSeconds) / 60);
-    const s = Math.max(0, timerRemainingSeconds) % 60;
+    const isFinished = remaining <= 0;
+    const m = Math.floor(Math.max(0, remaining) / 60);
+    const s = Math.max(0, remaining) % 60;
     const formatted = `${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
 
-    if (timerRemainingSeconds > 35) {
+    if (remaining > 35) {
       announcedMilestones.current.clear();
     }
 
@@ -110,10 +111,10 @@ export const WorkoutView: React.FC = () => {
     }
 
     if (isRunning) {
-      if (timerRemainingSeconds === 30 && !announcedMilestones.current.has(30)) {
+      if (remaining === 30 && !announcedMilestones.current.has(30)) {
         announcedMilestones.current.add(30);
         setTimerAnnouncement('30 segundos restantes de descanso');
-      } else if (timerRemainingSeconds === 10 && !announcedMilestones.current.has(10)) {
+      } else if (remaining === 10 && !announcedMilestones.current.has(10)) {
         announcedMilestones.current.add(10);
         setTimerAnnouncement('10 segundos restantes de descanso');
       } else if (isFinished && !announcedMilestones.current.has(0)) {
@@ -121,7 +122,7 @@ export const WorkoutView: React.FC = () => {
         setTimerAnnouncement('Tempo de descanso concluído!');
       }
     }
-  }, [timerRemainingSeconds, timer?.status]);
+  }, [timerRemainingSeconds, timer]);
 
   const [saveStatus, setSaveStatus] = useState<'saved' | 'saving' | 'error'>('saved');
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
@@ -298,6 +299,9 @@ export const WorkoutView: React.FC = () => {
       return;
     }
 
+    // Paint the deadline-derived value immediately instead of flashing 00:00
+    // until the first 500 ms tick. Countdown and persistence rules are unchanged.
+    setTimerRemainingSeconds(Math.ceil(calculateRemainingMs(timer, Date.now()) / 1000));
     const interval = setInterval(() => {
       const remainingMs = calculateRemainingMs(timer, Date.now());
       const remainingSec = Math.ceil(remainingMs / 1000);

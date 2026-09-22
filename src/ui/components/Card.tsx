@@ -36,6 +36,7 @@ export const Card: React.FC<CardProps> = ({
     >
       {(title || activeAction) && (
         <div
+          className="tita-card__header"
           style={{
             display: 'flex',
             alignItems: 'center',
@@ -43,7 +44,7 @@ export const Card: React.FC<CardProps> = ({
             gap: 'var(--tita-space-2)',
           }}
         >
-          <div>
+          <div style={{ minWidth: 0 }}>
             {typeof title === 'string' ? (
               <h3
                 style={{
@@ -58,7 +59,7 @@ export const Card: React.FC<CardProps> = ({
               title
             )}
             {subtitle && (
-              <p
+              <div
                 style={{
                   fontSize: 'var(--tita-text-sm)',
                   color: 'var(--tita-text-muted)',
@@ -66,7 +67,7 @@ export const Card: React.FC<CardProps> = ({
                 }}
               >
                 {subtitle}
-              </p>
+              </div>
             )}
           </div>
           {activeAction && <div>{activeAction}</div>}

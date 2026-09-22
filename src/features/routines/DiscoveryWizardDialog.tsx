@@ -126,7 +126,13 @@ export const DiscoveryWizardDialog: React.FC<DiscoveryWizardDialogProps> = ({
               rotina.
             </p>
 
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: '8px' }}>
+            <div
+              style={{
+                display: 'grid',
+                gridTemplateColumns: 'repeat(auto-fit, minmax(64px, 1fr))',
+                gap: '8px',
+              }}
+            >
               {[2, 3, 4, 5, 6].map((days) => (
                 <Button
                   key={days}
@@ -146,7 +152,13 @@ export const DiscoveryWizardDialog: React.FC<DiscoveryWizardDialogProps> = ({
             <h3 style={{ fontSize: 'var(--tita-text-base)', fontWeight: 'bold' }}>
               Quanto tempo você tem disponível por sessão?
             </h3>
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '8px' }}>
+            <div
+              style={{
+                display: 'grid',
+                gridTemplateColumns: 'repeat(auto-fit, minmax(88px, 1fr))',
+                gap: '8px',
+              }}
+            >
               {[30, 45, 60, 75, 90].map((dur) => (
                 <Button
                   key={dur}

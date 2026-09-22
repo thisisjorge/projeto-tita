@@ -185,33 +185,32 @@ test.describe('Projeto Titã — Accessibility Quality Gates (Phase 12, Task 15.
   test('Interactive navigation elements comply with min 44x44px touch targets', async ({
     page,
   }) => {
-    // 1. Verify desktop sidebar navigation buttons (>=44px height)
-    await page.setViewportSize({ width: 1280, height: 800 });
-    await expect(page.locator('.tita-sidebar nav button').first()).toBeVisible({ timeout: 5000 });
-    const desktopButtons = page.locator('.tita-sidebar nav button');
-    const dCount = await desktopButtons.count();
-    expect(dCount).toBeGreaterThan(0);
-
-    for (let i = 0; i < dCount; i++) {
-      const btn = desktopButtons.nth(i);
-      const box = await btn.boundingBox();
-      if (box) {
-        expect(box.height).toBeGreaterThanOrEqual(44);
-      }
-    }
-
-    // 2. Verify mobile bottom navigation buttons on mobile viewport (390x844)
-    await page.setViewportSize({ width: 390, height: 844 });
-    const mobileButtons = page.locator('.tita-bottom-nav button');
-    const mCount = await mobileButtons.count();
-    expect(mCount).toBeGreaterThan(0);
-
-    for (let i = 0; i < mCount; i++) {
-      const btn = mobileButtons.nth(i);
-      const box = await btn.boundingBox();
-      if (box) {
-        expect(box.height).toBeGreaterThanOrEqual(44);
-      }
+    // A fresh PWA install claims and reloads the document to cache its modules.
+    // Measure the resulting shell, not the brief document being replaced.
+    await page.waitForFunction(() => Boolean(navigator.serviceWorker.controller));
+    await page.waitForLoadState('networkidle');
+    for (const { width, height, selector } of [
+      { width: 1280, height: 800, selector: '.tita-sidebar nav button' },
+      { width: 390, height: 844, selector: '.tita-bottom-nav button' },
+    ]) {
+      await page.setViewportSize({ width, height });
+      const buttons = page.locator(selector);
+      // Measure the complete navigation in one DOM snapshot. Missing/hidden
+      // buttons cannot silently pass while React or a viewport change settles.
+      await expect(async () => {
+        const sizes = await buttons.evaluateAll((elements) =>
+          elements.map((element) => {
+            const { width, height } = element.getBoundingClientRect();
+            return { width, height, visibility: getComputedStyle(element).visibility };
+          }),
+        );
+        expect(sizes).toHaveLength(6);
+        for (const size of sizes) {
+          expect(size.visibility).toBe('visible');
+          expect(size.width).toBeGreaterThanOrEqual(44);
+          expect(size.height).toBeGreaterThanOrEqual(44);
+        }
+      }).toPass({ timeout: 5000 });
     }
   });
 });

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { SetType } from '../../domain/enums/set-type.js';
 
 export interface SetRowProps {
@@ -95,6 +95,21 @@ export const SetRow: React.FC<SetRowProps> = ({
 }) => {
   const isDone = Boolean(completed ?? isCompleted);
   const [isExpanded, setIsExpanded] = useState(false);
+  const menuRef = useRef<HTMLDetailsElement>(null);
+  const menuPointerActive = useRef(false);
+
+  useEffect(() => {
+    if (!onRemove) return;
+    const closeOutside = (event: PointerEvent) => {
+      const menu = menuRef.current;
+      if (menu && !menu.contains(event.target as Node)) {
+        menuPointerActive.current = false;
+        menu.open = false;
+      }
+    };
+    document.addEventListener('pointerdown', closeOutside, true);
+    return () => document.removeEventListener('pointerdown', closeOutside, true);
+  }, [onRemove]);
 
   const hasAdvancedFieldsEnabled =
     showAdvanced && (showRpe || showRir || showTempo || showNotes || showDuration || showDistance);
@@ -112,7 +127,7 @@ export const SetRow: React.FC<SetRowProps> = ({
         borderRadius: 'var(--tita-radius-sm)',
         border: `1px solid ${isDone ? 'rgba(16, 185, 129, 0.25)' : 'var(--tita-border)'}`,
         borderLeft: isDone ? '3px solid var(--tita-accent)' : '3px solid transparent',
-        transition: 'all 0.15s ease',
+        transition: 'border-color 0.15s ease, background-color 0.15s ease',
       }}
       className={`tita-set-row ${isDone ? 'tita-set-row--completed' : ''}`.trim()}
       data-testid={`set-row-${setNumber}`}
@@ -214,12 +229,23 @@ export const SetRow: React.FC<SetRowProps> = ({
         </div>
         {onRemove && (
           <details
+            ref={menuRef}
             className="tita-set-row__menu"
+            onPointerDownCapture={() => {
+              menuPointerActive.current = true;
+            }}
+            onPointerCancel={() => {
+              menuPointerActive.current = false;
+            }}
+            onClick={() => {
+              menuPointerActive.current = false;
+            }}
             onBlur={(event) => {
-              if (!event.currentTarget.contains(event.relatedTarget))
+              if (!menuPointerActive.current && !event.currentTarget.contains(event.relatedTarget))
                 event.currentTarget.open = false;
             }}
             onKeyDown={(event) => {
+              menuPointerActive.current = false;
               if (event.key === 'Escape') {
                 event.currentTarget.open = false;
                 event.currentTarget.querySelector('summary')?.focus();
@@ -230,6 +256,10 @@ export const SetRow: React.FC<SetRowProps> = ({
             <summary aria-label={`Opções da série ${setNumber}`}>⋯</summary>
             <button
               type="button"
+              // Keep keyboard focus in the menu without cancelling WebKit's touch click.
+              onPointerDown={(event) => {
+                event.currentTarget.focus();
+              }}
               onClick={onRemove}
               disabled={disabled}
               aria-label={`Remover série ${setNumber}`}
@@ -242,6 +272,7 @@ export const SetRow: React.FC<SetRowProps> = ({
 
       {/* Primary Row: Weight Stepper, Reps Stepper, Complete Button */}
       <div
+        className="tita-set-row__controls"
         style={{
           display: 'grid',
           gridTemplateColumns: '1.2fr 1fr 48px',
@@ -483,7 +514,7 @@ export const SetRow: React.FC<SetRowProps> = ({
               border: `1.5px solid ${isDone ? 'var(--tita-accent)' : 'var(--tita-border-strong)'}`,
               borderRadius: 'var(--tita-radius-sm)',
               cursor: disabled ? 'not-allowed' : 'pointer',
-              transition: 'all 0.15s ease',
+              transition: 'border-color 0.15s ease, background-color 0.15s ease, color 0.15s ease',
               boxShadow: isDone ? '0 2px 8px rgba(16, 185, 129, 0.25)' : 'none',
             }}
           >

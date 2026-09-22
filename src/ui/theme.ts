@@ -10,6 +10,13 @@ export function readTheme(): Theme {
 
 export function applyTheme(theme: Theme): void {
   document.documentElement.dataset.theme = theme;
+  document.documentElement.style.colorScheme = theme;
+  document
+    .querySelector('meta[name="theme-color"]')
+    ?.setAttribute(
+      'content',
+      getComputedStyle(document.documentElement).getPropertyValue('--tita-bg').trim(),
+    );
   try {
     localStorage.setItem('tita-theme', theme);
   } catch {

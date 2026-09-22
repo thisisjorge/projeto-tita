@@ -58,6 +58,7 @@ export interface StartWorkoutOptions {
 export class ActiveWorkoutService {
   private activeRepo: IdbActiveWorkoutRepository;
   private metaRepo: IdbMetadataRepository;
+  private setWriteQueue: Promise<void> = Promise.resolve();
 
   constructor(private readonly db: TitaDatabase) {
     this.activeRepo = new IdbActiveWorkoutRepository(db);
@@ -214,7 +215,25 @@ export class ActiveWorkoutService {
    * Ensures completedAt uniqueness: only registered on initial completion.
    * Automatically triggers RestTimer if targetRestSeconds is defined.
    */
-  async updateSet(
+  updateSet(
+    workoutId: EntityId,
+    exerciseId: EntityId,
+    setId: EntityId,
+    updates: Partial<ExerciseSet>,
+    nowMs = Date.now(),
+  ): Promise<ActiveWorkout> {
+    // Each read must see the preceding edit, including rapid changes across fields.
+    const result = this.setWriteQueue.then(() =>
+      this.persistSetUpdate(workoutId, exerciseId, setId, updates, nowMs),
+    );
+    this.setWriteQueue = result.then(
+      () => undefined,
+      () => undefined,
+    );
+    return result;
+  }
+
+  private async persistSetUpdate(
     workoutId: EntityId,
     exerciseId: EntityId,
     setId: EntityId,

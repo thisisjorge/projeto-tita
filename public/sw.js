@@ -23,6 +23,11 @@ const CORE_SHELL_ASSETS = [
   '/icons/icon-192.png',
   '/icons/icon-512.png',
   '/icons/icon-maskable-512.png',
+  '/favicon.svg?v=emerald-rc',
+  '/favicon.ico?v=emerald-rc',
+  '/icons/favicon-16.png?v=emerald-rc',
+  '/icons/favicon-32.png?v=emerald-rc',
+  '/icons/apple-touch-icon.png',
 ];
 
 // Install event: Pre-cache core shell resources

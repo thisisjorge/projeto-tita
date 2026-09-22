@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import type { Exercise } from '../../domain/entities/exercise.js';
 import type { ExerciseHistorySummary } from '../../services/exercise-library-service.js';
 import { ExerciseLibraryService } from '../../services/exercise-library-service.js';
@@ -11,10 +11,11 @@ interface ExerciseDetailDialogProps {
   exercise: Exercise | null;
   isOpen: boolean;
   onClose: () => void;
-  service: ExerciseLibraryService;
+  service?: ExerciseLibraryService;
   onSelectExercise?: (exercise: Exercise) => void;
   onExerciseUpdated?: () => void;
   onOpenEdit?: (exercise: Exercise) => void;
+  onEdit?: (exercise: Exercise) => void;
 }
 
 export const ExerciseDetailDialog: React.FC<ExerciseDetailDialogProps> = ({
@@ -25,7 +26,10 @@ export const ExerciseDetailDialog: React.FC<ExerciseDetailDialogProps> = ({
   onSelectExercise,
   onExerciseUpdated,
   onOpenEdit,
+  onEdit,
 }) => {
+  const resolvedService = useMemo(() => service ?? new ExerciseLibraryService(), [service]);
+  const editHandler = onOpenEdit ?? onEdit;
   const [history, setHistory] = useState<ExerciseHistorySummary | null>(null);
   const [alternatives, setAlternatives] = useState<Exercise[]>([]);
   const [isFav, setIsFav] = useState(false);
@@ -40,27 +44,27 @@ export const ExerciseDetailDialog: React.FC<ExerciseDetailDialogProps> = ({
 
     let isMounted = true;
 
-    service.isFavorite(currentExercise.id).then((fav) => {
+    resolvedService.isFavorite(currentExercise.id).then((fav) => {
       if (isMounted) setIsFav(fav);
     });
 
-    service.getExerciseHistory(currentExercise.id).then((hist) => {
+    resolvedService.getExerciseHistory(currentExercise.id).then((hist) => {
       if (isMounted) setHistory(hist);
     });
 
-    service.getAlternatives(currentExercise).then((alts) => {
+    resolvedService.getAlternatives(currentExercise).then((alts) => {
       if (isMounted) setAlternatives(alts);
     });
 
     return () => {
       isMounted = false;
     };
-  }, [currentExercise, isOpen, service]);
+  }, [currentExercise, isOpen, resolvedService]);
 
   if (!currentExercise) return null;
 
   const handleToggleFavorite = async () => {
-    const updated = await service.toggleFavorite(currentExercise.id);
+    const updated = await resolvedService.toggleFavorite(currentExercise.id);
     setIsFav(updated);
     onExerciseUpdated?.();
   };
@@ -68,7 +72,7 @@ export const ExerciseDetailDialog: React.FC<ExerciseDetailDialogProps> = ({
   const handleDeleteCustom = async () => {
     if (window.confirm(`Tem certeza que deseja excluir o exercício "${currentExercise.name}"?`)) {
       try {
-        await service.deleteCustomExercise(currentExercise.id);
+        await resolvedService.deleteCustomExercise(currentExercise.id);
         onExerciseUpdated?.();
         onClose();
       } catch (err) {
@@ -94,12 +98,12 @@ export const ExerciseDetailDialog: React.FC<ExerciseDetailDialogProps> = ({
           <div>
             {currentExercise.source === 'custom' && (
               <div style={{ display: 'flex', gap: 'var(--tita-space-2)' }}>
-                {onOpenEdit && (
+                {editHandler && (
                   <Button
                     size="sm"
                     variant="secondary"
                     onClick={() => {
-                      onOpenEdit(currentExercise);
+                      editHandler(currentExercise);
                     }}
                   >
                     Editar

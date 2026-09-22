@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import type { Exercise } from '../../domain/entities/exercise.js';
 import { CompositeExerciseMediaProvider } from '../../media/composite-media-provider.js';
 import type { ResolvedExerciseMedia } from '../../media/exercise-media-provider.js';
@@ -10,10 +10,11 @@ interface ExerciseMediaDisplayProps {
 
 export const ExerciseMediaDisplay: React.FC<ExerciseMediaDisplayProps> = ({
   exercise,
-  provider = new CompositeExerciseMediaProvider(),
+  provider,
 }) => {
+  const mediaProvider = useMemo(() => provider ?? new CompositeExerciseMediaProvider(), [provider]);
   const [resolvedMedia, setResolvedMedia] = useState<ResolvedExerciseMedia>(() =>
-    provider.resolveMedia(exercise),
+    mediaProvider.resolveMedia(exercise),
   );
   const [activeFrameIndex, setActiveFrameIndex] = useState(0);
   const [isPlaying, setIsPlaying] = useState(
@@ -30,12 +31,13 @@ export const ExerciseMediaDisplay: React.FC<ExerciseMediaDisplayProps> = ({
     return () => preference.removeEventListener('change', stopAnimation);
   }, []);
 
-  // Update media resolution if exercise changes
+  // Update media resolution if exercise changes. Keep the provider stable so frame updates
+  // do not recreate it and reset the animation back to frame zero on every render.
   useEffect(() => {
-    setResolvedMedia(provider.resolveMedia(exercise));
+    setResolvedMedia(mediaProvider.resolveMedia(exercise));
     setActiveFrameIndex(0);
     setHasImageError(false);
-  }, [exercise, provider]);
+  }, [exercise, mediaProvider]);
 
   // Frame animation timer if frames tier is active
   useEffect(() => {
@@ -56,7 +58,7 @@ export const ExerciseMediaDisplay: React.FC<ExerciseMediaDisplayProps> = ({
 
   // If image errored or tier is icon/instructions, render vector SVG
   if (hasImageError || resolvedMedia.tier === 'icon' || resolvedMedia.tier === 'instructions') {
-    const fallbackSvg = provider.getFallbackProvider().getIconSvg(exercise);
+    const fallbackSvg = mediaProvider.getFallbackProvider().getIconSvg(exercise);
     return (
       <div
         style={{

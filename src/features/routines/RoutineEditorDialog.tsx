@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, useRef } from 'react';
 import type { Routine, RoutineExercise } from '../../domain/entities/routine.js';
 import type { Exercise } from '../../domain/entities/exercise.js';
 import { SetType } from '../../domain/enums/set-type.js';
@@ -101,6 +101,7 @@ export const RoutineEditorDialog: React.FC<RoutineEditorDialogProps> = ({
   const [exerciseSearchTerm, setExerciseSearchTerm] = useState('');
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [isSaving, setIsSaving] = useState(false);
+  const initializedRoutine = useRef<Routine | null | undefined>(undefined);
 
   // Load exercises for picker
   useEffect(() => {
@@ -113,7 +114,13 @@ export const RoutineEditorDialog: React.FC<RoutineEditorDialogProps> = ({
 
   // Reset or populate fields
   useEffect(() => {
-    if (!isOpen) return;
+    if (!isOpen) {
+      initializedRoutine.current = undefined;
+      return;
+    }
+    const identity = routineToEdit ?? null;
+    if (initializedRoutine.current === identity) return;
+    initializedRoutine.current = identity;
 
     if (routineToEdit) {
       setName(routineToEdit.name);
@@ -153,6 +160,18 @@ export const RoutineEditorDialog: React.FC<RoutineEditorDialogProps> = ({
 
     setErrorMessage(null);
   }, [isOpen, routineToEdit, availableExercises]);
+
+  // Catalog arrival only enriches labels; it must never reset edits already typed.
+  useEffect(() => {
+    setSlots((current) =>
+      current.map((slot) => {
+        const exercise = availableExercises.find((item) => item.id === slot.exerciseId);
+        return exercise
+          ? { ...slot, exerciseName: exercise.name, primaryMuscle: exercise.primaryMuscle }
+          : slot;
+      }),
+    );
+  }, [availableExercises]);
 
   // Exercise Picker selection
   const handleSelectExercise = (ex: Exercise) => {
@@ -309,10 +328,16 @@ export const RoutineEditorDialog: React.FC<RoutineEditorDialogProps> = ({
     }
   };
 
+  const returnToPickerTrigger = useRef(false);
+
   return (
     <>
       <Dialog
         isOpen={isOpen && !isExercisePickerOpen}
+        className="tita-routine-editor"
+        initialFocusSelector={
+          returnToPickerTrigger.current ? '[data-testid="add-exercise-to-routine-btn"]' : undefined
+        }
         onClose={onClose}
         title={routineToEdit ? 'Editar Rotina' : 'Nova Rotina de Treino'}
         footer={
@@ -407,7 +432,10 @@ export const RoutineEditorDialog: React.FC<RoutineEditorDialogProps> = ({
           </div>
 
           {/* Exercise Slots Section */}
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          <div
+            className="tita-routine-editor__section-heading"
+            style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}
+          >
             <h3
               style={{ fontSize: 'var(--tita-text-base)', fontWeight: 'var(--tita-weight-bold)' }}
             >
@@ -416,7 +444,10 @@ export const RoutineEditorDialog: React.FC<RoutineEditorDialogProps> = ({
             <Button
               size="sm"
               variant="secondary"
-              onClick={() => setIsExercisePickerOpen(true)}
+              onClick={() => {
+                returnToPickerTrigger.current = true;
+                setIsExercisePickerOpen(true);
+              }}
               data-testid="add-exercise-to-routine-btn"
             >
               + Adicionar Exercício
@@ -446,6 +477,7 @@ export const RoutineEditorDialog: React.FC<RoutineEditorDialogProps> = ({
                   >
                     {/* Slot Header */}
                     <div
+                      className="tita-routine-editor__slot-heading"
                       style={{
                         display: 'flex',
                         justifyContent: 'space-between',
@@ -542,6 +574,7 @@ export const RoutineEditorDialog: React.FC<RoutineEditorDialogProps> = ({
                       }}
                     >
                       <div
+                        className="tita-routine-editor__set-labels"
                         style={{
                           display: 'grid',
                           gridTemplateColumns: '40px 100px 70px 70px 30px',
@@ -561,6 +594,7 @@ export const RoutineEditorDialog: React.FC<RoutineEditorDialogProps> = ({
                       {slot.sets.map((st, setIdx) => (
                         <div
                           key={setIdx}
+                          className="tita-routine-editor__set"
                           style={{
                             display: 'grid',
                             gridTemplateColumns: '40px 100px 70px 70px 30px',
@@ -594,53 +628,64 @@ export const RoutineEditorDialog: React.FC<RoutineEditorDialogProps> = ({
                           </select>
 
                           {/* Target Load */}
-                          <input
-                            type="number"
-                            placeholder="kg"
-                            value={st.targetLoad ?? ''}
-                            onChange={(e) =>
-                              handleUpdateSet(sIdx, setIdx, {
-                                targetLoad: e.target.value ? Number(e.target.value) : undefined,
-                              })
-                            }
-                            style={{
-                              height: '28px',
-                              backgroundColor: 'var(--tita-surface-2)',
-                              color: 'var(--tita-text)',
-                              border: '1px solid var(--tita-border)',
-                              borderRadius: '4px',
-                              padding: '0 4px',
-                              fontSize: '12px',
-                              textAlign: 'center',
-                            }}
-                          />
+                          <label className="tita-routine-editor__load">
+                            Carga (kg)
+                            <input
+                              type="number"
+                              inputMode="decimal"
+                              aria-label={`Carga da série ${setIdx + 1} de ${slot.exerciseName}`}
+                              placeholder="kg"
+                              value={st.targetLoad ?? ''}
+                              onChange={(e) =>
+                                handleUpdateSet(sIdx, setIdx, {
+                                  targetLoad: e.target.value ? Number(e.target.value) : undefined,
+                                })
+                              }
+                              style={{
+                                height: '28px',
+                                backgroundColor: 'var(--tita-surface-2)',
+                                color: 'var(--tita-text)',
+                                border: '1px solid var(--tita-border)',
+                                borderRadius: '4px',
+                                padding: '0 4px',
+                                fontSize: '12px',
+                                textAlign: 'center',
+                              }}
+                            />
+                          </label>
 
                           {/* Target Reps */}
-                          <input
-                            type="number"
-                            placeholder="reps"
-                            value={st.targetReps ?? ''}
-                            onChange={(e) =>
-                              handleUpdateSet(sIdx, setIdx, {
-                                targetReps: e.target.value ? Number(e.target.value) : 10,
-                              })
-                            }
-                            style={{
-                              height: '28px',
-                              backgroundColor: 'var(--tita-surface-2)',
-                              color: 'var(--tita-text)',
-                              border: '1px solid var(--tita-border)',
-                              borderRadius: '4px',
-                              padding: '0 4px',
-                              fontSize: '12px',
-                              textAlign: 'center',
-                            }}
-                          />
+                          <label className="tita-routine-editor__reps">
+                            Reps
+                            <input
+                              type="number"
+                              inputMode="numeric"
+                              aria-label={`Repetições da série ${setIdx + 1} de ${slot.exerciseName}`}
+                              placeholder="reps"
+                              value={st.targetReps ?? ''}
+                              onChange={(e) =>
+                                handleUpdateSet(sIdx, setIdx, {
+                                  targetReps: e.target.value ? Number(e.target.value) : 10,
+                                })
+                              }
+                              style={{
+                                height: '28px',
+                                backgroundColor: 'var(--tita-surface-2)',
+                                color: 'var(--tita-text)',
+                                border: '1px solid var(--tita-border)',
+                                borderRadius: '4px',
+                                padding: '0 4px',
+                                fontSize: '12px',
+                                textAlign: 'center',
+                              }}
+                            />
+                          </label>
 
                           {/* Remove Set */}
                           {slot.sets.length > 1 ? (
                             <button
                               type="button"
+                              aria-label={`Remover série ${setIdx + 1} de ${slot.exerciseName}`}
                               onClick={() => handleRemoveSetFromSlot(sIdx, setIdx)}
                               style={{
                                 background: 'none',

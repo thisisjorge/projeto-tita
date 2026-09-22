@@ -19,6 +19,33 @@ describe('Backup Export and Import Integration', () => {
     db.close();
   });
 
+  it('imports the legacy JSON path without losing completed sets or unmapped data', async () => {
+    const legacy = {
+      version: '1.1.0',
+      ui: { view: 'training' },
+      workoutLogs: {
+        '2026-09-15__upper': {
+          date: '2026-09-15',
+          sessionId: 'upper',
+          completed: true,
+          exercises: { bench: { completed: true, sets: [{ load: '60', reps: '8', done: true }] } },
+        },
+      },
+    };
+    const preflight = await preflightImport(db, JSON.stringify(legacy));
+    expect(preflight.valid).toBe(true);
+    expect(preflight.sourceFormat).toBe('legacy-v1');
+    expect(preflight.counts.workoutSnapshots).toBe(1);
+    const result = await executeImport(db, preflight.backup!, { mode: 'merge' });
+    expect(result.success).toBe(true);
+    const exported = await exportBackup(db);
+    expect(exported.backup.records.workoutSnapshots).toMatchObject([
+      { exercises: [{ sets: [{ weight: 60, reps: 8, completed: true }] }] },
+    ]);
+    expect(exported.backup.records.legacyCompat).toMatchObject([{ data: { ui: legacy.ui } }]);
+    expect((await preflightImport(db, exported.json)).valid).toBe(true);
+  });
+
   it('exports deterministic backup with valid manifest, counts and SHA-256 checksum', async () => {
     const exRepo = new IdbExerciseRepository(db);
     const rtRepo = new IdbRoutineRepository(db);

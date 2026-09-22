@@ -9,6 +9,7 @@ export interface DialogProps {
   children?: React.ReactNode;
   footer?: React.ReactNode;
   className?: string;
+  initialFocusSelector?: string;
 }
 
 const FOCUSABLE_SELECTOR =
@@ -22,10 +23,13 @@ export const Dialog: React.FC<DialogProps> = ({
   children,
   footer,
   className = '',
+  initialFocusSelector,
 }) => {
   const dialogRef = useRef<HTMLDivElement>(null);
   const closeRef = useRef(onClose);
   closeRef.current = onClose;
+  const initialFocusRef = useRef(initialFocusSelector);
+  initialFocusRef.current = initialFocusSelector;
   const previousActiveElement = useRef<HTMLElement | null>(null);
   const rawId = useId();
   const titleId = `tita-dialog-title-${rawId.replace(/:/g, '')}`;
@@ -41,16 +45,19 @@ export const Dialog: React.FC<DialogProps> = ({
     document.body.style.overflow = 'hidden';
 
     // Move initial focus to first focusable element
-    const focusTimer = setTimeout(() => {
-      if (dialogRef.current) {
-        const focusables = dialogRef.current.querySelectorAll<HTMLElement>(FOCUSABLE_SELECTOR);
-        if (focusables.length > 0) {
-          focusables[0].focus();
-        } else {
-          dialogRef.current.focus();
-        }
+    if (dialogRef.current) {
+      const requested = initialFocusRef.current
+        ? dialogRef.current.querySelector<HTMLElement>(initialFocusRef.current)
+        : null;
+      const focusables = dialogRef.current.querySelectorAll<HTMLElement>(FOCUSABLE_SELECTOR);
+      if (requested) {
+        requested.focus();
+      } else if (focusables.length > 0) {
+        focusables[0].focus();
+      } else {
+        dialogRef.current.focus();
       }
-    }, 50);
+    }
 
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Escape') {
@@ -95,7 +102,6 @@ export const Dialog: React.FC<DialogProps> = ({
     window.addEventListener('keydown', handleKeyDown);
 
     return () => {
-      clearTimeout(focusTimer);
       window.removeEventListener('keydown', handleKeyDown);
       document.body.style.overflow = previousOverflow;
 
@@ -145,7 +151,7 @@ export const Dialog: React.FC<DialogProps> = ({
         style={{
           width: '100%',
           maxWidth: '500px',
-          maxHeight: 'min(90vh, 850px)',
+          maxHeight: 'min(90dvh, 850px)',
           overflowY: 'auto',
           backgroundColor: 'var(--tita-surface)',
           border: '1px solid var(--tita-border)',
@@ -189,6 +195,7 @@ export const Dialog: React.FC<DialogProps> = ({
             aria-label="Fechar janela"
             style={{
               width: 'var(--tita-touch-min)',
+              flexShrink: 0,
               height: 'var(--tita-touch-min)',
               display: 'flex',
               alignItems: 'center',

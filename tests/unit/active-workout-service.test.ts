@@ -123,6 +123,32 @@ describe('ActiveWorkoutService — Durable Lifecycle (REQ-4)', () => {
     expect(dbSet?.rir).toBe(0);
   });
 
+  it('preserves rapid edits across fields and accepts edits after a rejected write', async () => {
+    const result = await service.startWorkout();
+    expect(result.type).toBe('started');
+    if (result.type !== 'started') throw new Error('Expected a new workout');
+    const workout = await service.addExercise(result.workout.id, {
+      exerciseId: 'bench-press',
+      exerciseName: 'Supino Reto',
+      initialSetsCount: 1,
+    });
+    const slot = workout.exercises[0]!;
+    const set = slot.sets[0]!;
+    await Promise.all([
+      service.updateSet(workout.id, slot.id, set.id, { weight: 60 }),
+      service.updateSet(workout.id, slot.id, set.id, { reps: 8 }),
+      service.updateSet(workout.id, slot.id, set.id, { completed: true }),
+    ]);
+    expect((await service.getActiveWorkout())?.exercises[0]?.sets[0]).toMatchObject({
+      weight: 60,
+      reps: 8,
+      completed: true,
+    });
+    await expect(service.updateSet(workout.id, slot.id, 'missing', { reps: 9 })).rejects.toThrow();
+    await service.updateSet(workout.id, slot.id, set.id, { reps: 9 });
+    expect((await service.getActiveWorkout())?.exercises[0]?.sets[0]?.reps).toBe(9);
+  });
+
   it('records a unique completedAt on first completion and preserves it across subsequent edits (Task 5.1)', async () => {
     const startRes = await service.startWorkout();
     if (startRes.type !== 'started') return;

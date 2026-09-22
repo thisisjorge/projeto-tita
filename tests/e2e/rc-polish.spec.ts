@@ -53,9 +53,13 @@ for (const width of [360, 390, 430]) {
     await row.locator('summary').click();
     await expect(remove).toBeVisible();
     await remove.click();
+
+    // The UI publishes the new set list after the IndexedDB write completes.
+    await expect(page.locator('.tita-set-row')).toHaveCount(5);
+
     await page.reload();
     await expect(page.getByTestId('active-workout-session')).toBeVisible();
-    await expect(page.getByTestId('set-row-container-3')).toHaveCount(1);
+    await expect(page.locator('.tita-set-row')).toHaveCount(5);
   });
 }
 
@@ -74,6 +78,7 @@ test('RC: empty history/progress offer a useful action without empty filters', a
 test('RC: desktop has one visible local status and theme toggle', async ({ page }) => {
   await page.setViewportSize({ width: 1440, height: 900 });
   await page.goto('/app');
+  await expect(page.getByRole('heading', { name: 'Pronto para treinar?' })).toBeVisible();
   await expect(page.getByRole('button', { name: 'Alternar tema claro e escuro' })).toHaveCount(1);
   await expect(page.locator('[data-testid="connection-status"]:visible')).toHaveCount(1);
   await page.getByRole('button', { name: 'Alternar tema claro e escuro' }).click();
@@ -92,8 +97,58 @@ test('RC: reduced motion suppresses set feedback and stops automatic exercise pl
   await page.goto('/app/library');
   await page.locator('[data-testid^="exercise-card-"]').first().click();
   await expect(page.getByRole('button', { name: 'Reproduzir animação' })).toBeVisible();
-  const frame = page.locator('.tita-exercise-illustration');
+  const frame = page
+    .getByTestId('exercise-media-frames')
+    .locator('.tita-exercise-illustration')
+    .first();
   const source = await frame.getAttribute('src');
   await page.waitForTimeout(900);
   await expect(frame).toHaveAttribute('src', source!);
+});
+
+test('RC: custom exercise dialog keeps paired fields inside the mobile viewport', async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 360, height: 800 });
+  await page.goto('/app/library');
+  await page.getByTestId('create-custom-exercise-btn').click();
+
+  const dialog = page.locator('.tita-dialog');
+  await expect(dialog).toBeVisible();
+
+  const hasHorizontalOverflow = await dialog.evaluate((el) => el.scrollWidth > el.clientWidth);
+  expect(hasHorizontalOverflow).toBe(false);
+
+  const dialogBox = await dialog.boundingBox();
+  const incrementBox = await page.getByLabel('Incremento Mínimo (kg)').boundingBox();
+  expect(dialogBox).not.toBeNull();
+  expect(incrementBox).not.toBeNull();
+  expect(incrementBox!.x).toBeGreaterThanOrEqual(dialogBox!.x);
+  expect(incrementBox!.x + incrementBox!.width).toBeLessThanOrEqual(
+    dialogBox!.x + dialogBox!.width,
+  );
+});
+
+test('RC: exercise media advances normally and stays contrasted in light mode', async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto('/app/library');
+  await page.getByRole('button', { name: 'Alternar tema claro e escuro' }).click();
+  await expect(page.locator('html')).toHaveAttribute('data-theme', 'light');
+
+  const preview = page
+    .locator('[data-testid^="exercise-card-"] .tita-exercise-illustration')
+    .first();
+  await expect(preview).toBeVisible();
+  expect(await preview.evaluate((el) => getComputedStyle(el).filter)).not.toBe('none');
+
+  await page.locator('[data-testid^="exercise-card-"]').first().click();
+  const frame = page
+    .getByTestId('exercise-media-frames')
+    .locator('.tita-exercise-illustration')
+    .first();
+  await expect(frame).toBeVisible();
+  const initialSource = await frame.getAttribute('src');
+  await expect(frame).not.toHaveAttribute('src', initialSource!, { timeout: 1200 });
 });

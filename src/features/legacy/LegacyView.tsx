@@ -1,12 +1,14 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Card, Button } from '../../ui/components/index.js';
 
 export const LegacyView: React.FC = () => {
+  const navigate = useNavigate();
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--tita-space-4)' }}>
       <Card
-        title="Versão Monolítica Legada"
-        subtitle="Acesso de compatibilidade à interface original enquanto a migração strangler avança"
+        title="Seus dados da versão anterior"
+        subtitle="Importe um backup ou migre os dados disponíveis neste dispositivo."
       >
         <p
           style={{
@@ -15,18 +17,12 @@ export const LegacyView: React.FC = () => {
             marginBottom: 'var(--tita-space-4)',
           }}
         >
-          Todas as funcionalidades existentes continuam operacionais. Seus dados antigos estão
-          intactos no localStorage e podem ser sincronizados ou migrados para o novo sistema
-          IndexedDB.
+          Em Configurações, você pode importar sua ficha JSON. Se houver dados da versão anterior
+          neste navegador, a opção de migração também estará disponível.
         </p>
         <div style={{ display: 'flex', gap: 'var(--tita-space-3)' }}>
-          <Button
-            variant="primary"
-            onClick={() => {
-              window.location.href = '/index.html';
-            }}
-          >
-            Abrir Monólito Original
+          <Button variant="primary" onClick={() => navigate('/settings')}>
+            Abrir Configurações
           </Button>
         </div>
       </Card>

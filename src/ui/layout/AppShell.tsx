@@ -100,6 +100,8 @@ export const AppShell: React.FC = () => {
     return (
       <button
         key={item.path}
+        aria-label={item.label}
+        title={item.label}
         onClick={() => navigate(item.path)}
         aria-current={isActive ? 'page' : undefined}
         style={{
@@ -117,7 +119,8 @@ export const AppShell: React.FC = () => {
           fontWeight: isActive ? 'var(--tita-weight-bold)' : 'var(--tita-weight-medium)',
           textAlign: 'left',
           minHeight: 'var(--tita-touch-min)',
-          transition: 'all var(--tita-transition-fast)',
+          transition:
+            'background-color var(--tita-transition-fast), color var(--tita-transition-fast)',
         }}
       >
         <Icon size={20} color={isActive ? 'var(--tita-primary)' : 'var(--tita-text-muted)'} />
@@ -321,6 +324,8 @@ export const AppShell: React.FC = () => {
             </button>
           </div>
           <button
+            aria-label="Versão Legada"
+            title="Versão Legada"
             onClick={() => navigate('/legacy')}
             style={{
               fontSize: 'var(--tita-text-xs)',
@@ -582,6 +587,11 @@ export const AppShell: React.FC = () => {
       </div>
 
       <style>{`
+        .tita-top-header {
+          position: sticky;
+          top: 0;
+          z-index: 20;
+        }
         body[data-tita-focus-mode="true"] .tita-bottom-nav {
           display: none !important;
         }
@@ -599,6 +609,13 @@ export const AppShell: React.FC = () => {
           .tita-sidebar {
             display: flex !important;
             width: var(--tita-nav-width-rail);
+            position: sticky;
+            top: 0;
+            height: 100dvh;
+            align-self: flex-start;
+            flex-shrink: 0;
+            box-sizing: border-box;
+            overflow-y: auto;
           }
           .tita-sidebar .brand-text,
           .tita-sidebar .nav-label {

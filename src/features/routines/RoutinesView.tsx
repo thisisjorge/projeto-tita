@@ -521,7 +521,7 @@ export const RoutinesView: React.FC = () => {
         <div
           style={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fill, minmax(340px, 1fr))',
+            gridTemplateColumns: 'repeat(auto-fill, minmax(min(100%, 340px), 1fr))',
             gap: 'var(--tita-space-4)',
           }}
           data-testid="routines-grid"
@@ -565,6 +565,7 @@ export const RoutinesView: React.FC = () => {
                 <div>
                   {/* Routine Header */}
                   <div
+                    className="tita-routine-card__header"
                     style={{
                       display: 'flex',
                       justifyContent: 'space-between',
@@ -746,6 +747,7 @@ export const RoutinesView: React.FC = () => {
                 />
                 {/* Actions Bar */}
                 <div
+                  className="tita-routine-card__actions"
                   style={{
                     display: 'flex',
                     justifyContent: 'flex-end',

@@ -68,7 +68,6 @@ export const MuscleDistributionChart: React.FC<MuscleDistributionChartProps> = (
                 width: `${item.percentage}%`,
                 height: '100%',
                 backgroundColor: color,
-                transition: 'width 0.3s ease',
               }}
             />
           );

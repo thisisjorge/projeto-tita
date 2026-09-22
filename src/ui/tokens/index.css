@@ -24,11 +24,11 @@ body {
   line-height: var(--tita-line-normal);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  overflow-x: hidden; /* Prevent horizontal scroll across 320-1920px */
+  overflow-x: clip; /* Prevent horizontal overflow without trapping sticky shell controls. */
 }
 
 #root {
-  min-height: 100vh;
+  min-height: 100dvh;
   display: flex;
   flex-direction: column;
 }
@@ -45,6 +45,20 @@ select,
 textarea {
   font: inherit;
   color: inherit;
+}
+
+button,
+a,
+summary {
+  touch-action: manipulation;
+}
+
+/* Keep keyboard focus visible inside compound inputs with inline outline resets. */
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: 2px solid var(--tita-border-focus) !important;
+  outline-offset: -2px;
 }
 
 /* Cross-browser suppression of native number input spinners (Guardrail 9) */
@@ -95,7 +109,6 @@ a:hover {
   border-radius: var(--tita-radius-sm);
   text-decoration: none;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
-  transition: top 0.15s ease-out;
 }
 
 .tita-skip-link:focus,

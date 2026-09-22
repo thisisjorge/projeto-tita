@@ -2,6 +2,8 @@ import type {
   DatabaseStoreName,
   TitaDatabase,
 } from '../repositories/interfaces/database.interface.js';
+import type { LegacyState } from '../migration/legacy-types.js';
+import { transformLegacyState } from '../migration/legacy-transformer.js';
 import {
   type BackupV1,
   BACKUP_FORMAT_IDENTIFIER,
@@ -25,6 +27,7 @@ export interface ImportPreflightResult {
   readonly categories: readonly string[];
   readonly counts: Record<string, number>;
   readonly conflicts: readonly CategoryConflictInfo[];
+  readonly sourceFormat?: 'backup-v1' | 'legacy-v1';
   readonly dateRange?: {
     readonly earliest: string;
     readonly latest: string;
@@ -46,9 +49,55 @@ export interface ImportExecutionResult {
   readonly error?: string;
 }
 
+function isLegacyStateCandidate(value: unknown): value is LegacyState {
+  if (!value || typeof value !== 'object' || Array.isArray(value)) return false;
+  const candidate = value as Record<string, unknown>;
+  return (
+    'workoutLogs' in candidate ||
+    'daily' in candidate ||
+    'measurements' in candidate ||
+    'history' in candidate ||
+    'shopping' in candidate ||
+    'ui' in candidate
+  );
+}
+
+async function convertLegacyStateToBackup(legacy: LegacyState): Promise<BackupV1> {
+  const transformed = transformLegacyState(legacy);
+  const records: Record<string, readonly unknown[]> = {
+    exercises: [...transformed.exercises],
+    routines: [...transformed.routines],
+    workoutSnapshots: [...transformed.workoutSnapshots],
+    measurements: [...transformed.measurements],
+    programs: [],
+    metadata: [],
+    legacyCompat: [...transformed.legacyCompatRecords],
+  };
+
+  const counts: Record<string, number> = {};
+  for (const storeName of DEFAULT_BACKUP_STORES) {
+    counts[storeName] = records[storeName]?.length ?? 0;
+  }
+
+  const checksum = await calculateSha256(serializeDeterministicJson(records));
+
+  return {
+    manifest: {
+      format: BACKUP_FORMAT_IDENTIFIER,
+      schemaVersion: CURRENT_BACKUP_SCHEMA_VERSION,
+      exportedAt: new Date().toISOString(),
+      categories: [...DEFAULT_BACKUP_STORES],
+      counts,
+      checksum,
+    },
+    records,
+  };
+}
+
 /**
  * Preflights an import payload without mutating the database:
  * - Parses JSON and validates structure
+ * - Converts known Titã legacy state into Backup Grammar v1 in memory
  * - Verifies manifest format and schemaVersion
  * - Verifies SHA-256 checksum over deterministic records serialization
  * - Analyzes incoming entities vs database state for conflicts
@@ -65,7 +114,7 @@ export async function preflightImport(
   } catch (err) {
     return {
       valid: false,
-      errors: [`Invalid JSON payload: ${err instanceof Error ? err.message : String(err)}`],
+      errors: [`JSON inválido: ${err instanceof Error ? err.message : String(err)}`],
       categories: [],
       counts: {},
       conflicts: [],
@@ -75,22 +124,42 @@ export async function preflightImport(
   if (!parsed || typeof parsed !== 'object') {
     return {
       valid: false,
-      errors: ['Import payload must be a non-null JSON object.'],
+      errors: ['O arquivo precisa conter um objeto JSON válido.'],
       categories: [],
       counts: {},
       conflicts: [],
     };
   }
 
+  let sourceFormat: 'backup-v1' | 'legacy-v1' = 'backup-v1';
+
+  if (isLegacyStateCandidate(parsed)) {
+    try {
+      parsed = await convertLegacyStateToBackup(parsed);
+      sourceFormat = 'legacy-v1';
+    } catch (err) {
+      return {
+        valid: false,
+        errors: [
+          `Backup antigo detectado, mas não foi possível convertê-lo: ${err instanceof Error ? err.message : String(err)}`,
+        ],
+        categories: [],
+        counts: {},
+        conflicts: [],
+        sourceFormat: 'legacy-v1',
+      };
+    }
+  }
+
   const candidate = parsed as Partial<BackupV1>;
 
   if (!candidate.manifest || typeof candidate.manifest !== 'object') {
-    errors.push("Missing required 'manifest' object in backup payload.");
+    errors.push("Objeto obrigatório 'manifest' ausente no backup.");
   }
 
   if (candidate.manifest?.format !== BACKUP_FORMAT_IDENTIFIER) {
     errors.push(
-      `Unsupported backup format '${candidate.manifest?.format}'. Expected '${BACKUP_FORMAT_IDENTIFIER}'.`,
+      `Formato de backup não suportado '${candidate.manifest?.format}'. Esperado '${BACKUP_FORMAT_IDENTIFIER}'.`,
     );
   }
 
@@ -99,12 +168,12 @@ export async function preflightImport(
     candidate.manifest.schemaVersion > CURRENT_BACKUP_SCHEMA_VERSION
   ) {
     errors.push(
-      `Unsupported schema version ${candidate.manifest?.schemaVersion}. Maximum supported is ${CURRENT_BACKUP_SCHEMA_VERSION}.`,
+      `Versão de schema não suportada ${candidate.manifest?.schemaVersion}. Máximo suportado: ${CURRENT_BACKUP_SCHEMA_VERSION}.`,
     );
   }
 
   if (!candidate.records || typeof candidate.records !== 'object') {
-    errors.push("Missing required 'records' object in backup payload.");
+    errors.push("Objeto obrigatório 'records' ausente no backup.");
   }
 
   if (errors.length > 0 || !candidate.manifest || !candidate.records) {
@@ -114,16 +183,16 @@ export async function preflightImport(
       categories: candidate.manifest?.categories ?? [],
       counts: candidate.manifest?.counts ?? {},
       conflicts: [],
+      sourceFormat,
     };
   }
 
-  // Verify SHA-256 Checksum
   const computedRecordsJson = serializeDeterministicJson(candidate.records);
   const computedChecksum = await calculateSha256(computedRecordsJson);
 
   if (computedChecksum !== candidate.manifest.checksum) {
     errors.push(
-      `Backup checksum mismatch! Manifest: ${candidate.manifest.checksum}, Computed: ${computedChecksum}. Data may be corrupted or tampered.`,
+      'Backup checksum mismatch: o checksum SHA-256 não confere. O arquivo pode estar incompleto ou ter sido alterado.',
     );
   }
 
@@ -142,13 +211,11 @@ export async function preflightImport(
     }
   }
 
-  // Inspect database to calculate conflicts
   for (const cat of categories) {
     const storeName = cat as DatabaseStoreName;
     const incomingRecords = (backup.records[cat] as readonly unknown[]) ?? [];
     counts[cat] = incomingRecords.length;
 
-    // Observe dates for preview
     for (const rec of incomingRecords) {
       if (rec && typeof rec === 'object') {
         const o = rec as Record<string, unknown>;
@@ -188,7 +255,7 @@ export async function preflightImport(
         });
       });
     } catch {
-      // Store may not exist in current schema or other read error
+      // Store may not exist in current schema or other read error.
     }
   }
 
@@ -202,6 +269,7 @@ export async function preflightImport(
     categories,
     counts,
     conflicts,
+    sourceFormat,
     dateRange,
   };
 }
@@ -230,7 +298,6 @@ export async function executeImport(
     options.selectedCategories ?? (backup.manifest.categories as readonly DatabaseStoreName[])
   ).filter((name) => DEFAULT_BACKUP_STORES.includes(name as DatabaseStoreName));
 
-  // Create RecoverySnapshot before any mutation
   const preSnapshot = await db.createRecoverySnapshot(
     'import_preflight',
     `Pre-import snapshot for mode: ${options.mode}`,
@@ -263,7 +330,6 @@ export async function executeImport(
       importedCounts,
     };
   } catch (error) {
-    // Automatic Rollback on failure!
     try {
       await db.restoreSnapshot(preSnapshot.id);
     } catch (rollbackErr) {
