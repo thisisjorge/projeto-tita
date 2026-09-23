@@ -195,6 +195,7 @@ test.describe('Projeto Titã — Accessibility Quality Gates (Phase 12, Task 15.
     ]) {
       await page.setViewportSize({ width, height });
       const buttons = page.locator(selector);
+      await expect(buttons.first()).toHaveAttribute('aria-label', 'Home');
       // Measure the complete navigation in one DOM snapshot. Missing/hidden
       // buttons cannot silently pass while React or a viewport change settles.
       await expect(async () => {
@@ -204,7 +205,7 @@ test.describe('Projeto Titã — Accessibility Quality Gates (Phase 12, Task 15.
             return { width, height, visibility: getComputedStyle(element).visibility };
           }),
         );
-        expect(sizes).toHaveLength(6);
+        expect(sizes).toHaveLength(7);
         for (const size of sizes) {
           expect(size.visibility).toBe('visible');
           expect(size.width).toBeGreaterThanOrEqual(44);
