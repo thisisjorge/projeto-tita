@@ -8,7 +8,7 @@ export default defineConfig({
     react(),
     {
       name: 'tita-release-metadata',
-      generateBundle() {
+      generateBundle(_options, bundle) {
         const version = JSON.parse(readFileSync('package.json', 'utf8')).version;
         const commit =
           process.env.GITHUB_SHA ||
@@ -17,10 +17,22 @@ export default defineConfig({
         this.emitFile({
           type: 'asset',
           fileName: 'sw.js',
-          source: readFileSync('public/sw.js', 'utf8').replace(
-            /const RELEASE_ID = '[^']+';/,
-            `const RELEASE_ID = 'v${version}-${commit.slice(0, 12)}';`,
-          ),
+          source: readFileSync('public/sw.js', 'utf8')
+            .replace(
+              /const RELEASE_ID = '[^']+';/,
+              `const RELEASE_ID = 'v${version}-${commit.slice(0, 12)}';`,
+            )
+            .replace(
+              '  // BUILD_SHELL_ASSETS',
+              Object.keys(bundle)
+                .filter(
+                  (file) =>
+                    file.endsWith('.js') || file.endsWith('.css') || /-latin-.*\.woff2$/.test(file),
+                )
+                .sort()
+                .map((file) => `  ${JSON.stringify('/' + file)},`)
+                .join('\n'),
+            ),
         });
         this.emitFile({
           type: 'asset',
