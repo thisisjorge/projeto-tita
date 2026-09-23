@@ -141,9 +141,12 @@ export class ServiceWorkerManager {
         });
       });
 
-      // Listen for controller changes to trigger clean reload
+      // First installation claims the existing page without interrupting its UI.
+      // A later replacement still reloads after the waiting worker is activated.
+      let hadController = Boolean(this.navigatorContainer.controller);
       this.boundControllerChangeHandler = () => {
-        this.onReload();
+        if (hadController) this.onReload();
+        hadController = true;
       };
       this.navigatorContainer.addEventListener(
         'controllerchange',

@@ -12,6 +12,41 @@ const test = base.extend<{ offlineOrigin: Awaited<ReturnType<typeof createOfflin
   },
 });
 
+test('first worker activation preserves the completed workout summary without navigation', async ({
+  page,
+  offlineOrigin,
+}) => {
+  await page.addInitScript(() => {
+    const register = ServiceWorkerContainer.prototype.register;
+    const ready = new Promise<void>((resolve) =>
+      window.addEventListener('qa:register-worker', () => resolve(), { once: true }),
+    );
+    ServiceWorkerContainer.prototype.register = async function (...args) {
+      await ready;
+      return register.apply(this, args);
+    };
+  });
+  await page.goto(offlineOrigin.url + '/app');
+  await page.getByTestId('start-workout-button').click();
+  const row = page.getByTestId('set-row-1').first();
+  await row.getByLabel('Carga série 1', { exact: true }).fill('60');
+  await row.getByLabel('Repetições série 1', { exact: true }).fill('8');
+  await row.getByRole('checkbox').click();
+  await page.getByTestId('finalize-workout-button').click();
+  await page.getByTestId('confirm-finalize-button').click();
+  const summary = page.getByTestId('workout-completion-summary');
+  await expect(summary).toContainText('480 kg');
+  let navigations = 0;
+  page.on('framenavigated', (frame) => {
+    if (frame === page.mainFrame()) navigations++;
+  });
+  await page.evaluate(() => window.dispatchEvent(new Event('qa:register-worker')));
+  await page.waitForFunction(() => Boolean(navigator.serviceWorker.controller));
+  await page.waitForLoadState('networkidle');
+  await expect(summary).toContainText('480 kg');
+  expect(navigations).toBe(0);
+});
+
 test('first PWA installation prepares the shell for offline reload', async ({
   page,
   context,

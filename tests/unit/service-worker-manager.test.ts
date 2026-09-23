@@ -4,6 +4,28 @@ import fs from 'node:fs';
 import path from 'node:path';
 
 describe('ServiceWorkerManager (Unit Tests - REQ-8, Phase 9)', () => {
+  it('does not reload the page when the first worker claims it', async () => {
+    let controllerChange: (() => void) | undefined;
+    const onReload = vi.fn();
+    const container = {
+      controller: null,
+      register: vi.fn().mockResolvedValue({ waiting: null, addEventListener: vi.fn() }),
+      addEventListener: vi.fn((event: string, callback: () => void) => {
+        if (event === 'controllerchange') controllerChange = callback;
+      }),
+      removeEventListener: vi.fn(),
+    } as unknown as ServiceWorkerContainer;
+    const manager = new ServiceWorkerManager({ navigatorContainer: container, onReload });
+    await manager.register();
+    expect(controllerChange).toBeDefined();
+    controllerChange!();
+    expect(onReload).not.toHaveBeenCalled();
+    // A later replacement still activates the new application normally.
+    controllerChange!();
+    expect(onReload).toHaveBeenCalledTimes(1);
+    manager.destroy();
+  });
+
   it('handles unsupported environment gracefully', async () => {
     const manager = new ServiceWorkerManager({
       navigatorContainer: undefined,

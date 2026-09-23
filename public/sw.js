@@ -18,6 +18,7 @@ const MEDIA_CACHE = 'tita-exercise-media-v1';
 
 // Core static assets for application shell
 const CORE_SHELL_ASSETS = [
+  // BUILD_SHELL_ASSETS
   './',
   '/index.html',
   '/app',
