@@ -24,7 +24,7 @@ As [sete capturas](public/showcase/v1/manifest.json) foram feitas na produção 
 - Receber sugestões locais de progressão, sem alterar séries automaticamente.
 - Buscar 217 exercícios em PT-BR, inclusive pelos aliases em inglês; 215 têm GIFs derivados de mídia licenciada.
 - Fazer backup e restauração dos seus dados em JSON.
-- Usar ajuda com IA **opcional** via BYOK, com prévia e confirmação antes de cada envio externo. O treino funciona sem IA.
+- Usar ajuda com IA **opcional** via BYOK, com prévia e confirmação antes de cada envio externo. O treino funciona sem IA; veja [BYOK e privacidade](docs/BYOK.md).
 
 O projeto também oferece tema claro/escuro e navegação por teclado.
 

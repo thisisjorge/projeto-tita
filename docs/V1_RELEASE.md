@@ -36,8 +36,8 @@ BYOK: teste de conexão 15 s, juiz rápido 4,5 s, análise completa 30 s. Timeou
 
 O workflow instala explicitamente platform-tools, Android 36 e build-tools 36.0.0, eliminando a solicitação ao pacote removido `tools`. Executa build web, cap sync e Gradle antes de publicar `projeto-tita-apk`, com APK nomeado e SHA256SUMS.
 
-Sem os quatro secrets de assinatura, produz `Projeto-Tita-v1.0.0-debug.apk`. Não cria keystore de produção. Com assinatura legítima configurada, compila release. A tag SemVer executa novamente CI completo e Android; APK debug é publicado como prerelease, identificado como debug.
+Sem os quatro secrets de assinatura, produz `Projeto-Tita-v1.0.0-debug.apk`. Não cria keystore de produção. Com assinatura legítima configurada, compila release. O APK anexado à v1.0.0 é um build debug de teste, não um release Android assinado para distribuição.
 
-Gates: lint, Prettier, typecheck, unit/PBT, build, Chromium completo, WebKit completo, axe, offline, import/export e lifecycles. Evidências atuais ficam em `docs/v1-final`. Resultados de produção e Git devem ser preenchidos somente após execução real.
+Gates: lint, Prettier, typecheck, unit/PBT, build, Chromium completo, WebKit completo, axe, offline, import/export e lifecycles. O [workflow de CI](../.github/workflows/ci.yml) e os testes versionados são as verificações reproduzíveis da V1; a matriz de curadoria e proveniência da biblioteca permanece em [catalog-matrix.md](v1-final/catalog-matrix.md).
 
 Limites de QA: emulação responsiva/viewport curta não equivale a um Samsung S24 físico. Tamanho instalado só pode ser informado após instalação real; tamanho de APK, conteúdo descompactado, build web e cache inicial são medidas diferentes.

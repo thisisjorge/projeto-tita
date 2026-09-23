@@ -1,23 +1,19 @@
 # Segurança — Projeto Titã
 
-## Escopo atual
+## Escopo da V1
 
-Release Candidate Web/PWA, com publicação suspensa. Android/iOS em aparelho real e backend/sync não foram validados nesta rodada. Não há uma linha estável 2.0.x com SLA de suporte anunciado.
+A Web/PWA está publicada. O APK anexado à v1.0.0 usa assinatura debug e serve apenas para teste; iOS não foi validado em dispositivo físico. A V1 não oferece sincronização entre dispositivos nem backend para dados de treino.
 
-Os treinos são armazenados localmente em IndexedDB. Isso não equivale a armazenamento criptografado ou proteção contra acesso ao dispositivo. Limpar os dados do navegador pode apagá-los. Backups contêm dados pessoais de treino: guarde e compartilhe conscientemente.
+Treinos e rotinas ficam no IndexedDB local. Isso não equivale a criptografia ou proteção contra alguém com acesso ao dispositivo. Limpar os dados do navegador pode apagá-los. Backups contêm dados pessoais de treino: guarde e compartilhe com cuidado.
 
-## Titã Intelligence / BYOK
+## IA opcional / BYOK
 
-IA desativada por padrão. Chaves do modelo principal e do Fast Judge ficam somente em memória da aba; não são persistidas em browser storage, backup, export ou bundle. Configurar limpa o campo de senha; desativar cancela chamadas e remove credenciais. Recarregar remove a configuração.
+A IA começa desativada. Chaves informadas pelo usuário ficam somente na memória da aba, não em IndexedDB, localStorage, backup ou bundle. Recarregar ou desativar remove a configuração. O app mostra uma prévia e exige confirmação antes de enviar dados ao provedor escolhido.
 
-Chaves seguem em headers HTTPS ao provider escolhido. O frontend não é um cofre: XSS, extensões comprometidas e acesso ao processo do navegador podem expor dados. Não use proxies públicos para contornar CORS e não coloque secrets em `VITE_*`.
+As chamadas usam HTTPS e omitem cookies. O frontend não é um cofre: extensões comprometidas, XSS ou acesso ao processo do navegador podem expor uma chave em uso. O provedor aplica seus próprios custos, limites e política de retenção. Respostas de IA são informativas e não alteram o treino automaticamente. Veja [BYOK e privacidade](docs/BYOK.md).
 
-Análises usam resumos com campos permitidos e confirmação explícita. Ajude-me responde conceitos localmente; perguntas contextuais usam o modelo principal e o mesmo preview. Perguntas e nomes de exercícios personalizados podem conter informação pessoal escrita pelo usuário. Revise o payload antes de enviar. Retenção, custos e cotas externas dependem do provider.
+## Relatar uma vulnerabilidade
 
-Limites de tamanho, timeout, cancelamento e validação de resposta reduzem falhas; não garantem que respostas da IA estejam corretas. Nenhuma resposta executa mudanças no treino. [Contrato e testes](docs/INTELLIGENCE_RC.md).
+Não publique chaves, backups, dados pessoais nem detalhes de exploração em issues. Use o canal privado da aba Security quando disponível; caso contrário, solicite um canal privado ao mantenedor pelo perfil do GitHub sem divulgar os detalhes em público.
 
-## Relatar problemas
-
-Não publique chaves, backups ou dados pessoais em issues. Quando o repositório disponibilizar Private Vulnerability Reporting, utilize o canal privado da aba Security. Até haver um canal privado verificado, solicite contato ao mantenedor sem expor a vulnerabilidade publicamente. Este RC não anuncia endereço de segurança nem prazo de atendimento que não tenham sido confirmados.
-
-Inclua versão/commit, plataforma, reprodução com dados sintéticos e impacto. Não inclua credenciais reais. [Evidências da revisão](docs/rc-public-dogfooding/security-bundle.json) registram uma varredura de padrões e testes; não constituem auditoria formal independente.
+Informe versão ou commit, plataforma, passos de reprodução com dados sintéticos e impacto observado. Não envie credenciais reais.

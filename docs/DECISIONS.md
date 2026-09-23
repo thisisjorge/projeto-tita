@@ -1,10 +1,12 @@
 # Projeto Titã — Decision Log
 
+As decisões abaixo registram o contexto de suas datas. Para o estado publicado da V1, consulte o [README](../README.md) e as [notas de lançamento](V1_RELEASE.md).
+
 ## 2026-09-19 — RC: optional BYOK and local exercise substitution
 
 **Decision:** Implement OpenAI-compatible (NVIDIA NIM preset) and native Gemini adapters, session-only keys, explicit preview/consent and validated informational analyses. Smart Substitution uses deterministic local ranking; an optional 4.5-second Fast Judge reorders only those candidates, sharing the principal configuration by default. Substitution preserves completed sets and records events in the final snapshot.
 
-**Scope:** [Current implementation and threat model](INTELLIGENCE_RC.md). No chatbot, silent progression changes, Auto Free provider, persistent key vault or publication. Existing conceptual roadmap remains separate from implemented RC behavior.
+**Scope:** [BYOK and current threat model](BYOK.md). No chatbot, silent progression changes, Auto Free provider or persistent key vault. The conceptual roadmap remains separate from implemented behavior.
 
 ## 2026-09-17 — Keep the name Projeto Titã
 
@@ -260,7 +262,7 @@
 **Decision:** To make all product and release claims strictly enforceable, reproducible, and verifiable across diverse platforms without false assurances or simulated successes:
 1. **Unified CI/QA Gate:** All quality verification is consolidated into a single reproducible pipeline (`npm run test:ci` / `npm run qa:matrix`), executing static analysis (ESLint), code style compliance (Prettier), strict type safety (TypeScript), in-memory domain/PBT/integration tests (Vitest, 217 tests), production artifact generation (Vite), and full-journey browser automation (Playwright, 32 tests across 11 suites).
 2. **CI Pipeline Hardening:** GitHub Actions workflow (`.github/workflows/ci.yml`) runs the full multi-tier quality matrix on pull requests and pushes, ensuring that failures halt publication and retaining Playwright test reports/traces for 14 days upon failure.
-3. **Canonical Manual QA Playbook:** Comprehensive step-by-step test scripts ([docs/QA_PLAYBOOK.md](QA_PLAYBOOK.md)) formalize release sign-off across Fresh Install, Core Workout Flow, Process Death / Crash Recovery, Airplane Mode / Offline PWA, and Backup Grammar v1 round-trips.
+3. **Release verification:** Automated checks in [CI](../.github/workflows/ci.yml) cover the workout flow, offline PWA, data lifecycle, import/export and browser compatibility.
 4. **Transparent Mobile Environment Diagnostics:** Toolchain dependencies are truthfully classified: `adb.exe` is verified and operational on the host via `Google.PlatformTools` v37.0.1; local APK compilation and autonomous Google Artemis runs remain documented as blocked pending connected physical devices/AVD emulators and host build-tools, while automated APK builds are maintained in GitHub Actions (`.github/workflows/android-apk.yml`).
 
 **Reason:** Core product integrity and user trust require absolute transparency. No release claim can be marked as validated without reproducible, automated, or recorded evidence. Establishing strict quality gates, a standardized manual playbook, and truthful hardware blocker documentation ensures that regressions are caught pre-publication and user training data remains safe.

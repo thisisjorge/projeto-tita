@@ -1,6 +1,6 @@
 # Projeto Titã — AI Architecture
 
-> Estado executável do RC: [Titã Intelligence V0.1](INTELLIGENCE_RC.md). OpenAI-compatible (incluindo NVIDIA NIM), Gemini nativo, BYOK somente em memória e Smart Substitution foram implementados. As seções conceituais abaixo descrevem direção de produto; Ask Titã, histórico de análises, persistência de credenciais e demais adapters não estão implementados neste RC. Publicação suspensa.
+> Esta página descreve a direção de produto. Na V1, OpenAI-compatible (incluindo NVIDIA NIM), Gemini nativo, BYOK em memória e Smart Substitution estão implementados. Outras ideias abaixo não devem ser lidas como recursos disponíveis; consulte [BYOK e privacidade](BYOK.md) e o [README](../README.md) para o estado publicado.
 
 ## Product position
 

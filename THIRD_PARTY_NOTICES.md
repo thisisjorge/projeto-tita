@@ -1,10 +1,10 @@
 # Third-Party Notices and Licenses
 
-Projeto Titã incorporates or depends on third-party open-source software packages. This document provides notice of the third-party software used, its licenses, and applicable copyright notices.
+Projeto Titã incorporates third-party open-source software and artwork. This document retains package notices from development and runtime; the current dependency versions are recorded in `package-lock.json`. Media licenses and provenance are detailed in [media attribution](public/media/ATTRIBUTION.md).
 
 ---
 
-## Direct Runtime Dependencies
+## Package notices
 
 ### 1. bcryptjs
 - **License:** MIT
@@ -108,7 +108,7 @@ Projeto Titã incorporates or depends on third-party open-source software packag
 
 ## Architectural Benchmarks and References
 
-- **openGym (`DuarteSantos8/openGym` / `alexpcosta/opengym`):** Used strictly as a conceptual benchmark for product, architecture, and feature patterns. No code, branding, artwork, or assets have been copied into Projeto Titã per canonical project rules (`AGENTS.md`, `docs/DECISIONS.md`).
+- **openGym (`DuarteSantos8/openGym` / `alexpcosta/opengym`):** Used strictly as a conceptual benchmark for product, architecture, and feature patterns. No code, branding, artwork, or assets have been copied into Projeto Titã; see [architecture decisions](docs/DECISIONS.md).
 
 ## Bundled fonts and client packages
 
@@ -117,8 +117,8 @@ Projeto Titã incorporates or depends on third-party open-source software packag
 - **react-router-dom / react-router**: MIT; Remix Software, Inc. [Source](https://github.com/remix-run/react-router).
 - **Capacitor app, haptics, local-notifications and share plugins**: MIT; Ionic contributors. [Source](https://github.com/ionic-team/capacitor-plugins).
 
-## RC showcase
+## Screenshot attribution
 
 No new third-party exercise media was introduced in this round. Screenshots reproduce the existing application with synthetic training data. Existing Bryllim exercise illustrations remain credited under **CC BY-SA 4.0**; this also applies to the illustrated portions of the screenshots and adaptations. [License](https://creativecommons.org/licenses/by-sa/4.0/). Changes shown in captures: display scaling and theme surface composition; no claim of original authorship of those illustrations.
 
-When sharing the showcase, retain the illustration credit and license link from [the showcase README](docs/public-showcase/README.md). The MIT license for application code does not relicense third-party artwork. Educational help text was written for this project; reference links are recorded in [INTELLIGENCE_RC](docs/INTELLIGENCE_RC.md).
+When sharing screenshots, retain the illustration credit and license link from [media attribution](public/media/ATTRIBUTION.md). The MIT license for application code does not relicense third-party artwork. BYOK behavior and its limits are described in [BYOK and privacy](docs/BYOK.md).

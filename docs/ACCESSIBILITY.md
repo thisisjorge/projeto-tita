@@ -2,7 +2,7 @@
 
 ## 1. Overview & Principles
 
-In accordance with the canonical architectural principles (`docs/PROJECT_TITAN_MASTER.md` and `docs/DECISIONS.md`), Projeto Titã is built to be usable by everyone, everywhere, offline-first. Speed, clarity, and reliability during workout sessions beat decorative visual fluff. 
+In accordance with the project's [product vision](PRODUCT_VISION.md) and [architecture decisions](DECISIONS.md), Projeto Titã is built to be usable by everyone, everywhere, offline-first. Speed, clarity, and reliability during workout sessions take priority during training.
 
 For accessibility, Projeto Titã adheres strictly to **WCAG 2.2 Level AA** standards and **WCAG2Mobile** best practices:
 - **Fast and Predictable Keyboard Navigation:** Full keyboard operability without keyboard traps; skip link to jump directly to main content; visible focus rings (`:focus-visible`).

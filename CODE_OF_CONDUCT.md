@@ -36,7 +36,7 @@ Os mantenedores têm o direito e a responsabilidade de remover, editar ou rejeit
 
 ## Aplicação e Denúncias
 
-Instâncias de comportamento abusivo, intimidador ou de qualquer outra forma inaceitável podem ser relatadas entrando em contato com a equipe de mantenedores através do e-mail **`conduct@projetotita.org`**. Todas as queixas serão analisadas e investigadas de forma justa e pontual.
+Para relatar comportamento abusivo ou intimidador, solicite um canal privado ao mantenedor pelo [perfil no GitHub](https://github.com/thisisjorge), sem expor dados pessoais ou detalhes do incidente em uma issue pública. As queixas serão analisadas com respeito e discrição.
 
 A equipe de liderança é obrigada a respeitar a privacidade e a segurança do relator de qualquer incidente.
 

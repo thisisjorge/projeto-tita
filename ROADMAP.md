@@ -1,6 +1,6 @@
 # Roadmap — Projeto Titã
 
-Este documento apresenta as prioridades e a visão de evolução técnica e de produto do **Projeto Titã**, com base no [`docs/PROJECT_TITAN_MASTER.md`](docs/PROJECT_TITAN_MASTER.md) e [`docs/PRODUCT_VISION.md`](docs/PRODUCT_VISION.md).
+Este documento apresenta as prioridades e a visão de evolução técnica e de produto do **Projeto Titã**, com base na [visão de produto](docs/PRODUCT_VISION.md).
 
 ---
 
