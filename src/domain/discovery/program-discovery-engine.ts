@@ -1,4 +1,5 @@
 import { SEED_TEMPLATES, type ProgramTemplate } from '../../data/seed-templates.js';
+import { builtinSplitLabel } from '../../data/builtin-display.js';
 
 export interface DiscoveryPreferences {
   readonly daysPerWeek: number; // 2, 3, 4, 5, 6
@@ -192,7 +193,9 @@ export class ProgramDiscoveryEngine {
 
       if (splitMatches) {
         splitBonus = 5;
-        reasoning.push(`Combina com sua preferência pessoal de divisão (${template.splitType}).`);
+        reasoning.push(
+          `Combina com sua preferência pessoal de divisão (${builtinSplitLabel(template.splitType)}).`,
+        );
       }
     }
 

@@ -73,8 +73,8 @@ describe('Onboarding Flow (REQ-2)', () => {
   it('renders sample routine quick-starter card (Phase 16)', () => {
     const html = renderToStaticMarkup(<OnboardingView />);
 
-    expect(html).toContain('Full Body');
-    expect(html).toContain('Começar com Full Body 3x');
+    expect(html).toContain('Corpo inteiro');
+    expect(html).toContain('Começar com corpo inteiro 3x');
     expect(html).toContain('onboarding-load-sample-btn');
   });
 

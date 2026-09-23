@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { builtinExerciseName } from '../../data/builtin-display.js';
 import { TrophyIcon } from '../../ui/components/icons.js';
 import type { MonthlyReview } from '../../domain/analytics/types.js';
 import { HistoryService } from '../../services/history-service.js';
@@ -360,7 +361,7 @@ export const MonthlyReviewTab: React.FC<MonthlyReviewTabProps> = ({ historyServi
                       color: 'var(--tita-text)',
                     }}
                   >
-                    {change.exerciseName}
+                    {builtinExerciseName(change.exerciseId, change.exerciseName)}
                   </span>
 
                   <div

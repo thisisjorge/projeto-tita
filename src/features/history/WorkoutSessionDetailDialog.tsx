@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { builtinExerciseName } from '../../data/builtin-display.js';
 import type { WorkoutSnapshot } from '../../domain/entities/workout-snapshot.js';
 import { Button, Dialog } from '../../ui/components/index.js';
 
@@ -206,7 +207,7 @@ export const WorkoutSessionDetailDialog: React.FC<WorkoutSessionDetailDialogProp
                 }}
               >
                 <strong style={{ fontSize: 'var(--tita-text-sm)', color: 'var(--tita-text)' }}>
-                  {ex.exerciseName}
+                  {builtinExerciseName(ex.exerciseId, ex.exerciseName)}
                 </strong>
                 <span style={{ fontSize: 'var(--tita-text-xs)', color: 'var(--tita-text-muted)' }}>
                   Vol: {ex.totalVolumeKg} kg • Reps: {ex.totalReps}

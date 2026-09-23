@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { builtinExerciseName } from '../../data/builtin-display.js';
 import { TrophyIcon } from '../../ui/components/icons.js';
 import { IntelligenceAction } from '../intelligence/IntelligenceAction.js';
 import { weeklySummary } from '../../intelligence/summaries.js';
@@ -285,7 +286,7 @@ export const WeeklyReviewTab: React.FC<WeeklyReviewTabProps> = ({ historyService
                       color: 'var(--tita-text)',
                     }}
                   >
-                    {prog.exerciseName}
+                    {builtinExerciseName(prog.exerciseId, prog.exerciseName)}
                   </span>
 
                   <div
@@ -351,7 +352,7 @@ export const WeeklyReviewTab: React.FC<WeeklyReviewTabProps> = ({ historyService
                       color: 'var(--tita-text)',
                     }}
                   >
-                    {pr.exerciseName}
+                    {builtinExerciseName(pr.exerciseId, pr.exerciseName)}
                   </div>
                   <div style={{ fontSize: 'var(--tita-text-xs)', color: 'var(--tita-warning)' }}>
                     {pr.categoryLabel}:{' '}

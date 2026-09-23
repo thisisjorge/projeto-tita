@@ -374,7 +374,7 @@ export const RoutineEditorDialog: React.FC<RoutineEditorDialogProps> = ({
           {/* Routine Name */}
           <Field
             label="Nome da Rotina:"
-            placeholder="Ex: Upper A — Força & Peitoral"
+            placeholder="Ex.: Superior A — Força e peitoral"
             value={name}
             onChange={(e) => setName(e.target.value)}
           />

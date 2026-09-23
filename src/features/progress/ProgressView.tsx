@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
+import { builtinExerciseName } from '../../data/builtin-display.js';
 import { useNavigate } from 'react-router-dom';
 import { IntelligenceAction } from '../intelligence/IntelligenceAction.js';
 import { HelpAction } from '../intelligence/HelpAction.js';
@@ -445,7 +446,7 @@ export const ProgressView: React.FC = () => {
                     >
                       {uniqueExercises.map((ex) => (
                         <option key={ex.id} value={ex.id}>
-                          {ex.name}
+                          {builtinExerciseName(ex.id, ex.name)}
                         </option>
                       ))}
                     </select>
@@ -553,7 +554,7 @@ export const ProgressView: React.FC = () => {
                       data={chartData}
                       unit={getMetricUnit()}
                       height={280}
-                      ariaLabel={`Gráfico de evolução de ${exerciseProgress?.exerciseName}`}
+                      ariaLabel={`Gráfico de evolução de ${exerciseProgress ? builtinExerciseName(exerciseProgress.exerciseId, exerciseProgress.exerciseName) : ''}`}
                     />
                   </div>
 

@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useTransition } from 'react';
+import { builtinExerciseName } from '../../data/builtin-display.js';
 import { HomeTrainingSummary } from './HomeTrainingSummary.js';
 import { workoutErrorMessage } from '../../ui/workout-error.js';
 import { AnchoredMenu } from '../../ui/components/AnchoredMenu.js';
@@ -555,7 +556,9 @@ export const WorkoutView: React.FC = () => {
         delete next[suggestion.exerciseId];
         return next;
       });
-      setSuccessNotice(`Sugestão de sobrecarga aplicada para ${exerciseSlot.exerciseName}.`);
+      setSuccessNotice(
+        `Sugestão de sobrecarga aplicada para ${builtinExerciseName(exerciseSlot.exerciseId, exerciseSlot.exerciseName)}.`,
+      );
       setSaveStatus('saved');
     } catch (err) {
       setErrorMessage(workoutErrorMessage(err));
@@ -994,7 +997,7 @@ export const WorkoutView: React.FC = () => {
       )}
 
       <Card
-        title={exerciseSlot.exerciseName}
+        title={builtinExerciseName(exerciseSlot.exerciseId, exerciseSlot.exerciseName)}
         subtitle={
           previousPerformances[exerciseSlot.exerciseId]
             ? `Anterior: ${previousPerformances[exerciseSlot.exerciseId]}`
@@ -1005,7 +1008,7 @@ export const WorkoutView: React.FC = () => {
             {
               <AnchoredMenu
                 className="tita-exercise-options"
-                label={`Opções de ${exerciseSlot.exerciseName}`}
+                label={`Opções de ${builtinExerciseName(exerciseSlot.exerciseId, exerciseSlot.exerciseName)}`}
               >
                 <div>
                   <HelpAction
@@ -1041,7 +1044,7 @@ export const WorkoutView: React.FC = () => {
                         event.currentTarget.closest('details')?.removeAttribute('open');
                         handleOpenGroupDialog(exerciseSlot.id);
                       }}
-                      aria-label={`Criar agrupamento com ${exerciseSlot.exerciseName}`}
+                      aria-label={`Criar agrupamento com ${builtinExerciseName(exerciseSlot.exerciseId, exerciseSlot.exerciseName)}`}
                       data-testid={`create-group-btn-${exerciseSlot.id}`}
                     >
                       + Superset
@@ -1054,7 +1057,7 @@ export const WorkoutView: React.FC = () => {
               variant="secondary"
               size="sm"
               onClick={() => handleAddSet(exerciseSlot.id)}
-              aria-label={`Adicionar série em ${exerciseSlot.exerciseName}`}
+              aria-label={`Adicionar série em ${builtinExerciseName(exerciseSlot.exerciseId, exerciseSlot.exerciseName)}`}
             >
               + Série
             </Button>
@@ -1418,9 +1421,9 @@ export const WorkoutView: React.FC = () => {
                       textOverflow: 'ellipsis',
                       maxWidth: '130px',
                     }}
-                    title={slot.exerciseName}
+                    title={builtinExerciseName(slot.exerciseId, slot.exerciseName)}
                   >
-                    {idx + 1}. {slot.exerciseName}
+                    {idx + 1}. {builtinExerciseName(slot.exerciseId, slot.exerciseName)}
                   </span>
                   <span
                     className="tita-num"
@@ -1987,7 +1990,9 @@ export const WorkoutView: React.FC = () => {
                     }}
                     data-testid={`checkbox-group-slot-${slot.id}`}
                   />
-                  <span style={{ fontSize: 'var(--tita-text-sm)' }}>{slot.exerciseName}</span>
+                  <span style={{ fontSize: 'var(--tita-text-sm)' }}>
+                    {builtinExerciseName(slot.exerciseId, slot.exerciseName)}
+                  </span>
                 </label>
               ))}
             </div>
