@@ -7,10 +7,11 @@ export interface ExerciseMediaAttribution {
   readonly notice?: string;
 }
 
-export type MediaFallbackTier = 'frames' | 'thumbnail' | 'icon' | 'instructions';
+export type MediaFallbackTier = 'gif' | 'frames' | 'thumbnail' | 'icon' | 'instructions';
 
 export interface ResolvedExerciseMedia {
   readonly tier: MediaFallbackTier;
+  readonly gif?: string;
   readonly frames?: readonly string[];
   readonly thumbnail?: string;
   readonly iconSvg?: string;
@@ -27,5 +28,6 @@ export interface ExerciseMediaProvider {
   isAvailable(exercise: Exercise): boolean;
   getThumbnail(exercise: Exercise): string | null;
   getFrames(exercise: Exercise): readonly string[] | null;
+  getGif?(exercise: Exercise): string | null;
   getAttribution(exercise: Exercise): ExerciseMediaAttribution | null;
 }

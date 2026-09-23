@@ -61,6 +61,57 @@ afterEach(() => {
 });
 
 describe('BYOK adapter contracts', () => {
+  it('allows a slow valid full insight without hidden retries', async () => {
+    vi.useFakeTimers();
+    const fetcher = vi.fn<typeof fetch>(
+      () => new Promise((resolve) => setTimeout(() => resolve(response(insight)), 25000)),
+    );
+    const pending = createProvider(config, fetcher).generateInsight(summary);
+    await vi.advanceTimersByTimeAsync(25000);
+    expect(await pending).toEqual(insight);
+    expect(fetcher).toHaveBeenCalledTimes(1);
+  });
+  it('bounds a fetch that ignores AbortSignal and supports explicit cancellation', async () => {
+    vi.useFakeTimers();
+    const fetcher = vi.fn<typeof fetch>(() => new Promise(() => undefined));
+    const provider = createProvider(config, fetcher);
+    const timed = provider.generateInsight(summary).catch((error) => error.code);
+    await vi.advanceTimersByTimeAsync(30000);
+    expect(await timed).toBe('timeout');
+    expect(fetcher).toHaveBeenCalledTimes(1);
+    const cancelled = provider.generateInsight(summary).catch((error) => error.code);
+    provider.abort();
+    expect(await cancelled).toBe('aborted');
+    expect(fetcher).toHaveBeenCalledTimes(2);
+  });
+  it('bounds a stalled response body even when the stream ignores abort', async () => {
+    vi.useFakeTimers();
+    let cancelled = false;
+    const provider = createProvider(
+      config,
+      vi.fn(
+        async () =>
+          new Response(
+            new ReadableStream({
+              start(controller) {
+                controller.enqueue(new TextEncoder().encode('{'));
+              },
+              cancel() {
+                cancelled = true;
+              },
+            }),
+          ),
+      ),
+    );
+    let outcome = '';
+    const pending = provider.generateInsight(summary).catch((error) => {
+      outcome = error.code;
+    });
+    await vi.advanceTimersByTimeAsync(60000);
+    expect(outcome).toBe('timeout');
+    expect(cancelled).toBe(true);
+    await pending;
+  });
   it('NVIDIA NIM uses the same OpenAI-compatible adapter and never puts a key in URL/body', async () => {
     const fetcher = fetcherFor(insight);
     const provider = createProvider(config, fetcher);

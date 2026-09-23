@@ -9,7 +9,9 @@ import {
   validateConfiguration,
   serializeSummary,
   MAX_RESPONSE_BYTES,
-  REQUEST_TIMEOUT_MS,
+  CONNECTION_TEST_TIMEOUT_MS,
+  FAST_JUDGE_TIMEOUT_MS,
+  FULL_INSIGHT_TIMEOUT_MS,
   fastJudgeSchema,
   fastJudgeJsonSchema,
   type FastJudgeResult,
@@ -33,7 +35,19 @@ interface RequestOptions {
   judge?: boolean;
 }
 
-async function boundedJson(response: Response): Promise<unknown> {
+function abortable<T>(operation: Promise<T>, signal: AbortSignal, cancel?: () => void): Promise<T> {
+  return new Promise((resolve, reject) => {
+    const abort = () => {
+      cancel?.();
+      reject(new IntelligenceError('aborted', 'Consulta cancelada.'));
+    };
+    signal.addEventListener('abort', abort, { once: true });
+    if (signal.aborted) abort();
+    operation.then(resolve, reject).finally(() => signal.removeEventListener('abort', abort));
+  });
+}
+
+async function boundedJson(response: Response, signal: AbortSignal): Promise<unknown> {
   if (!response.body)
     throw new IntelligenceError('invalid', 'O provider retornou uma resposta vazia.');
   const reader = response.body.getReader();
@@ -42,11 +56,13 @@ async function boundedJson(response: Response): Promise<unknown> {
   let text = '';
   try {
     while (true) {
-      const { done, value } = await reader.read();
+      const { done, value } = await abortable(reader.read(), signal, () => {
+        void reader.cancel().catch(() => undefined);
+      });
       if (done) break;
       size += value.byteLength;
       if (size > MAX_RESPONSE_BYTES) {
-        await reader.cancel();
+        void reader.cancel().catch(() => undefined);
         throw new IntelligenceError('invalid', 'Resposta maior que o limite permitido.');
       }
       text += decoder.decode(value, { stream: true });
@@ -101,24 +117,31 @@ abstract class HttpProvider implements AIProvider {
         timedOut = true;
         controller.abort();
       },
-      options.judge ? 4500 : REQUEST_TIMEOUT_MS,
+      options.test
+        ? CONNECTION_TEST_TIMEOUT_MS
+        : options.judge
+          ? FAST_JUDGE_TIMEOUT_MS
+          : FULL_INSIGHT_TIMEOUT_MS,
     );
     try {
       const request = this.requestBody(data, options);
       // Call the native browser function without binding this adapter as Window.
       const fetchRequest = this.fetcher;
-      const response = await fetchRequest(request.url, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', ...request.headers },
-        body: JSON.stringify(request.body),
-        signal: controller.signal,
-        credentials: 'omit',
-        cache: 'no-store',
-        redirect: 'error',
-        referrerPolicy: 'no-referrer',
-      });
+      const response = await abortable(
+        fetchRequest(request.url, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', ...request.headers },
+          body: JSON.stringify(request.body),
+          signal: controller.signal,
+          credentials: 'omit',
+          cache: 'no-store',
+          redirect: 'error',
+          referrerPolicy: 'no-referrer',
+        }),
+        controller.signal,
+      );
       if (!response.ok) {
-        await response.body?.cancel();
+        void response.body?.cancel().catch(() => undefined);
         const messages: Record<number, string> = {
           401: 'Chave recusada pelo provider. Confira sua configuração.',
           403: 'Acesso negado. Confira as permissões da chave e do modelo.',
@@ -131,13 +154,16 @@ abstract class HttpProvider implements AIProvider {
             'O provider não aceitou a solicitação. Confira o modelo e o suporte a JSON.',
         );
       }
-      const text = this.extractText(await boundedJson(response));
+      const text = this.extractText(await boundedJson(response, controller.signal));
       if (!text || text.includes(this.config.apiKey))
         throw new IntelligenceError('invalid', 'Resposta inválida do provider.');
       return text;
     } catch (error) {
       if (timedOut)
-        throw new IntelligenceError('timeout', 'O provider demorou demais. Tente novamente.');
+        throw new IntelligenceError(
+          'timeout',
+          'O provedor demorou mais que o esperado. O Titã manteve o resultado local. Tente novamente quando quiser.',
+        );
       if (controller.signal.aborted) throw new IntelligenceError('aborted', 'Análise cancelada.');
       if (error instanceof IntelligenceError) throw error;
       // Never expose provider bodies, URLs, headers or original errors: they may contain credentials.

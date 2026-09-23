@@ -94,7 +94,11 @@ export function IntelligenceAction({
             </Button>
             {!insight && (
               <Button disabled={busy || !summary} onClick={generate}>
-                {busy ? 'Preparando análise…' : 'Enviar resumo e analisar'}
+                {busy
+                  ? 'Preparando análise…'
+                  : error
+                    ? 'Tentar novamente'
+                    : 'Enviar resumo e analisar'}
               </Button>
             )}
           </>

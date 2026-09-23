@@ -13,6 +13,8 @@
 
 const RELEASE_ID = 'v1.0.0';
 const SHELL_CACHE = `tita-shell-${RELEASE_ID}`;
+// Downloaded media survives shell upgrades. Assets are pinned to a reviewed source.
+const MEDIA_CACHE = 'tita-exercise-media-v1';
 
 // Core static assets for application shell
 const CORE_SHELL_ASSETS = [
@@ -67,7 +69,15 @@ self.addEventListener('activate', (event) => {
               const isTitaCache = key.startsWith('tita-shell-') || key.startsWith('projeto-tita-');
               return isTitaCache && key !== SHELL_CACHE;
             })
-            .map((key) => {
+            .map(async (key) => {
+              const old = await caches.open(key);
+              const media = await caches.open(MEDIA_CACHE);
+              for (const request of await old.keys()) {
+                if (new URL(request.url).pathname.startsWith('/media/exercises/')) {
+                  const response = await old.match(request);
+                  if (response) await media.put(request, response);
+                }
+              }
               console.log(`[SW] Deleting obsolete cache: ${key}`);
               return caches.delete(key);
             }),
@@ -114,6 +124,12 @@ self.addEventListener('fetch', (event) => {
   // 5. Navigation requests: Network-first with Cache fallback to App Shell
   if (request.mode === 'navigate' || request.destination === 'document') {
     event.respondWith(networkFirstNavigation(request, SHELL_CACHE));
+    return;
+  }
+
+  // Download only the exercises opened by the user, never the whole catalog.
+  if (url.pathname.startsWith('/media/exercises/')) {
+    event.respondWith(cacheFirst(request, MEDIA_CACHE));
     return;
   }
 

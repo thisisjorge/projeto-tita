@@ -37,7 +37,7 @@ for (const width of [360, 390, 430]) {
     await page.goto('/app');
     await page.getByTestId('start-workout-button').click();
     const row = page.getByTestId('set-row-1').first();
-    const remove = row.getByRole('button', { name: 'Remover série 1' });
+    const remove = page.getByRole('button', { name: 'Remover série 1', exact: true });
     await expect(remove).toBeHidden();
     const complete = row.getByRole('checkbox');
     await complete.click();
@@ -98,7 +98,7 @@ test('RC: reduced motion suppresses set feedback and stops automatic exercise pl
   await page.locator('[data-testid^="exercise-card-"]').first().click();
   await expect(page.getByRole('button', { name: 'Reproduzir animação' })).toBeVisible();
   const frame = page
-    .getByTestId('exercise-media-frames')
+    .getByTestId('exercise-media-thumbnail')
     .locator('.tita-exercise-illustration')
     .first();
   const source = await frame.getAttribute('src');
@@ -145,10 +145,12 @@ test('RC: exercise media advances normally and stays contrasted in light mode', 
 
   await page.locator('[data-testid^="exercise-card-"]').first().click();
   const frame = page
-    .getByTestId('exercise-media-frames')
+    .getByTestId('exercise-media-gif')
     .locator('.tita-exercise-illustration')
     .first();
   await expect(frame).toBeVisible();
-  const initialSource = await frame.getAttribute('src');
-  await expect(frame).not.toHaveAttribute('src', initialSource!, { timeout: 1200 });
+  await expect(frame).toHaveAttribute('src', /animation\.gif$/);
+  await expect(frame).toHaveJSProperty('naturalWidth', 256);
+  const firstFrame = await frame.screenshot();
+  await expect.poll(async () => (await frame.screenshot()).equals(firstFrame)).toBe(false);
 });

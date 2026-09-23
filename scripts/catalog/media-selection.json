@@ -1,0 +1,3366 @@
+[
+  {
+    "slug": "bench-press",
+    "frames": [
+      {
+        "path": "assets/bench-press/frame-1.svg",
+        "sha": "5a8807214f9ce1c48a8fb0f146ef0865e97384be"
+      },
+      {
+        "path": "assets/bench-press/frame-2.svg",
+        "sha": "e3e34b4571f4212c3b293eeb06da698997325a5c"
+      },
+      {
+        "path": "assets/bench-press/frame-3.svg",
+        "sha": "dadff670fbb589d63208b8659da079db722e03d3"
+      }
+    ]
+  },
+  {
+    "slug": "incline-bench-press",
+    "frames": [
+      {
+        "path": "assets/incline-bench-press/frame-1.svg",
+        "sha": "7428458057b991229b25e4d508f7805241d4763d"
+      },
+      {
+        "path": "assets/incline-bench-press/frame-2.svg",
+        "sha": "25e5f1c783dd93d5448aece6b0700388ec303875"
+      },
+      {
+        "path": "assets/incline-bench-press/frame-3.svg",
+        "sha": "68cab4744a9f2211297d7a2f6d1d7d66b3637fe6"
+      }
+    ]
+  },
+  {
+    "slug": "incline-dumbbell-press",
+    "frames": [
+      {
+        "path": "assets/incline-dumbbell-press/frame-1.svg",
+        "sha": "97a239518230ad9960250acadc3579bd1ae734e3"
+      },
+      {
+        "path": "assets/incline-dumbbell-press/frame-2.svg",
+        "sha": "b590311f3ce28f47734dcbedd84cd55c8e1597e2"
+      },
+      {
+        "path": "assets/incline-dumbbell-press/frame-3.svg",
+        "sha": "329ec6a6ab767dbb685201fc093d1fff0728a000"
+      }
+    ]
+  },
+  {
+    "slug": "dumbbell-bench-press",
+    "frames": [
+      {
+        "path": "assets/dumbbell-bench-press/frame-1.svg",
+        "sha": "fd27485338913c0ea7205a1d3d282542d94b7467"
+      },
+      {
+        "path": "assets/dumbbell-bench-press/frame-2.svg",
+        "sha": "a97882c28a4fea4607f89fd49930e7d2a756f5f2"
+      },
+      {
+        "path": "assets/dumbbell-bench-press/frame-3.svg",
+        "sha": "cfba7045cb4eea77bab54e57a2b2bc989998c917"
+      }
+    ]
+  },
+  {
+    "slug": "decline-bench-press",
+    "frames": [
+      {
+        "path": "assets/decline-bench-press/frame-1.svg",
+        "sha": "cb2992341fe344b8c8a062ffdf3bdead52d43e32"
+      },
+      {
+        "path": "assets/decline-bench-press/frame-2.svg",
+        "sha": "7f4242d3e72e015292f9907c42d126bd757ad82a"
+      },
+      {
+        "path": "assets/decline-bench-press/frame-3.svg",
+        "sha": "af17af5ccc1c1dc1b60b4dc3e19b4643e58c4e8f"
+      }
+    ]
+  },
+  {
+    "slug": "machine-chest-press",
+    "frames": [
+      {
+        "path": "assets/machine-chest-press/frame-1.svg",
+        "sha": "e8a819815e991e6fa1ceca72f990b91f47301f16"
+      },
+      {
+        "path": "assets/machine-chest-press/frame-2.svg",
+        "sha": "a80c26533817a589d75ade18e498ece380eeffec"
+      },
+      {
+        "path": "assets/machine-chest-press/frame-3.svg",
+        "sha": "65fd4b296221dc8fa3c7b447a4889497f9753457"
+      }
+    ]
+  },
+  {
+    "slug": "pec-deck",
+    "frames": [
+      { "path": "assets/pec-deck/frame-1.svg", "sha": "a45dad7d1ae20baa4a14b5c939c3cd2a750e0efc" },
+      { "path": "assets/pec-deck/frame-2.svg", "sha": "255ad102536be34aa3918206c4603d2196b09f87" },
+      { "path": "assets/pec-deck/frame-3.svg", "sha": "62b20643e7e5568a2e3b9d1b6177270d6092a0c9" }
+    ]
+  },
+  {
+    "slug": "cable-fly",
+    "frames": [
+      { "path": "assets/cable-fly/frame-1.svg", "sha": "a8e9976511cb8a56c206d0628e503ab043d37639" },
+      { "path": "assets/cable-fly/frame-2.svg", "sha": "f8a824b84a4fcfe4cf5eb88dcd60524600cfefd2" },
+      { "path": "assets/cable-fly/frame-3.svg", "sha": "5f0756ddd8d56133bd460785fe9fa5489b8ab693" }
+    ]
+  },
+  {
+    "slug": "push-up",
+    "frames": [
+      { "path": "assets/push-up/frame-1.svg", "sha": "36b95ad8261c0ecc59eabb0d97f1f74acd64f3fa" },
+      { "path": "assets/push-up/frame-2.svg", "sha": "58c24ba25de3da2fec10fc464b4e7f7295f766ac" },
+      { "path": "assets/push-up/frame-3.svg", "sha": "f75186c64b64f90c77aa594530cd1c740489825f" }
+    ]
+  },
+  {
+    "slug": "weighted-push-up",
+    "frames": [
+      {
+        "path": "assets/weighted-push-up/frame-1.svg",
+        "sha": "e39891145c53a71d2ba647bdb58d949f51556cff"
+      },
+      {
+        "path": "assets/weighted-push-up/frame-2.svg",
+        "sha": "e5f8bbc73a37fdff669a404a60ecdc91a5dbd69d"
+      },
+      {
+        "path": "assets/weighted-push-up/frame-3.svg",
+        "sha": "a9d0895a8db04fa7fe6b7b7bf9a6f26d6f507008"
+      }
+    ]
+  },
+  {
+    "slug": "overhead-press",
+    "frames": [
+      {
+        "path": "assets/overhead-press/frame-1.svg",
+        "sha": "e7bf18d975dde260bdceb5093438d637db115fce"
+      },
+      {
+        "path": "assets/overhead-press/frame-2.svg",
+        "sha": "ceb60a61021ecf87256134825c07c615babf2323"
+      },
+      {
+        "path": "assets/overhead-press/frame-3.svg",
+        "sha": "ad7dfb095fc17474e30fe29546d55b7d7e3f955a"
+      }
+    ]
+  },
+  {
+    "slug": "seated-dumbbell-press",
+    "frames": [
+      {
+        "path": "assets/seated-dumbbell-press/frame-1.svg",
+        "sha": "df18fbde20c27d197109be4bf2c2677d257fa883"
+      },
+      {
+        "path": "assets/seated-dumbbell-press/frame-2.svg",
+        "sha": "7fe05f34e14400b0e612d66e7614857bce06349f"
+      },
+      {
+        "path": "assets/seated-dumbbell-press/frame-3.svg",
+        "sha": "2c2f8b63a7c465b49348062e528c65c02ac1092e"
+      }
+    ]
+  },
+  {
+    "slug": "arnold-press",
+    "frames": [
+      {
+        "path": "assets/arnold-press/frame-1.svg",
+        "sha": "38bdccd48a8ddaf429f3f634d6686c705abc46b8"
+      },
+      {
+        "path": "assets/arnold-press/frame-2.svg",
+        "sha": "99dcb8ca1f9af2ece35d08ba300d40064e7fc366"
+      },
+      {
+        "path": "assets/arnold-press/frame-3.svg",
+        "sha": "b2175a7195b3a252a2be27c182a7df548ebf412a"
+      }
+    ]
+  },
+  {
+    "slug": "lateral-raise",
+    "frames": [
+      {
+        "path": "assets/lateral-raise/frame-1.svg",
+        "sha": "08eba2c3328ad0a15418aaf27a56cdcfc5f7c68d"
+      },
+      {
+        "path": "assets/lateral-raise/frame-2.svg",
+        "sha": "146c3f93f134e589705267a86b6c01dc607443f9"
+      },
+      {
+        "path": "assets/lateral-raise/frame-3.svg",
+        "sha": "97e40b64a9c5879c5ea7fc63ceb3ed3d95904597"
+      }
+    ]
+  },
+  {
+    "slug": "cable-lateral-raise",
+    "frames": [
+      {
+        "path": "assets/cable-lateral-raise/frame-1.svg",
+        "sha": "84e338121cd257e6aeeaae3cdffa7f42b995ce45"
+      },
+      {
+        "path": "assets/cable-lateral-raise/frame-2.svg",
+        "sha": "0c05de20bd230e9f54144a88326c883cc938dfaa"
+      },
+      {
+        "path": "assets/cable-lateral-raise/frame-3.svg",
+        "sha": "a8a3668fd94622a96c0af4c6bfc273c45efb4a89"
+      }
+    ]
+  },
+  {
+    "slug": "rear-delt-fly",
+    "frames": [
+      {
+        "path": "assets/rear-delt-fly/frame-1.svg",
+        "sha": "08936e7179ae73cc30bca7670a1af7c99a804deb"
+      },
+      {
+        "path": "assets/rear-delt-fly/frame-2.svg",
+        "sha": "5089fa2243f8ad311d80fb37238004739d383b8e"
+      },
+      {
+        "path": "assets/rear-delt-fly/frame-3.svg",
+        "sha": "f2937b0ceb8fe6cb621ef2cdb5b11e6e95bc426e"
+      }
+    ]
+  },
+  {
+    "slug": "reverse-pec-deck",
+    "frames": [
+      {
+        "path": "assets/reverse-pec-deck/frame-1.svg",
+        "sha": "1f2dd39d0bc3bc56958236f1bc9ef79db0cc5bb9"
+      },
+      {
+        "path": "assets/reverse-pec-deck/frame-2.svg",
+        "sha": "009d2a3b20d2c0930844bf9e07e067afb1288139"
+      },
+      {
+        "path": "assets/reverse-pec-deck/frame-3.svg",
+        "sha": "80317f6766b3caefe5408699ed9c0fb49eccff28"
+      }
+    ]
+  },
+  {
+    "slug": "face-pull",
+    "frames": [
+      { "path": "assets/face-pull/frame-1.svg", "sha": "17195012771a32750753bbfa9ecf2b2cd9cc6934" },
+      { "path": "assets/face-pull/frame-2.svg", "sha": "fbdb95fee7877edc7fe176f79de96f0c9bbc6946" },
+      { "path": "assets/face-pull/frame-3.svg", "sha": "d5b941c9c53808c23e46f5c6c2c456a88845e29a" }
+    ]
+  },
+  {
+    "slug": "upright-row",
+    "frames": [
+      {
+        "path": "assets/upright-row/frame-1.svg",
+        "sha": "a79fd9dcb8779e4778252df5aefb8c0554b93dc5"
+      },
+      {
+        "path": "assets/upright-row/frame-2.svg",
+        "sha": "17d00e56b6479dac0cb49124dc6dc79e66ce49ac"
+      },
+      {
+        "path": "assets/upright-row/frame-3.svg",
+        "sha": "4becf046e93e263c1b18a7f411736a67b4ebc40b"
+      }
+    ]
+  },
+  {
+    "slug": "deadlift",
+    "frames": [
+      { "path": "assets/deadlift/frame-1.svg", "sha": "33a3d79c3cb624268a11468bfe9537d26f139828" },
+      { "path": "assets/deadlift/frame-2.svg", "sha": "1b3cc29237b9fe941caca456909e8bd5d4df3bf4" },
+      { "path": "assets/deadlift/frame-3.svg", "sha": "2262a299248d6c56dd5adea5d7df0a08303c88b0" }
+    ]
+  },
+  {
+    "slug": "romanian-deadlift",
+    "frames": [
+      {
+        "path": "assets/romanian-deadlift/frame-1.svg",
+        "sha": "33b0870622ea42e70de0b6becde07b480256adcf"
+      },
+      {
+        "path": "assets/romanian-deadlift/frame-2.svg",
+        "sha": "f1778dcd2a7a10c7a9fb796d1b5f3af1f2e2afbb"
+      },
+      {
+        "path": "assets/romanian-deadlift/frame-3.svg",
+        "sha": "6d8f183594c863df220812b5273f375210aa67fd"
+      }
+    ]
+  },
+  {
+    "slug": "barbell-row",
+    "frames": [
+      {
+        "path": "assets/barbell-row/frame-1.svg",
+        "sha": "6a5a9af429eb3cbbcea78cac8050998f1b22dae4"
+      },
+      {
+        "path": "assets/barbell-row/frame-2.svg",
+        "sha": "fb6c8ea163dc12f1108fdfc9a0b392f9034fcc1b"
+      },
+      {
+        "path": "assets/barbell-row/frame-3.svg",
+        "sha": "28dcd53f6a0e4a063c93b5b228c493dfd5f6ae2f"
+      }
+    ]
+  },
+  {
+    "slug": "t-bar-row",
+    "frames": [
+      { "path": "assets/t-bar-row/frame-1.svg", "sha": "267ce5292e334108df89013f6b64eacb458c06ba" },
+      { "path": "assets/t-bar-row/frame-2.svg", "sha": "25dd795a116a72ef1c684ce0089cc801f432f459" },
+      { "path": "assets/t-bar-row/frame-3.svg", "sha": "65362e044ba220b231610f9a81e3d33c207a1116" }
+    ]
+  },
+  {
+    "slug": "dumbbell-bent-over-row",
+    "frames": [
+      {
+        "path": "assets/dumbbell-bent-over-row/frame-1.svg",
+        "sha": "7884dff4cf0c787dbe43b2bc289ac7c6de52f46c"
+      },
+      {
+        "path": "assets/dumbbell-bent-over-row/frame-2.svg",
+        "sha": "1fe6f73e425e313b6d3b538d07035ef82008effc"
+      },
+      {
+        "path": "assets/dumbbell-bent-over-row/frame-3.svg",
+        "sha": "349d937aa6cd3f95251b4591a11be69ec43dc496"
+      }
+    ]
+  },
+  {
+    "slug": "one-arm-dumbbell-row",
+    "frames": [
+      {
+        "path": "assets/one-arm-dumbbell-row/frame-1.svg",
+        "sha": "36d50adcfa3d4654f09d20ea3e291af3cd328423"
+      },
+      {
+        "path": "assets/one-arm-dumbbell-row/frame-2.svg",
+        "sha": "7dbe70d26b53ce43e8a2b5b1970824276e0da14d"
+      },
+      {
+        "path": "assets/one-arm-dumbbell-row/frame-3.svg",
+        "sha": "ceedb9920573e72e86e0a0e0ee4f122b4e955d4d"
+      }
+    ]
+  },
+  {
+    "slug": "chest-supported-row",
+    "frames": [
+      {
+        "path": "assets/chest-supported-row/frame-1.svg",
+        "sha": "0ae2f9205d66d330dd4f9047c91b95205a4f28ab"
+      },
+      {
+        "path": "assets/chest-supported-row/frame-2.svg",
+        "sha": "19555c8b377318acfb673e1c147c3ea2c28456bb"
+      },
+      {
+        "path": "assets/chest-supported-row/frame-3.svg",
+        "sha": "8a49d8777541c564b8a236f2ce34e44cb0cc094f"
+      }
+    ]
+  },
+  {
+    "slug": "seated-row",
+    "frames": [
+      {
+        "path": "assets/seated-row/frame-1.svg",
+        "sha": "adfe97e6997c844093e64ed302531a74c344ea2d"
+      },
+      {
+        "path": "assets/seated-row/frame-2.svg",
+        "sha": "9d7428b1d290089e27693112baf803e9666db772"
+      },
+      { "path": "assets/seated-row/frame-3.svg", "sha": "acf6801b0907d3029ce2f1f2ac1aeb9f1d2104d9" }
+    ]
+  },
+  {
+    "slug": "machine-row",
+    "frames": [
+      {
+        "path": "assets/machine-row/frame-1.svg",
+        "sha": "dfc32f108788814ce2dde03a64d0a39919ce2089"
+      },
+      {
+        "path": "assets/machine-row/frame-2.svg",
+        "sha": "f63eb0f4d9b040ffbf06eadf57717081bdb74610"
+      },
+      {
+        "path": "assets/machine-row/frame-3.svg",
+        "sha": "f7971636071b8a11af03cd097b251e1728b4736c"
+      }
+    ]
+  },
+  {
+    "slug": "lat-pulldown",
+    "frames": [
+      {
+        "path": "assets/lat-pulldown/frame-1.svg",
+        "sha": "e521c86a5e14be0a1f48408c9e8b679a8e1d0f62"
+      },
+      {
+        "path": "assets/lat-pulldown/frame-2.svg",
+        "sha": "91706b02598f4522c6a81cdac3b564c05dce2553"
+      },
+      {
+        "path": "assets/lat-pulldown/frame-3.svg",
+        "sha": "75fb704aa71359f4b1d5d9a5b60e4a3764db6bdf"
+      }
+    ]
+  },
+  {
+    "slug": "close-grip-lat-pulldown",
+    "frames": [
+      {
+        "path": "assets/close-grip-lat-pulldown/frame-1.svg",
+        "sha": "1a549eb1a3ed192054b63c46025519fa4616c9d1"
+      },
+      {
+        "path": "assets/close-grip-lat-pulldown/frame-2.svg",
+        "sha": "184f2af88a61b8bf92e5ac0feb76028432406a06"
+      },
+      {
+        "path": "assets/close-grip-lat-pulldown/frame-3.svg",
+        "sha": "079c6f05e608ca24febc2dc786c539f1b2f230bd"
+      }
+    ]
+  },
+  {
+    "slug": "straight-arm-pulldown",
+    "frames": [
+      {
+        "path": "assets/straight-arm-pulldown/frame-1.svg",
+        "sha": "5e5e13d3abcb9579f21280a1a68c0ebbffe04094"
+      },
+      {
+        "path": "assets/straight-arm-pulldown/frame-2.svg",
+        "sha": "e9d90616a289388c96804dd869eb699b9e59655f"
+      },
+      {
+        "path": "assets/straight-arm-pulldown/frame-3.svg",
+        "sha": "ae72cc0f961c34b935a43b25d2cae8c29292e87d"
+      }
+    ]
+  },
+  {
+    "slug": "pull-up",
+    "frames": [
+      { "path": "assets/pull-up/frame-1.svg", "sha": "24469d731658c013f9043c3878f05d38bb4fd652" },
+      { "path": "assets/pull-up/frame-2.svg", "sha": "6fe61a17750acf5c1d4dc4be216c5a7ada9ffd5d" },
+      { "path": "assets/pull-up/frame-3.svg", "sha": "c8f2f5cb90990d39631be5052a95ad67a6985d76" }
+    ]
+  },
+  {
+    "slug": "weighted-pull-up",
+    "frames": [
+      {
+        "path": "assets/weighted-pull-up/frame-1.svg",
+        "sha": "737ace5651cb8c96d71a45294770a545b8272bac"
+      },
+      {
+        "path": "assets/weighted-pull-up/frame-2.svg",
+        "sha": "66cfd2714a0d04f473bf2d7b782a7b47a56eda58"
+      },
+      {
+        "path": "assets/weighted-pull-up/frame-3.svg",
+        "sha": "6940472ac7490fa0ef0f38d3d2d10fe4743c4857"
+      }
+    ]
+  },
+  {
+    "slug": "chin-up",
+    "frames": [
+      { "path": "assets/chin-up/frame-1.svg", "sha": "1d4d5257ef12f13115b6d94972ce20d48ce83487" },
+      { "path": "assets/chin-up/frame-2.svg", "sha": "a6c9f34bd8903c928bf276733c15e10737244b0b" },
+      { "path": "assets/chin-up/frame-3.svg", "sha": "2b16f760875d051ddbc6d71b9811fa7b3bc6878f" }
+    ]
+  },
+  {
+    "slug": "squat",
+    "frames": [
+      { "path": "assets/squat/frame-1.svg", "sha": "ebcbd5201f400efa7bf1f1035c2e19e978f608f9" },
+      { "path": "assets/squat/frame-2.svg", "sha": "717438b13015797c8dab59889b06e7cbd9749fcc" },
+      { "path": "assets/squat/frame-3.svg", "sha": "04c0664904827ba01f575ffe9af857312ee6f602" }
+    ]
+  },
+  {
+    "slug": "front-squat",
+    "frames": [
+      {
+        "path": "assets/front-squat/frame-1.svg",
+        "sha": "0219a82e50da941d5a7ea23dd0c40d10975d623b"
+      },
+      {
+        "path": "assets/front-squat/frame-2.svg",
+        "sha": "27d25aeb00cad588843baf7d9bfcfd3b2b3f7957"
+      },
+      {
+        "path": "assets/front-squat/frame-3.svg",
+        "sha": "85153ce4a5860c6d826ef2b2b1612b6af309bf10"
+      }
+    ]
+  },
+  {
+    "slug": "hack-squat",
+    "frames": [
+      {
+        "path": "assets/hack-squat/frame-1.svg",
+        "sha": "df35bf3e39b3dc7a484afbebd38718f51eb52d84"
+      },
+      {
+        "path": "assets/hack-squat/frame-2.svg",
+        "sha": "61cf4bd326a38b3ea3a10e73b0a8f073b5d09b6e"
+      },
+      { "path": "assets/hack-squat/frame-3.svg", "sha": "e2a706fcd154d8e9fc8180623301a100c576f382" }
+    ]
+  },
+  {
+    "slug": "leg-press",
+    "frames": [
+      { "path": "assets/leg-press/frame-1.svg", "sha": "08806aa579f84417b80a5e1ffd95d7ac91896a7a" },
+      { "path": "assets/leg-press/frame-2.svg", "sha": "eaeb443a6a04496c2354b9c72c4dbf982238b788" },
+      { "path": "assets/leg-press/frame-3.svg", "sha": "01a6aaec75c2e1fe79b43c90bbf0f79f96a0c457" }
+    ]
+  },
+  {
+    "slug": "bulgarian-split-squat",
+    "frames": [
+      {
+        "path": "assets/bulgarian-split-squat/frame-1.svg",
+        "sha": "2db105c72da5f0f80d239a3742e33696109c9ef6"
+      },
+      {
+        "path": "assets/bulgarian-split-squat/frame-2.svg",
+        "sha": "fe9a6d5d41efcdc0f89f3a96fee1cbf91e3f959e"
+      },
+      {
+        "path": "assets/bulgarian-split-squat/frame-3.svg",
+        "sha": "6e83a593b5b74330740db56396b217fd6820024f"
+      }
+    ]
+  },
+  {
+    "slug": "walking-lunge",
+    "frames": [
+      {
+        "path": "assets/walking-lunge/frame-1.svg",
+        "sha": "79b0499b72a314dddb2e31d008404589659ef21f"
+      },
+      {
+        "path": "assets/walking-lunge/frame-2.svg",
+        "sha": "4b3fe039b551ee8942a2c0c5eed082bb8702b0ca"
+      },
+      {
+        "path": "assets/walking-lunge/frame-3.svg",
+        "sha": "6aea37c287bdac5888477d07ee7ee496b88f5162"
+      }
+    ]
+  },
+  {
+    "slug": "step-up",
+    "frames": [
+      { "path": "assets/step-up/frame-1.svg", "sha": "1af5203c8941e4e282b8fe80fa8bea1d55a8aed1" },
+      { "path": "assets/step-up/frame-2.svg", "sha": "14893a14da5b665ba6a75bff3fa2943e1973efcb" },
+      { "path": "assets/step-up/frame-3.svg", "sha": "dc28740ff09beeae161495a5c1d7bad2ce9df869" }
+    ]
+  },
+  {
+    "slug": "leg-extension",
+    "frames": [
+      {
+        "path": "assets/leg-extension/frame-1.svg",
+        "sha": "36652c2d3dd4b7b103817a0400b3817f2b69ca0d"
+      },
+      {
+        "path": "assets/leg-extension/frame-2.svg",
+        "sha": "2d6928bd375943e6135a95036897b6aa7e2a45da"
+      },
+      {
+        "path": "assets/leg-extension/frame-3.svg",
+        "sha": "ab70e703ef977833f310b67626fcbc6fdd47caf4"
+      }
+    ]
+  },
+  {
+    "slug": "seated-leg-curl",
+    "frames": [
+      {
+        "path": "assets/seated-leg-curl/frame-1.svg",
+        "sha": "d162610c63314dd4e11189df4a79b55e11e767da"
+      },
+      {
+        "path": "assets/seated-leg-curl/frame-2.svg",
+        "sha": "b5e089f4c08c1727a235e989ea0a2fccdf0ebf34"
+      },
+      {
+        "path": "assets/seated-leg-curl/frame-3.svg",
+        "sha": "78e064464f56cd2ae60a73a24dbe21dcae92fda6"
+      }
+    ]
+  },
+  {
+    "slug": "hip-thrust",
+    "frames": [
+      {
+        "path": "assets/hip-thrust/frame-1.svg",
+        "sha": "3f0f38b78e9f6163575c592d40a8421ddef78f33"
+      },
+      {
+        "path": "assets/hip-thrust/frame-2.svg",
+        "sha": "ae76f142275cfe5cfbd776140edc2c31e32d91f8"
+      },
+      { "path": "assets/hip-thrust/frame-3.svg", "sha": "9c7464dcb661118de29a0b63a1a5de8585c1b2f8" }
+    ]
+  },
+  {
+    "slug": "glute-bridge",
+    "frames": [
+      {
+        "path": "assets/glute-bridge/frame-1.svg",
+        "sha": "383efc41681904be3dd3c08050c20c23beef9d82"
+      },
+      {
+        "path": "assets/glute-bridge/frame-2.svg",
+        "sha": "bb216973ecbaf370bb41f49e3be59fc137005ad0"
+      },
+      {
+        "path": "assets/glute-bridge/frame-3.svg",
+        "sha": "636f9cac870f2b2a654d86263f2d8216c9a7de72"
+      }
+    ]
+  },
+  {
+    "slug": "good-morning",
+    "frames": [
+      {
+        "path": "assets/good-morning/frame-1.svg",
+        "sha": "a1e6716819b617933b5bd6f4becdfa1499a900c0"
+      },
+      {
+        "path": "assets/good-morning/frame-2.svg",
+        "sha": "f4e2484bf98f0fe008ee373ca7d9caf02a9baffb"
+      },
+      {
+        "path": "assets/good-morning/frame-3.svg",
+        "sha": "727a3a1199c8632e659bad3ae33bf5f73d5549c3"
+      }
+    ]
+  },
+  {
+    "slug": "standing-calf-raise",
+    "frames": [
+      {
+        "path": "assets/standing-calf-raise/frame-1.svg",
+        "sha": "daad2bc155904a0b5ff1dde99b46b75f3360ba71"
+      },
+      {
+        "path": "assets/standing-calf-raise/frame-2.svg",
+        "sha": "f5557a10b9fba2e849a4993088c098c2f2a746d3"
+      },
+      {
+        "path": "assets/standing-calf-raise/frame-3.svg",
+        "sha": "7051dad6a6f69674edabbb71ad94cbc79a41cbbe"
+      }
+    ]
+  },
+  {
+    "slug": "seated-calf-raise",
+    "frames": [
+      {
+        "path": "assets/seated-calf-raise/frame-1.svg",
+        "sha": "b4619275520bfeac96d319db3891bfa9dfa4f740"
+      },
+      {
+        "path": "assets/seated-calf-raise/frame-2.svg",
+        "sha": "e06733ba816e8f5011ffeebc0746765822fa9ac7"
+      },
+      {
+        "path": "assets/seated-calf-raise/frame-3.svg",
+        "sha": "9cb82f678205be8934a73c209848dccfcb99dde4"
+      }
+    ]
+  },
+  {
+    "slug": "bicep-curl",
+    "frames": [
+      {
+        "path": "assets/bicep-curl/frame-1.svg",
+        "sha": "b05e4b89bbc7a8fde5147883d3c91caeda5a6b22"
+      },
+      {
+        "path": "assets/bicep-curl/frame-2.svg",
+        "sha": "ab69ac60d2a8a1545e68c5a8cc71827fe41d44b5"
+      },
+      { "path": "assets/bicep-curl/frame-3.svg", "sha": "d2ba3f4ff2921966a7ace67faa77e3f076c1095c" }
+    ]
+  },
+  {
+    "slug": "hammer-curl",
+    "frames": [
+      {
+        "path": "assets/hammer-curl/frame-1.svg",
+        "sha": "0cbd503956cee419c453816c4470395676ae5872"
+      },
+      {
+        "path": "assets/hammer-curl/frame-2.svg",
+        "sha": "5acaf5a5f9c6c2dcd965dc952322eb4006112533"
+      },
+      {
+        "path": "assets/hammer-curl/frame-3.svg",
+        "sha": "8d785cdc3cfe42f7ec13500fb0e6126f40571be7"
+      }
+    ]
+  },
+  {
+    "slug": "preacher-curl",
+    "frames": [
+      {
+        "path": "assets/preacher-curl/frame-1.svg",
+        "sha": "e7cfb426ae2b0b25cc2cf9693e89b3b3e5d9bfa0"
+      },
+      {
+        "path": "assets/preacher-curl/frame-2.svg",
+        "sha": "5187bf75d4fdd88a14404394aa2d2162551eb628"
+      },
+      {
+        "path": "assets/preacher-curl/frame-3.svg",
+        "sha": "674d7fbad46b35f50bd6e5edf3439fe6307b9aec"
+      }
+    ]
+  },
+  {
+    "slug": "cable-curl",
+    "frames": [
+      {
+        "path": "assets/cable-curl/frame-1.svg",
+        "sha": "4516e39110833733c3a247e701eb44542228046a"
+      },
+      {
+        "path": "assets/cable-curl/frame-2.svg",
+        "sha": "4167cfacd48e328b97a84a3179d13a317e1e1ac7"
+      },
+      { "path": "assets/cable-curl/frame-3.svg", "sha": "c4eb2706f92c409a633e70c9e350485fbfda28f0" }
+    ]
+  },
+  {
+    "slug": "reverse-curl",
+    "frames": [
+      {
+        "path": "assets/reverse-curl/frame-1.svg",
+        "sha": "5f253d8454b1c32ccb771b8fe8ad73046e3bb7a0"
+      },
+      {
+        "path": "assets/reverse-curl/frame-2.svg",
+        "sha": "eeb3a5b16a382f422f27e8ffdc9971b499437eff"
+      },
+      {
+        "path": "assets/reverse-curl/frame-3.svg",
+        "sha": "f26b22a141808d7acc39d61de235a8117a2873fb"
+      }
+    ]
+  },
+  {
+    "slug": "tricep-pushdown",
+    "frames": [
+      {
+        "path": "assets/tricep-pushdown/frame-1.svg",
+        "sha": "112df8f00d1042717716d5ea6dec00b1e59797a0"
+      },
+      {
+        "path": "assets/tricep-pushdown/frame-2.svg",
+        "sha": "5d393dc3ab85ab4e48a36783bb2235fe2a5a2825"
+      },
+      {
+        "path": "assets/tricep-pushdown/frame-3.svg",
+        "sha": "89bfec76083ebedfcc6d87c4249bef71a3bd8f82"
+      }
+    ]
+  },
+  {
+    "slug": "overhead-tricep-extension",
+    "frames": [
+      {
+        "path": "assets/overhead-tricep-extension/frame-1.svg",
+        "sha": "80c22a6e251c88cc684ccea8d2f0b9901b0272a3"
+      },
+      {
+        "path": "assets/overhead-tricep-extension/frame-2.svg",
+        "sha": "90c09a129d05b02dec9d4e6c24f80deab74b13db"
+      },
+      {
+        "path": "assets/overhead-tricep-extension/frame-3.svg",
+        "sha": "0e1f76cc7cc366afdc1c12be77594456ef82d43e"
+      }
+    ]
+  },
+  {
+    "slug": "skull-crusher",
+    "frames": [
+      {
+        "path": "assets/skull-crusher/frame-1.svg",
+        "sha": "7b0abe4285168d20e30a317a42dbb2656bc22617"
+      },
+      {
+        "path": "assets/skull-crusher/frame-2.svg",
+        "sha": "9701f4d90f6f52aa64726c1df2e88532b07542bc"
+      },
+      {
+        "path": "assets/skull-crusher/frame-3.svg",
+        "sha": "d7e1a788c7d9492be90298e6c2d2eab30a64b328"
+      }
+    ]
+  },
+  {
+    "slug": "close-grip-bench-press",
+    "frames": [
+      {
+        "path": "assets/close-grip-bench-press/frame-1.svg",
+        "sha": "617ad3119f190de6ad79ee995845597c607af668"
+      },
+      {
+        "path": "assets/close-grip-bench-press/frame-2.svg",
+        "sha": "bda354385188c15585c4cc22eb111e2503a5e290"
+      },
+      {
+        "path": "assets/close-grip-bench-press/frame-3.svg",
+        "sha": "793cbfa817b85ed28212b331f66689be9e020372"
+      }
+    ]
+  },
+  {
+    "slug": "dip",
+    "frames": [
+      { "path": "assets/dip/frame-1.svg", "sha": "be346e68f9f481ae0b16899e61ae9745d15f001b" },
+      { "path": "assets/dip/frame-2.svg", "sha": "a0445f34a15fcae0e38df99d6783150891835bca" },
+      { "path": "assets/dip/frame-3.svg", "sha": "0f9060dbe5fb230650b72e698ba1129ad9bb522b" }
+    ]
+  },
+  {
+    "slug": "plank",
+    "frames": [
+      { "path": "assets/plank/frame-1.svg", "sha": "7a10f7f2b8d0ebb54ab496a0d5b6ea1fe132bd27" },
+      { "path": "assets/plank/frame-2.svg", "sha": "aa2f048fec4a0ba879f788eef5840f6782f66982" },
+      { "path": "assets/plank/frame-3.svg", "sha": "c22a0113f49c6c4ea99081965eb5d46bdd1b588b" }
+    ]
+  },
+  {
+    "slug": "hanging-leg-raise",
+    "frames": [
+      {
+        "path": "assets/hanging-leg-raise/frame-1.svg",
+        "sha": "f54640e0764669ba071ec5c7d4a410ff0cb490a8"
+      },
+      {
+        "path": "assets/hanging-leg-raise/frame-2.svg",
+        "sha": "3661d26e961e717ed7b2c8979e7ee06b66c50078"
+      },
+      {
+        "path": "assets/hanging-leg-raise/frame-3.svg",
+        "sha": "ec91af89ec90fb5c6068da07fd0f716fc32fe086"
+      }
+    ]
+  },
+  {
+    "slug": "cable-crunch",
+    "frames": [
+      {
+        "path": "assets/cable-crunch/frame-1.svg",
+        "sha": "d888aa6a2ed06c556e5aeb2701b999197f9543f6"
+      },
+      {
+        "path": "assets/cable-crunch/frame-2.svg",
+        "sha": "9fc1878fb355d510ad042e20c9c0260e8bb4ecab"
+      },
+      {
+        "path": "assets/cable-crunch/frame-3.svg",
+        "sha": "5292e1abd3c6729fa79e34ea58c03ab372529b33"
+      }
+    ]
+  },
+  {
+    "slug": "ab-wheel",
+    "frames": [
+      { "path": "assets/ab-wheel/frame-1.svg", "sha": "5b09b6fd493e5df2ceb3759b8786010afd45901e" },
+      { "path": "assets/ab-wheel/frame-2.svg", "sha": "0f689cd88e45b0e73caf6928cf2a2c71dd42e889" },
+      { "path": "assets/ab-wheel/frame-3.svg", "sha": "e7141dec071ea970af201f6f4be71cf855aeb9e3" }
+    ]
+  },
+  {
+    "slug": "dumbbell-fly",
+    "frames": [
+      {
+        "path": "assets/dumbbell-fly/frame-1.svg",
+        "sha": "ea07d7189244e227bd747455aa03a3445ba5d305"
+      },
+      {
+        "path": "assets/dumbbell-fly/frame-2.svg",
+        "sha": "b04fe952cd47c9abe2cd6fd483e1623ae844f956"
+      },
+      {
+        "path": "assets/dumbbell-fly/frame-3.svg",
+        "sha": "b23217c2b153c555cc4700b341c904a545a6f696"
+      }
+    ]
+  },
+  {
+    "slug": "incline-cable-fly",
+    "frames": [
+      {
+        "path": "assets/incline-cable-fly/frame-1.svg",
+        "sha": "57b6d23782d3e43c166028242e48d06b00ec0f5d"
+      },
+      {
+        "path": "assets/incline-cable-fly/frame-2.svg",
+        "sha": "3cd6e967958dcb9416853d6d40fcecd5b500ff29"
+      },
+      {
+        "path": "assets/incline-cable-fly/frame-3.svg",
+        "sha": "b7131f24a3cdf7c20830dbaa875270812aabf0cd"
+      }
+    ]
+  },
+  {
+    "slug": "decline-dumbbell-press",
+    "frames": [
+      {
+        "path": "assets/decline-dumbbell-press/frame-1.svg",
+        "sha": "24d16d700d4676c4bde034b4cf4883c3dd7a6aa7"
+      },
+      {
+        "path": "assets/decline-dumbbell-press/frame-2.svg",
+        "sha": "7ecdb984fb0dfcf69623b9ed3558dead2d382db5"
+      },
+      {
+        "path": "assets/decline-dumbbell-press/frame-3.svg",
+        "sha": "1e7dfd6d2a200d20abc30080c9aa7eb4024bbdd2"
+      }
+    ]
+  },
+  {
+    "slug": "smith-machine-bench-press",
+    "frames": [
+      {
+        "path": "assets/smith-machine-bench-press/frame-1.svg",
+        "sha": "d8c2ea4ed94319cdbf18b98fac8b672dea228961"
+      },
+      {
+        "path": "assets/smith-machine-bench-press/frame-2.svg",
+        "sha": "e2712361160d29aff6e4b220ddead93383bc02ec"
+      },
+      {
+        "path": "assets/smith-machine-bench-press/frame-3.svg",
+        "sha": "8adcaef13db1bf17a3bd49a0155c00767884dcd2"
+      }
+    ]
+  },
+  {
+    "slug": "landmine-press",
+    "frames": [
+      {
+        "path": "assets/landmine-press/frame-1.svg",
+        "sha": "f92c7a85a865acf90108fe342a2f2adbf3011193"
+      },
+      {
+        "path": "assets/landmine-press/frame-2.svg",
+        "sha": "329b8e20e5f1cca4f32afebcb5551bea88405d07"
+      },
+      {
+        "path": "assets/landmine-press/frame-3.svg",
+        "sha": "b2dbd57725f8c56abd9af0058192a8dea3c8fd7c"
+      }
+    ]
+  },
+  {
+    "slug": "chest-dip",
+    "frames": [
+      { "path": "assets/chest-dip/frame-1.svg", "sha": "f7d673bc550482dc08cd0fcaa574dd7b9de08051" },
+      { "path": "assets/chest-dip/frame-2.svg", "sha": "8cf36a6a516688a69ee8630c26df5bebc66740f4" },
+      { "path": "assets/chest-dip/frame-3.svg", "sha": "10793bce0760a5e27ac6776947684ab0f360c5ea" }
+    ]
+  },
+  {
+    "slug": "weighted-dip",
+    "frames": [
+      {
+        "path": "assets/weighted-dip/frame-1.svg",
+        "sha": "211285874728b1406901abb7e2306d9ca49cfa92"
+      },
+      {
+        "path": "assets/weighted-dip/frame-2.svg",
+        "sha": "68276db9a525cce46d548548fcad3023d2508c48"
+      },
+      {
+        "path": "assets/weighted-dip/frame-3.svg",
+        "sha": "9d060cbf7be7d0ac1d3e3b0f2928cb5cc574a766"
+      }
+    ]
+  },
+  {
+    "slug": "machine-shoulder-press",
+    "frames": [
+      {
+        "path": "assets/machine-shoulder-press/frame-1.svg",
+        "sha": "d09b4757f27b1947bf3431f7e19402c09a66dd64"
+      },
+      {
+        "path": "assets/machine-shoulder-press/frame-2.svg",
+        "sha": "9c4299e02fe9f4522bdda132d051d819b7312c4d"
+      },
+      {
+        "path": "assets/machine-shoulder-press/frame-3.svg",
+        "sha": "f09c95f649f68a74c73617cc8a03323c2127c5b1"
+      }
+    ]
+  },
+  {
+    "slug": "standing-dumbbell-press",
+    "frames": [
+      {
+        "path": "assets/standing-dumbbell-press/frame-1.svg",
+        "sha": "83144c0eeedfcac77acde79856d7d070c95f5998"
+      },
+      {
+        "path": "assets/standing-dumbbell-press/frame-2.svg",
+        "sha": "35821efb63b0be725760738577531c8d38ce973c"
+      },
+      {
+        "path": "assets/standing-dumbbell-press/frame-3.svg",
+        "sha": "6f177e4b38ba223110d04897a033069218c52415"
+      }
+    ]
+  },
+  {
+    "slug": "push-press",
+    "frames": [
+      {
+        "path": "assets/push-press/frame-1.svg",
+        "sha": "a05ad3e909eea461cc008f32aa9cb385c6bc6011"
+      },
+      {
+        "path": "assets/push-press/frame-2.svg",
+        "sha": "302a4eb95d099bc10abdb8f14b5a29e6d14a8896"
+      },
+      { "path": "assets/push-press/frame-3.svg", "sha": "526a3c8262dc400c6fbe52d2e8a6bfcdbd4a674e" }
+    ]
+  },
+  {
+    "slug": "machine-lateral-raise",
+    "frames": [
+      {
+        "path": "assets/machine-lateral-raise/frame-1.svg",
+        "sha": "0349ff4df00e11f082ce3ea5a1eeae84851baa2c"
+      },
+      {
+        "path": "assets/machine-lateral-raise/frame-2.svg",
+        "sha": "8be2372614a3ed0fe2310430a4a9b1c7e750a178"
+      },
+      {
+        "path": "assets/machine-lateral-raise/frame-3.svg",
+        "sha": "655f3d00ea5a798301e22d7c8273ed6eaac84d62"
+      }
+    ]
+  },
+  {
+    "slug": "cable-rear-delt-fly",
+    "frames": [
+      {
+        "path": "assets/cable-rear-delt-fly/frame-1.svg",
+        "sha": "a83a868448ee67246ed760c2f8b646bbb42be14d"
+      },
+      {
+        "path": "assets/cable-rear-delt-fly/frame-2.svg",
+        "sha": "b81e2e52fcb82d8ebcb85754688e996c85a546a3"
+      },
+      {
+        "path": "assets/cable-rear-delt-fly/frame-3.svg",
+        "sha": "714225103138c09cecfb6ef04f300ac8febba9f4"
+      }
+    ]
+  },
+  {
+    "slug": "pendlay-row",
+    "frames": [
+      {
+        "path": "assets/pendlay-row/frame-1.svg",
+        "sha": "07b58c6cb051325dcfa30e66cc65c88e31403183"
+      },
+      {
+        "path": "assets/pendlay-row/frame-2.svg",
+        "sha": "f9eb1f033a697bdecde52612f0c30d049491109a"
+      },
+      {
+        "path": "assets/pendlay-row/frame-3.svg",
+        "sha": "1cbe870e849be4f4407e585a5bda0f9d614e133e"
+      }
+    ]
+  },
+  {
+    "slug": "inverted-row",
+    "frames": [
+      {
+        "path": "assets/inverted-row/frame-1.svg",
+        "sha": "c2604d23dcb63d45a13a2510f065bd5ea826d6d8"
+      },
+      {
+        "path": "assets/inverted-row/frame-2.svg",
+        "sha": "d141c2f923b1de16afd05703c89a968bc536b374"
+      },
+      {
+        "path": "assets/inverted-row/frame-3.svg",
+        "sha": "ce7659ce32bb5b66f52844e5e2f9b3770516a217"
+      }
+    ]
+  },
+  {
+    "slug": "meadows-row",
+    "frames": [
+      {
+        "path": "assets/meadows-row/frame-1.svg",
+        "sha": "a62229e71bf251d84049cd52f6f5b29525c661ef"
+      },
+      {
+        "path": "assets/meadows-row/frame-2.svg",
+        "sha": "94988b95e2b11fb2398821d91892723ca3ad152d"
+      },
+      {
+        "path": "assets/meadows-row/frame-3.svg",
+        "sha": "92dc0039a0d90a03274800d22662fe6812f295e1"
+      }
+    ]
+  },
+  {
+    "slug": "single-arm-cable-row",
+    "frames": [
+      {
+        "path": "assets/single-arm-cable-row/frame-1.svg",
+        "sha": "6d0db6f03d62ada6d5cbb77b243e6a16703921ec"
+      },
+      {
+        "path": "assets/single-arm-cable-row/frame-2.svg",
+        "sha": "28bb8eafc471c65989b2918324c164121d871564"
+      },
+      {
+        "path": "assets/single-arm-cable-row/frame-3.svg",
+        "sha": "68a6af1027142c328220a5f4812eba0a7a044d99"
+      }
+    ]
+  },
+  {
+    "slug": "neutral-grip-pull-up",
+    "frames": [
+      {
+        "path": "assets/neutral-grip-pull-up/frame-1.svg",
+        "sha": "1d4d5257ef12f13115b6d94972ce20d48ce83487"
+      },
+      {
+        "path": "assets/neutral-grip-pull-up/frame-2.svg",
+        "sha": "2c031275f97e851a5285c2f635ec1373cf3a4916"
+      },
+      {
+        "path": "assets/neutral-grip-pull-up/frame-3.svg",
+        "sha": "2b16f760875d051ddbc6d71b9811fa7b3bc6878f"
+      }
+    ]
+  },
+  {
+    "slug": "weighted-chin-up",
+    "frames": [
+      {
+        "path": "assets/weighted-chin-up/frame-1.svg",
+        "sha": "4407eb3a97de3b2acd420fc865c1d77452a6d1bc"
+      },
+      {
+        "path": "assets/weighted-chin-up/frame-2.svg",
+        "sha": "474be73eaf20f12d17dad41feaafba4935ae4b3e"
+      },
+      {
+        "path": "assets/weighted-chin-up/frame-3.svg",
+        "sha": "ee7f8de0c419f9b0156e237ae953652514154161"
+      }
+    ]
+  },
+  {
+    "slug": "rack-pull",
+    "frames": [
+      { "path": "assets/rack-pull/frame-1.svg", "sha": "1ed1323ac4d7fedd1887393e54850fbaa6db2c8e" },
+      { "path": "assets/rack-pull/frame-2.svg", "sha": "d26aa697531b63c3396879e19faf3502b2720e67" },
+      { "path": "assets/rack-pull/frame-3.svg", "sha": "7d5f71d72dae47056e6af6c2f8ee8975b4fb88ee" }
+    ]
+  },
+  {
+    "slug": "back-extension",
+    "frames": [
+      {
+        "path": "assets/back-extension/frame-1.svg",
+        "sha": "36f25c6b128b36ea6adb29b086f065902b553420"
+      },
+      {
+        "path": "assets/back-extension/frame-2.svg",
+        "sha": "fef4fc12c438c0b1bd9e613c0cb3040d08f16df1"
+      },
+      {
+        "path": "assets/back-extension/frame-3.svg",
+        "sha": "0e94c4235958e6005e8b5749070c8445846f69d4"
+      }
+    ]
+  },
+  {
+    "slug": "goblet-squat",
+    "frames": [
+      {
+        "path": "assets/goblet-squat/frame-1.svg",
+        "sha": "02aafb697186f0d74f260fec19962c979adc279b"
+      },
+      {
+        "path": "assets/goblet-squat/frame-2.svg",
+        "sha": "854ee9bf2eb95dce36905604db14f04e8ad2c995"
+      },
+      {
+        "path": "assets/goblet-squat/frame-3.svg",
+        "sha": "0ad4945c8384428bf1e04013e0b435985e6a9c12"
+      }
+    ]
+  },
+  {
+    "slug": "smith-machine-squat",
+    "frames": [
+      {
+        "path": "assets/smith-machine-squat/frame-1.svg",
+        "sha": "35ec56285c29272bc8af788d8d875bbe1c51fda6"
+      },
+      {
+        "path": "assets/smith-machine-squat/frame-2.svg",
+        "sha": "6ebf5ce27d9fc9b50233839b0ba9e5b49a96afc5"
+      },
+      {
+        "path": "assets/smith-machine-squat/frame-3.svg",
+        "sha": "b0436eb24814aa9fd8e29dc868b47cfad9ec0e15"
+      }
+    ]
+  },
+  {
+    "slug": "belt-squat",
+    "frames": [
+      {
+        "path": "assets/belt-squat/frame-1.svg",
+        "sha": "04870413fb7fb6687362e53fdd68a3da40ba6b07"
+      },
+      {
+        "path": "assets/belt-squat/frame-2.svg",
+        "sha": "6d48fcc654a64e0c353ffa5e999caf65fc404982"
+      },
+      { "path": "assets/belt-squat/frame-3.svg", "sha": "6b959ef84e429ee23984d6a23e4ae6782e3a49d2" }
+    ]
+  },
+  {
+    "slug": "sumo-deadlift",
+    "frames": [
+      {
+        "path": "assets/sumo-deadlift/frame-1.svg",
+        "sha": "68133b7ed212669514cb2516a1ce37d3a1ef63d7"
+      },
+      {
+        "path": "assets/sumo-deadlift/frame-2.svg",
+        "sha": "bc8364337a445eb8255727c20ec1a0641acac0c2"
+      },
+      {
+        "path": "assets/sumo-deadlift/frame-3.svg",
+        "sha": "1583f716a1b651f6892d070f844c99fe31f3dfec"
+      }
+    ]
+  },
+  {
+    "slug": "trap-bar-deadlift",
+    "frames": [
+      {
+        "path": "assets/trap-bar-deadlift/frame-1.svg",
+        "sha": "ca89e6af76697e51b22054855167177c0b93edf5"
+      },
+      {
+        "path": "assets/trap-bar-deadlift/frame-2.svg",
+        "sha": "e18954559b905e58008cbec7193c1e0fddbb0353"
+      },
+      {
+        "path": "assets/trap-bar-deadlift/frame-3.svg",
+        "sha": "dfc8cb61819792842ae8aa079dfc9c44e04a66b6"
+      }
+    ]
+  },
+  {
+    "slug": "lying-leg-curl",
+    "frames": [
+      {
+        "path": "assets/lying-leg-curl/frame-1.svg",
+        "sha": "8bc1078753ec035d87764c6d00957f2eca69844a"
+      },
+      {
+        "path": "assets/lying-leg-curl/frame-2.svg",
+        "sha": "17f04bfd96710b34077886b5d2ba83daa0db2589"
+      },
+      {
+        "path": "assets/lying-leg-curl/frame-3.svg",
+        "sha": "fe25cdae777aed0d6f4a073dbde007530d91d545"
+      }
+    ]
+  },
+  {
+    "slug": "nordic-hamstring-curl",
+    "frames": [
+      {
+        "path": "assets/nordic-hamstring-curl/frame-1.svg",
+        "sha": "34f65c7263a5f9cf3b6bc9fae1a2a92a134ff6b9"
+      },
+      {
+        "path": "assets/nordic-hamstring-curl/frame-2.svg",
+        "sha": "67053e0845c9b7a995f6fcddb49de13e05039f38"
+      },
+      {
+        "path": "assets/nordic-hamstring-curl/frame-3.svg",
+        "sha": "2af1ba4c2d3d9d9e3022ecd825a3b97d07168c53"
+      }
+    ]
+  },
+  {
+    "slug": "single-leg-romanian-deadlift",
+    "frames": [
+      {
+        "path": "assets/single-leg-romanian-deadlift/frame-1.svg",
+        "sha": "12a441332b2025618d13c99130c0de02f4ded03a"
+      },
+      {
+        "path": "assets/single-leg-romanian-deadlift/frame-2.svg",
+        "sha": "979ec22dcac7c9798b597f3a0a7f5bb8e9166f26"
+      },
+      {
+        "path": "assets/single-leg-romanian-deadlift/frame-3.svg",
+        "sha": "7b0f087b789cd055f6e923bc04838283e064657e"
+      }
+    ]
+  },
+  {
+    "slug": "reverse-lunge",
+    "frames": [
+      {
+        "path": "assets/reverse-lunge/frame-1.svg",
+        "sha": "a2db241bc5fecc7cb3adde3b07d3f9887170cc85"
+      },
+      {
+        "path": "assets/reverse-lunge/frame-2.svg",
+        "sha": "df0e798af8c33b41e1f9653140c8617c65dab09b"
+      },
+      {
+        "path": "assets/reverse-lunge/frame-3.svg",
+        "sha": "2155203952883498671b78d86865f1967138cd87"
+      }
+    ]
+  },
+  {
+    "slug": "split-squat",
+    "frames": [
+      {
+        "path": "assets/split-squat/frame-1.svg",
+        "sha": "0c6935cbcac9e9c3144d2256f2104f1c6f6e9a51"
+      },
+      {
+        "path": "assets/split-squat/frame-2.svg",
+        "sha": "97cfd631e02e7ff3505143079b579b02ded512c5"
+      },
+      {
+        "path": "assets/split-squat/frame-3.svg",
+        "sha": "937f299bb2301365f686a92b2cfd1d6d90c81e33"
+      }
+    ]
+  },
+  {
+    "slug": "cable-kickback",
+    "frames": [
+      {
+        "path": "assets/cable-kickback/frame-1.svg",
+        "sha": "bc6cbd4ec7d0509b66cd4d009a1a46a96da290c9"
+      },
+      {
+        "path": "assets/cable-kickback/frame-2.svg",
+        "sha": "8b19f36f905589f2bfc9d68c90cb7e8e8ee85a45"
+      },
+      {
+        "path": "assets/cable-kickback/frame-3.svg",
+        "sha": "7342e94f4e35aafe2bea219ace3a22f8aff04794"
+      }
+    ]
+  },
+  {
+    "slug": "single-leg-glute-bridge",
+    "frames": [
+      {
+        "path": "assets/single-leg-glute-bridge/frame-1.svg",
+        "sha": "3b3df6b6a7f4f8c5d377460c5ae04525cac80f0f"
+      },
+      {
+        "path": "assets/single-leg-glute-bridge/frame-2.svg",
+        "sha": "cd43eab851c7ea7e019a358bbc24de7f4ec4d8b7"
+      },
+      {
+        "path": "assets/single-leg-glute-bridge/frame-3.svg",
+        "sha": "37dd792590e26291217b658b540c85bd36e3f9d8"
+      }
+    ]
+  },
+  {
+    "slug": "barbell-glute-bridge",
+    "frames": [
+      {
+        "path": "assets/barbell-glute-bridge/frame-1.svg",
+        "sha": "1c3e9b50a8b9470afa01f9eafce18e5acbedfa5d"
+      },
+      {
+        "path": "assets/barbell-glute-bridge/frame-2.svg",
+        "sha": "f8fc823c41074cde7562e75d8e69a6c7813b8344"
+      },
+      {
+        "path": "assets/barbell-glute-bridge/frame-3.svg",
+        "sha": "ad0bf0b82212396a4ef536a332ee2551b4006ccc"
+      }
+    ]
+  },
+  {
+    "slug": "dumbbell-glute-bridge",
+    "frames": [
+      {
+        "path": "assets/dumbbell-glute-bridge/frame-1.svg",
+        "sha": "a5023b218ef40e26e345fa115fcc2d221a7c0905"
+      },
+      {
+        "path": "assets/dumbbell-glute-bridge/frame-2.svg",
+        "sha": "ea2b57de007204482ee27cff529db422ccdce61b"
+      },
+      {
+        "path": "assets/dumbbell-glute-bridge/frame-3.svg",
+        "sha": "2a0d73af28b2a5270f7765e877ec26563ed057f0"
+      }
+    ]
+  },
+  {
+    "slug": "dumbbell-hip-thrust",
+    "frames": [
+      {
+        "path": "assets/dumbbell-hip-thrust/frame-1.svg",
+        "sha": "10c0b44cab326bbf5245aad3465446608a385e76"
+      },
+      {
+        "path": "assets/dumbbell-hip-thrust/frame-2.svg",
+        "sha": "aa2bfa2bf34f4dff02bf395cb4c20949d8d17927"
+      },
+      {
+        "path": "assets/dumbbell-hip-thrust/frame-3.svg",
+        "sha": "719dad28edfab0bfcc8d0883b8eb776bb91c05dd"
+      }
+    ]
+  },
+  {
+    "slug": "smith-machine-hip-thrust",
+    "frames": [
+      {
+        "path": "assets/smith-machine-hip-thrust/frame-1.svg",
+        "sha": "dbde539abeac5c518035da63f951a16157b481ce"
+      },
+      {
+        "path": "assets/smith-machine-hip-thrust/frame-2.svg",
+        "sha": "530849dbcd0ab7b3b84dd8ece6f7cde18e9eecc2"
+      },
+      {
+        "path": "assets/smith-machine-hip-thrust/frame-3.svg",
+        "sha": "b55ae42b58a156deff00efa9c66a70b6bb4ea069"
+      }
+    ]
+  },
+  {
+    "slug": "smith-machine-romanian-deadlift",
+    "frames": [
+      {
+        "path": "assets/smith-machine-romanian-deadlift/frame-1.svg",
+        "sha": "c98e3902ebfb79b8fb8861a6fb9acae952b03f44"
+      },
+      {
+        "path": "assets/smith-machine-romanian-deadlift/frame-2.svg",
+        "sha": "7dce712036eb7235a26bae7a3ebf80e0d0baa3dc"
+      },
+      {
+        "path": "assets/smith-machine-romanian-deadlift/frame-3.svg",
+        "sha": "0e646bd57d6c2e03377a6c9ef8461b3e794c0c7a"
+      }
+    ]
+  },
+  {
+    "slug": "dumbbell-romanian-deadlift",
+    "frames": [
+      {
+        "path": "assets/dumbbell-romanian-deadlift/frame-1.svg",
+        "sha": "1a8cd9749dee7b9f346f3a12cb61e756ed3dea38"
+      },
+      {
+        "path": "assets/dumbbell-romanian-deadlift/frame-2.svg",
+        "sha": "cdf679877801cb5cbc808ceae95c2ca909c249c4"
+      },
+      {
+        "path": "assets/dumbbell-romanian-deadlift/frame-3.svg",
+        "sha": "30c8702ae112e4c84274e74ebb85aa7abb6b192e"
+      }
+    ]
+  },
+  {
+    "slug": "kettlebell-romanian-deadlift",
+    "frames": [
+      {
+        "path": "assets/kettlebell-romanian-deadlift/frame-1.svg",
+        "sha": "f2114af3d4aa8f35e94860b7841107a0151da637"
+      },
+      {
+        "path": "assets/kettlebell-romanian-deadlift/frame-2.svg",
+        "sha": "ae7b9e5920c46d90615d00c84aaa775c36c226b0"
+      },
+      {
+        "path": "assets/kettlebell-romanian-deadlift/frame-3.svg",
+        "sha": "d9c719b6202d9b52264ff978d72e52de8e12a0e9"
+      }
+    ]
+  },
+  {
+    "slug": "cable-pull-through",
+    "frames": [
+      {
+        "path": "assets/cable-pull-through/frame-1.svg",
+        "sha": "36cb501ce41fa6d0cc85353d64f6926b91c9bd45"
+      },
+      {
+        "path": "assets/cable-pull-through/frame-2.svg",
+        "sha": "cef87b19639e8e0828b8eaf1626ef2a6f18a4203"
+      },
+      {
+        "path": "assets/cable-pull-through/frame-3.svg",
+        "sha": "78cc368acdb9b5e18204d68063927007e954e882"
+      }
+    ]
+  },
+  {
+    "slug": "machine-glute-kickback",
+    "frames": [
+      {
+        "path": "assets/machine-glute-kickback/frame-1.svg",
+        "sha": "f8b87ba6747a8dd7527c6878873aacd3a1c34810"
+      },
+      {
+        "path": "assets/machine-glute-kickback/frame-2.svg",
+        "sha": "90da02ca0ec9144b034fc6e691ac79f6c5a69187"
+      },
+      {
+        "path": "assets/machine-glute-kickback/frame-3.svg",
+        "sha": "1c756cf7a43202115a04c6bd2eaee8a05074de56"
+      }
+    ]
+  },
+  {
+    "slug": "smith-machine-bulgarian-split-squat",
+    "frames": [
+      {
+        "path": "assets/smith-machine-bulgarian-split-squat/frame-1.svg",
+        "sha": "d17465778992fc87c27420d2301904055a48d19c"
+      },
+      {
+        "path": "assets/smith-machine-bulgarian-split-squat/frame-2.svg",
+        "sha": "439ec92983a61b2f55e58273757cef8e8d105784"
+      },
+      {
+        "path": "assets/smith-machine-bulgarian-split-squat/frame-3.svg",
+        "sha": "77caca49fcb63bc3738d366d53c4e1c7d785c033"
+      }
+    ]
+  },
+  {
+    "slug": "smith-machine-reverse-lunge",
+    "frames": [
+      {
+        "path": "assets/smith-machine-reverse-lunge/frame-1.svg",
+        "sha": "53d69a6d89fd1b7bf916da3f7e71c861d5ff9fa9"
+      },
+      {
+        "path": "assets/smith-machine-reverse-lunge/frame-2.svg",
+        "sha": "c59fe12fb2bdb5cda28bf179a3f5b6ab0bac798c"
+      },
+      {
+        "path": "assets/smith-machine-reverse-lunge/frame-3.svg",
+        "sha": "d740735b49fa20453e6b254af145e970b30d8d20"
+      }
+    ]
+  },
+  {
+    "slug": "smith-machine-split-squat",
+    "frames": [
+      {
+        "path": "assets/smith-machine-split-squat/frame-1.svg",
+        "sha": "7e52b6e056214c7b35fe43c10efdae1ca037d01d"
+      },
+      {
+        "path": "assets/smith-machine-split-squat/frame-2.svg",
+        "sha": "e480d0f6bbbb5fbdc9ca9b20ee9007367ca8db98"
+      },
+      {
+        "path": "assets/smith-machine-split-squat/frame-3.svg",
+        "sha": "f5bb685ce40d629a8def69bf5c09bd2a6268ffa2"
+      }
+    ]
+  },
+  {
+    "slug": "heel-elevated-goblet-squat",
+    "frames": [
+      {
+        "path": "assets/heel-elevated-goblet-squat/frame-1.svg",
+        "sha": "bd7ed572a00763ddfbbf0de697b8542e9795756f"
+      },
+      {
+        "path": "assets/heel-elevated-goblet-squat/frame-2.svg",
+        "sha": "1e4ce4595ed4ba1c731577b345d004aefb7b9970"
+      },
+      {
+        "path": "assets/heel-elevated-goblet-squat/frame-3.svg",
+        "sha": "014139a20f8c282463f4aa9dde1f91f92ccaab50"
+      }
+    ]
+  },
+  {
+    "slug": "dumbbell-sumo-squat",
+    "frames": [
+      {
+        "path": "assets/dumbbell-sumo-squat/frame-1.svg",
+        "sha": "94e3e1d15daa1abf9d5843ac4f7425690fac4338"
+      },
+      {
+        "path": "assets/dumbbell-sumo-squat/frame-2.svg",
+        "sha": "ffdc6daed64d5ef8658a20d9e892526b1ada89e9"
+      },
+      {
+        "path": "assets/dumbbell-sumo-squat/frame-3.svg",
+        "sha": "b0b54b82e9ab145072233c4844d7b9d258ecc74a"
+      }
+    ]
+  },
+  {
+    "slug": "dumbbell-sumo-deadlift",
+    "frames": [
+      {
+        "path": "assets/dumbbell-sumo-deadlift/frame-1.svg",
+        "sha": "b7afb6c45a5d879120a3f1d478c0c7e7bfa512ae"
+      },
+      {
+        "path": "assets/dumbbell-sumo-deadlift/frame-2.svg",
+        "sha": "003c9d57df48cb30d46f8852fc7072c9aadd06fd"
+      },
+      {
+        "path": "assets/dumbbell-sumo-deadlift/frame-3.svg",
+        "sha": "eb9b63deb88321310f71a16684ea8c1d17bc8200"
+      }
+    ]
+  },
+  {
+    "slug": "front-foot-elevated-split-squat",
+    "frames": [
+      {
+        "path": "assets/front-foot-elevated-split-squat/frame-1.svg",
+        "sha": "54891426531f9f3e00c1e780da8044cfa0efcdda"
+      },
+      {
+        "path": "assets/front-foot-elevated-split-squat/frame-2.svg",
+        "sha": "6c9ec7e095bbeeb96833d657e4251fa435da9fa6"
+      },
+      {
+        "path": "assets/front-foot-elevated-split-squat/frame-3.svg",
+        "sha": "67994a5acdb11bb03827c7c4308a35aa92b0144a"
+      }
+    ]
+  },
+  {
+    "slug": "deficit-reverse-lunge",
+    "frames": [
+      {
+        "path": "assets/deficit-reverse-lunge/frame-1.svg",
+        "sha": "dd37bb9834a47a8fe6899c5834fa1104331807bc"
+      },
+      {
+        "path": "assets/deficit-reverse-lunge/frame-2.svg",
+        "sha": "498b66408fba225ad574829e2fb8c73e72eb4e4e"
+      },
+      {
+        "path": "assets/deficit-reverse-lunge/frame-3.svg",
+        "sha": "12662226482151ffdff0361ce25d02dc819e3b1b"
+      }
+    ]
+  },
+  {
+    "slug": "dumbbell-lateral-lunge",
+    "frames": [
+      {
+        "path": "assets/dumbbell-lateral-lunge/frame-1.svg",
+        "sha": "fcf8feacc8771445031bec0190b0bdeed666b785"
+      },
+      {
+        "path": "assets/dumbbell-lateral-lunge/frame-2.svg",
+        "sha": "9b5364ca5ec32bda332ccdab415118db56126fe0"
+      },
+      {
+        "path": "assets/dumbbell-lateral-lunge/frame-3.svg",
+        "sha": "6df8a716c1c66dadcdf3615a3bcd31059714cc6d"
+      }
+    ]
+  },
+  {
+    "slug": "dumbbell-curtsy-lunge",
+    "frames": [
+      {
+        "path": "assets/dumbbell-curtsy-lunge/frame-1.svg",
+        "sha": "9ccfef2868bf5e544ee653787f360372b162e708"
+      },
+      {
+        "path": "assets/dumbbell-curtsy-lunge/frame-2.svg",
+        "sha": "889f34518981257ec29233f797822d7e49d41cde"
+      },
+      {
+        "path": "assets/dumbbell-curtsy-lunge/frame-3.svg",
+        "sha": "0aabc47518e74a185a10a588b83a56c8f6f28c71"
+      }
+    ]
+  },
+  {
+    "slug": "landmine-squat",
+    "frames": [
+      {
+        "path": "assets/landmine-squat/frame-1.svg",
+        "sha": "2fcc2b0b73ee1aff7cb727d8359af24f7bace317"
+      },
+      {
+        "path": "assets/landmine-squat/frame-2.svg",
+        "sha": "92351d4ceb3946c01b37a08143b653a5cca3c1e3"
+      },
+      {
+        "path": "assets/landmine-squat/frame-3.svg",
+        "sha": "0ed4885885917c8dab2887d464b21e587d9aba8a"
+      }
+    ]
+  },
+  {
+    "slug": "landmine-romanian-deadlift",
+    "frames": [
+      {
+        "path": "assets/landmine-romanian-deadlift/frame-1.svg",
+        "sha": "961c9b3d69ba5ef5014b0e3db95ece6b53a08792"
+      },
+      {
+        "path": "assets/landmine-romanian-deadlift/frame-2.svg",
+        "sha": "e0224d8f66feb0012ba601b1cebccb11747f8e7d"
+      },
+      {
+        "path": "assets/landmine-romanian-deadlift/frame-3.svg",
+        "sha": "9d0ec876deae788a81b2548c0fc0baba2219f965"
+      }
+    ]
+  },
+  {
+    "slug": "kettlebell-swing",
+    "frames": [
+      {
+        "path": "assets/kettlebell-swing/frame-1.svg",
+        "sha": "7de88e66f61f52a412356e2d6afcca4b01d9fedb"
+      },
+      {
+        "path": "assets/kettlebell-swing/frame-2.svg",
+        "sha": "d6a2e68b9b83fa2dded44e0c479844008bd2907d"
+      },
+      {
+        "path": "assets/kettlebell-swing/frame-3.svg",
+        "sha": "f6faafa94b385abb0eb0f647c420b5bdea0b31b0"
+      }
+    ]
+  },
+  {
+    "slug": "glute-focused-back-extension",
+    "frames": [
+      {
+        "path": "assets/glute-focused-back-extension/frame-1.svg",
+        "sha": "0d45edf72896802ae984ad0e41a8b9493392651a"
+      },
+      {
+        "path": "assets/glute-focused-back-extension/frame-2.svg",
+        "sha": "dfadc840d9c760f7ee4074389ff95df3f8e10bfe"
+      },
+      {
+        "path": "assets/glute-focused-back-extension/frame-3.svg",
+        "sha": "49abc56f4b5e60cc24a97407da8a8764c72fc30a"
+      }
+    ]
+  },
+  {
+    "slug": "reverse-hyperextension",
+    "frames": [
+      {
+        "path": "assets/reverse-hyperextension/frame-1.svg",
+        "sha": "c04e28d438ec2e747cff4868b2ce118bbf501c03"
+      },
+      {
+        "path": "assets/reverse-hyperextension/frame-2.svg",
+        "sha": "41b59c62a049e5f53a43c724c76f407bb15aa135"
+      },
+      {
+        "path": "assets/reverse-hyperextension/frame-3.svg",
+        "sha": "c611bd0d0817de71ae35f86de116412f0eff2a79"
+      }
+    ]
+  },
+  {
+    "slug": "donkey-calf-raise",
+    "frames": [
+      {
+        "path": "assets/donkey-calf-raise/frame-1.svg",
+        "sha": "6e35b45655d4d728f3f3819d4a4c15e81b7288fe"
+      },
+      {
+        "path": "assets/donkey-calf-raise/frame-2.svg",
+        "sha": "dda9ce2e197d00124b0d8f6ceace4bb7408fca3a"
+      },
+      {
+        "path": "assets/donkey-calf-raise/frame-3.svg",
+        "sha": "c49b15137f2d467d4bfa3cf6ae679609088fd6ee"
+      }
+    ]
+  },
+  {
+    "slug": "leg-press-calf-raise",
+    "frames": [
+      {
+        "path": "assets/leg-press-calf-raise/frame-1.svg",
+        "sha": "79770ca26b33cc9c0a6ffdf650045051b254f403"
+      },
+      {
+        "path": "assets/leg-press-calf-raise/frame-2.svg",
+        "sha": "d58b3e654d9cd83a9d17ef763f06ec269b60e521"
+      },
+      {
+        "path": "assets/leg-press-calf-raise/frame-3.svg",
+        "sha": "03f77cfd7c881c69387b8383ccfcc14349be33b6"
+      }
+    ]
+  },
+  {
+    "slug": "jump-squat",
+    "frames": [
+      {
+        "path": "assets/jump-squat/frame-1.svg",
+        "sha": "5ca930f23d9a0d5b118ef5f966876fe57939103c"
+      },
+      {
+        "path": "assets/jump-squat/frame-2.svg",
+        "sha": "0fac7df9bb15ffcacdb0c3c92a13260113438c32"
+      },
+      { "path": "assets/jump-squat/frame-3.svg", "sha": "654fd8cb5b67d02b78d80b0de547be982014cd1a" }
+    ]
+  },
+  {
+    "slug": "incline-dumbbell-curl",
+    "frames": [
+      {
+        "path": "assets/incline-dumbbell-curl/frame-1.svg",
+        "sha": "f09936fa3ccce85f0a9a238d258a9e8b78431f7e"
+      },
+      {
+        "path": "assets/incline-dumbbell-curl/frame-2.svg",
+        "sha": "ad89e2a3f4fd7a703e0cc7f8fd6e4a25d9117334"
+      },
+      {
+        "path": "assets/incline-dumbbell-curl/frame-3.svg",
+        "sha": "e1b7d26020ff940ddee5fc616659b5b439ac7666"
+      }
+    ]
+  },
+  {
+    "slug": "concentration-curl",
+    "frames": [
+      {
+        "path": "assets/concentration-curl/frame-1.svg",
+        "sha": "08a9d0ca1186218c59336b897d98966342cfa78e"
+      },
+      {
+        "path": "assets/concentration-curl/frame-2.svg",
+        "sha": "8927f0362a2caf651462ef2b92376c4254652394"
+      },
+      {
+        "path": "assets/concentration-curl/frame-3.svg",
+        "sha": "a11aae3ec83c23ce53a5b1e7127cecc48111fdd1"
+      }
+    ]
+  },
+  {
+    "slug": "ez-bar-curl",
+    "frames": [
+      {
+        "path": "assets/ez-bar-curl/frame-1.svg",
+        "sha": "d1bfac97276e1063ecd86d0cdbb4ceb9277c74d6"
+      },
+      {
+        "path": "assets/ez-bar-curl/frame-2.svg",
+        "sha": "9af96668a6b0d3825ac41c1ba0ced1dd17b01233"
+      },
+      {
+        "path": "assets/ez-bar-curl/frame-3.svg",
+        "sha": "3789d2060bafabef93b03dd334572d38d0b57bf1"
+      }
+    ]
+  },
+  {
+    "slug": "spider-curl",
+    "frames": [
+      {
+        "path": "assets/spider-curl/frame-1.svg",
+        "sha": "138bc9482fd52c59a92118b1518643df120134cc"
+      },
+      {
+        "path": "assets/spider-curl/frame-2.svg",
+        "sha": "daf8b90911be7cf85ebc8a66663af34980ebf1d4"
+      },
+      {
+        "path": "assets/spider-curl/frame-3.svg",
+        "sha": "84b295463c153b939c377ae4db015c99dd1bcdd1"
+      }
+    ]
+  },
+  {
+    "slug": "rope-hammer-curl",
+    "frames": [
+      {
+        "path": "assets/rope-hammer-curl/frame-1.svg",
+        "sha": "67193f0fcadac68ca04d4a1d3a1bfdb805e406b4"
+      },
+      {
+        "path": "assets/rope-hammer-curl/frame-2.svg",
+        "sha": "1ae9b83fd872547872d8d2e50f0559255b0552c7"
+      },
+      {
+        "path": "assets/rope-hammer-curl/frame-3.svg",
+        "sha": "ce6ba3facf01814629142b85dcde7d9d3e530b34"
+      }
+    ]
+  },
+  {
+    "slug": "drag-curl",
+    "frames": [
+      { "path": "assets/drag-curl/frame-1.svg", "sha": "84e0b6e480ec6da08ddb5b30378dc5a5df1fae35" },
+      { "path": "assets/drag-curl/frame-2.svg", "sha": "088a127f254a9469664afe56e0077407bbdc1f5d" },
+      { "path": "assets/drag-curl/frame-3.svg", "sha": "349538127cde1fd7a7fd83883fb46ca43fb5573b" }
+    ]
+  },
+  {
+    "slug": "rope-tricep-pushdown",
+    "frames": [
+      {
+        "path": "assets/rope-tricep-pushdown/frame-1.svg",
+        "sha": "617906c090e099976f324d715a2d4a224464c4c5"
+      },
+      {
+        "path": "assets/rope-tricep-pushdown/frame-2.svg",
+        "sha": "7eb49a5050dd1bb74280840b184068880dc4717f"
+      },
+      {
+        "path": "assets/rope-tricep-pushdown/frame-3.svg",
+        "sha": "16c7411b3a2fada384ece400f7fe81f5097fd5b6"
+      }
+    ]
+  },
+  {
+    "slug": "dumbbell-skull-crusher",
+    "frames": [
+      {
+        "path": "assets/dumbbell-skull-crusher/frame-1.svg",
+        "sha": "71988af732dfb39ab792bf8812677c63eccdcc0b"
+      },
+      {
+        "path": "assets/dumbbell-skull-crusher/frame-2.svg",
+        "sha": "82b1944b6bf5c4f688f8a6d673aedead30ef7929"
+      },
+      {
+        "path": "assets/dumbbell-skull-crusher/frame-3.svg",
+        "sha": "46a272072dc83dcc06e08e28e7df41523ec6e264"
+      }
+    ]
+  },
+  {
+    "slug": "single-dumbbell-skullcrusher",
+    "frames": [
+      {
+        "path": "assets/single-dumbbell-skullcrusher/frame-1.svg",
+        "sha": "3dfcc5d76fe2c868de79e8e390c09bfe141f68ed"
+      },
+      {
+        "path": "assets/single-dumbbell-skullcrusher/frame-2.svg",
+        "sha": "7348e377d8f0cdcff0b45db29b4b56fa529b6837"
+      },
+      {
+        "path": "assets/single-dumbbell-skullcrusher/frame-3.svg",
+        "sha": "22dae8d3edcdfc4c114f31e3702620b7d3cfd0be"
+      }
+    ]
+  },
+  {
+    "slug": "dumbbell-overhead-tricep-extension",
+    "frames": [
+      {
+        "path": "assets/dumbbell-overhead-tricep-extension/frame-1.svg",
+        "sha": "71dd93715ef61df2852d88b446a94675fad5d079"
+      },
+      {
+        "path": "assets/dumbbell-overhead-tricep-extension/frame-2.svg",
+        "sha": "bd27472ee36ee127a8fb23983052d0f0d519119c"
+      },
+      {
+        "path": "assets/dumbbell-overhead-tricep-extension/frame-3.svg",
+        "sha": "f1cc2a6738c58ff8cfd94efa863a10eaddbfc202"
+      }
+    ]
+  },
+  {
+    "slug": "single-arm-dumbbell-tricep-extension",
+    "frames": [
+      {
+        "path": "assets/single-arm-dumbbell-tricep-extension/frame-1.svg",
+        "sha": "d27d83e9691065e752c28139db442be571effcd8"
+      },
+      {
+        "path": "assets/single-arm-dumbbell-tricep-extension/frame-2.svg",
+        "sha": "b55d0ba022489149cd3c91a9bff263614f832222"
+      },
+      {
+        "path": "assets/single-arm-dumbbell-tricep-extension/frame-3.svg",
+        "sha": "9f62f177b2bad4c348e3f9dbda91b3c7872cd0e9"
+      }
+    ]
+  },
+  {
+    "slug": "bench-dip",
+    "frames": [
+      { "path": "assets/bench-dip/frame-1.svg", "sha": "21c18ac8f1720c6158faeef16962ddf90e29a435" },
+      { "path": "assets/bench-dip/frame-2.svg", "sha": "82b85fdb2436f34ec5720b9206607e36ae7f153c" },
+      { "path": "assets/bench-dip/frame-3.svg", "sha": "d7e62cb08f7abbccdb18f67f7c6d0f92f2c2fa05" }
+    ]
+  },
+  {
+    "slug": "tricep-kickback",
+    "frames": [
+      {
+        "path": "assets/tricep-kickback/frame-1.svg",
+        "sha": "d5d3863faa036f7e4ab5cbe46a9e2732e013f481"
+      },
+      {
+        "path": "assets/tricep-kickback/frame-2.svg",
+        "sha": "dd2411a64edd0280c1f0dde16f286e88798fffa8"
+      },
+      {
+        "path": "assets/tricep-kickback/frame-3.svg",
+        "sha": "069d0dcf252d98efd4947992ecd4be0d653238a5"
+      }
+    ]
+  },
+  {
+    "slug": "crunch",
+    "frames": [
+      { "path": "assets/crunch/frame-1.svg", "sha": "014190a68263124766c101eb6e9d00dea0dfab4f" },
+      { "path": "assets/crunch/frame-2.svg", "sha": "b90131a58c100d26d6fcd350d94e7bf7456ce203" },
+      { "path": "assets/crunch/frame-3.svg", "sha": "d849dab2f80e4966d54d89b80845e35c9ee3e027" }
+    ]
+  },
+  {
+    "slug": "reverse-crunch",
+    "frames": [
+      {
+        "path": "assets/reverse-crunch/frame-1.svg",
+        "sha": "c518dc297b84deb7cbde7598c4f3f9e35eb37884"
+      },
+      {
+        "path": "assets/reverse-crunch/frame-2.svg",
+        "sha": "8adb5be4d027372ec4614a224b47885b364d40f2"
+      },
+      {
+        "path": "assets/reverse-crunch/frame-3.svg",
+        "sha": "340676dcf124a6cee8598075463b32c5ec63e5df"
+      }
+    ]
+  },
+  {
+    "slug": "russian-twist",
+    "frames": [
+      {
+        "path": "assets/russian-twist/frame-1.svg",
+        "sha": "b34f41668a89cc185838894d05a5b3443a1e3c36"
+      },
+      {
+        "path": "assets/russian-twist/frame-2.svg",
+        "sha": "541b60af6dd8800b78aaeef6b34eeda5e4a22881"
+      },
+      {
+        "path": "assets/russian-twist/frame-3.svg",
+        "sha": "8224d0ae0ae8def2b42252880b1b95b6a195ee76"
+      }
+    ]
+  },
+  {
+    "slug": "bicycle-crunch",
+    "frames": [
+      {
+        "path": "assets/bicycle-crunch/frame-1.svg",
+        "sha": "f9b7bf8db2d35e6a56ba83e2018e9a2f90f15196"
+      },
+      {
+        "path": "assets/bicycle-crunch/frame-2.svg",
+        "sha": "19d488ed7240d1739987230312e7a67942b1f298"
+      },
+      {
+        "path": "assets/bicycle-crunch/frame-3.svg",
+        "sha": "f40956712cde119f312f0c5a77c75ca4864a0bfc"
+      }
+    ]
+  },
+  {
+    "slug": "dead-bug",
+    "frames": [
+      { "path": "assets/dead-bug/frame-1.svg", "sha": "8fafd27a6e8368d69c47ecfcb7abca0ba8e882f8" },
+      { "path": "assets/dead-bug/frame-2.svg", "sha": "b95010268fbdce2d3dfeb1e706ce5cd72bc35910" },
+      { "path": "assets/dead-bug/frame-3.svg", "sha": "571d2b34c3d5b52e47edb2824f317a1578261345" }
+    ]
+  },
+  {
+    "slug": "bird-dog",
+    "frames": [
+      { "path": "assets/bird-dog/frame-1.svg", "sha": "2fd9f6fb417bf976dd3ddd7cebcbe710962e42ea" },
+      { "path": "assets/bird-dog/frame-2.svg", "sha": "b570a0afb55072cb4d5fa3062aa5e63abe9c7ec3" },
+      { "path": "assets/bird-dog/frame-3.svg", "sha": "4fecb6d59563a9b7e96f17bae2ef652bf8cfa161" }
+    ]
+  },
+  {
+    "slug": "pallof-press",
+    "frames": [
+      {
+        "path": "assets/pallof-press/frame-1.svg",
+        "sha": "6f08c254af8cd6a675e89a30273a04a45a7faf2a"
+      },
+      {
+        "path": "assets/pallof-press/frame-2.svg",
+        "sha": "4314f3430dcd88e31f91e4cbca9999759538c4b6"
+      },
+      {
+        "path": "assets/pallof-press/frame-3.svg",
+        "sha": "6a670f8a307167d903d153c1b6c4ab9151706886"
+      }
+    ]
+  },
+  {
+    "slug": "cable-woodchop",
+    "frames": [
+      {
+        "path": "assets/cable-woodchop/frame-1.svg",
+        "sha": "a001b063c39beb2a50b1c41f86b659ae5817f517"
+      },
+      {
+        "path": "assets/cable-woodchop/frame-2.svg",
+        "sha": "bd274bc6a06a2061bc563a689cf9d16edd76cbf6"
+      },
+      {
+        "path": "assets/cable-woodchop/frame-3.svg",
+        "sha": "8d058b9bec123a50f6840adacd39b8042d24d2eb"
+      }
+    ]
+  },
+  {
+    "slug": "half-kneeling-pallof-press",
+    "frames": [
+      {
+        "path": "assets/half-kneeling-pallof-press/frame-1.svg",
+        "sha": "ae79d1a285c30be55f0c0cd31e1f1aa985c258ff"
+      },
+      {
+        "path": "assets/half-kneeling-pallof-press/frame-2.svg",
+        "sha": "d45d48dbb9d95e6f45f274bfa870c629ef725314"
+      },
+      {
+        "path": "assets/half-kneeling-pallof-press/frame-3.svg",
+        "sha": "ca76bfe41508b306d329a8935234a4d0d1cc7842"
+      }
+    ]
+  },
+  {
+    "slug": "hanging-knee-raise",
+    "frames": [
+      {
+        "path": "assets/hanging-knee-raise/frame-1.svg",
+        "sha": "2933c869dbe81a32d9e9541b210391433c1c8c70"
+      },
+      {
+        "path": "assets/hanging-knee-raise/frame-2.svg",
+        "sha": "36371ecbb8887c4102f94dbc9678d443dc442e99"
+      },
+      {
+        "path": "assets/hanging-knee-raise/frame-3.svg",
+        "sha": "773a65196848827594c57c60ba075f9c538a90e0"
+      }
+    ]
+  },
+  {
+    "slug": "captains-chair-knee-raise",
+    "frames": [
+      {
+        "path": "assets/captains-chair-knee-raise/frame-1.svg",
+        "sha": "b3343c8ff0071cd3a6d1c6485000b8e3f2440a59"
+      },
+      {
+        "path": "assets/captains-chair-knee-raise/frame-2.svg",
+        "sha": "766165e364ac930826f8177a9ecf5545712824b4"
+      },
+      {
+        "path": "assets/captains-chair-knee-raise/frame-3.svg",
+        "sha": "2eb9ec246be92ca374e603a47b8764534f5f2ee6"
+      }
+    ]
+  },
+  {
+    "slug": "decline-sit-up",
+    "frames": [
+      {
+        "path": "assets/decline-sit-up/frame-1.svg",
+        "sha": "4acf077e9ec05b693a6c6af2f4398f2eb5c42af2"
+      },
+      {
+        "path": "assets/decline-sit-up/frame-2.svg",
+        "sha": "f3e1c44d24300bde47acbaf27f4bad476f2e1ce4"
+      },
+      {
+        "path": "assets/decline-sit-up/frame-3.svg",
+        "sha": "f7743935c9278e51c314ebdfb146700584740391"
+      }
+    ]
+  },
+  {
+    "slug": "weighted-crunch",
+    "frames": [
+      {
+        "path": "assets/weighted-crunch/frame-1.svg",
+        "sha": "60de245f550d75f24dee4a4f04d4b8631eb0b6aa"
+      },
+      {
+        "path": "assets/weighted-crunch/frame-2.svg",
+        "sha": "9db57b9d1e19b1db68d0aa033ff311566c16d6dc"
+      },
+      {
+        "path": "assets/weighted-crunch/frame-3.svg",
+        "sha": "863a167dbd907b91641ce8910c0811b3b2047291"
+      }
+    ]
+  },
+  {
+    "slug": "weighted-russian-twist",
+    "frames": [
+      {
+        "path": "assets/weighted-russian-twist/frame-1.svg",
+        "sha": "33ae701e936e076b3e54672500fbc853f1a181f1"
+      },
+      {
+        "path": "assets/weighted-russian-twist/frame-2.svg",
+        "sha": "fccb7056f4e2a05ab23c3ac5785b7487a7de6a28"
+      },
+      {
+        "path": "assets/weighted-russian-twist/frame-3.svg",
+        "sha": "7bb5b0226004f1ce9ee77a40c1c24a0b29c53f0d"
+      }
+    ]
+  },
+  {
+    "slug": "dumbbell-side-bend",
+    "frames": [
+      {
+        "path": "assets/dumbbell-side-bend/frame-1.svg",
+        "sha": "2993feb7d47e0c37c300a8334283a5c247835b99"
+      },
+      {
+        "path": "assets/dumbbell-side-bend/frame-2.svg",
+        "sha": "6bac33594cd7d25c68f112f6252872190834cfc1"
+      },
+      {
+        "path": "assets/dumbbell-side-bend/frame-3.svg",
+        "sha": "f686b3c6998fcb9dbff835cfb9d65e53bd0d0d4e"
+      }
+    ]
+  },
+  {
+    "slug": "incline-push-up",
+    "frames": [
+      {
+        "path": "assets/incline-push-up/frame-1.svg",
+        "sha": "d7b116cca2ed8aa518fb1848b7e5f1fd0d7acefe"
+      },
+      {
+        "path": "assets/incline-push-up/frame-2.svg",
+        "sha": "47ae7021e5753fad6894721c13fdb534d0227c1e"
+      },
+      {
+        "path": "assets/incline-push-up/frame-3.svg",
+        "sha": "71c6aa2fd82b34f3e1eb6790ffa726e9faa22c00"
+      }
+    ]
+  },
+  {
+    "slug": "knee-push-up",
+    "frames": [
+      {
+        "path": "assets/knee-push-up/frame-1.svg",
+        "sha": "fd462c7c0c06af865f0ad7c8f75d596fb40462f8"
+      },
+      {
+        "path": "assets/knee-push-up/frame-2.svg",
+        "sha": "efb0091273341e4e17873a334c90b2fd4145e769"
+      },
+      {
+        "path": "assets/knee-push-up/frame-3.svg",
+        "sha": "7bd69fcfd1a02d2817163886af114175fcb7e0fa"
+      }
+    ]
+  },
+  {
+    "slug": "wide-push-up",
+    "frames": [
+      {
+        "path": "assets/wide-push-up/frame-1.svg",
+        "sha": "b5b3d28e2a0a2ceb11874624b905bc55ba1d5608"
+      },
+      {
+        "path": "assets/wide-push-up/frame-2.svg",
+        "sha": "b8a3fb4c9437de8dd817ce320a386e92303fce50"
+      },
+      {
+        "path": "assets/wide-push-up/frame-3.svg",
+        "sha": "b33d9a9ecba089e9411b4659d59e5f11ccce2ffa"
+      }
+    ]
+  },
+  {
+    "slug": "diamond-push-up",
+    "frames": [
+      {
+        "path": "assets/diamond-push-up/frame-1.svg",
+        "sha": "a87fac84ac00a94df00c2cac464b6bd5f32299f6"
+      },
+      {
+        "path": "assets/diamond-push-up/frame-2.svg",
+        "sha": "a0b49174d184c12dd3f93bf598ce89e7514eb4af"
+      },
+      {
+        "path": "assets/diamond-push-up/frame-3.svg",
+        "sha": "5b943fa11b3f568fe384dadb5f9929ed176e739c"
+      }
+    ]
+  },
+  {
+    "slug": "decline-push-up",
+    "frames": [
+      {
+        "path": "assets/decline-push-up/frame-1.svg",
+        "sha": "7f0fa063198aee77ad142ca71e206cdf12192aba"
+      },
+      {
+        "path": "assets/decline-push-up/frame-2.svg",
+        "sha": "f07c4fe06d5a6755a61b1a6e038f366ce2aa73ea"
+      },
+      {
+        "path": "assets/decline-push-up/frame-3.svg",
+        "sha": "b85967be774fe177ddc8f926bd3c7481c3592341"
+      }
+    ]
+  },
+  {
+    "slug": "pike-push-up",
+    "frames": [
+      {
+        "path": "assets/pike-push-up/frame-1.svg",
+        "sha": "e1fad4898ac00f0932b61797e525c4e5af08e2d0"
+      },
+      {
+        "path": "assets/pike-push-up/frame-2.svg",
+        "sha": "e93db1d08004cb14c7d4cbe053c74a09fe4abf23"
+      },
+      {
+        "path": "assets/pike-push-up/frame-3.svg",
+        "sha": "55727adca91174c0c28d2ad5f99d133b700fbdd7"
+      }
+    ]
+  },
+  {
+    "slug": "feet-elevated-pike-push-up",
+    "frames": [
+      {
+        "path": "assets/feet-elevated-pike-push-up/frame-1.svg",
+        "sha": "f8b2f41e8e96bacc86b16ef3e7ad6ffe864d73d5"
+      },
+      {
+        "path": "assets/feet-elevated-pike-push-up/frame-2.svg",
+        "sha": "d128ac075a9a88d2f843af98f7a4537b4b3b33cb"
+      },
+      {
+        "path": "assets/feet-elevated-pike-push-up/frame-3.svg",
+        "sha": "ed4b279ad9eba254bb759c7be965e0d481366751"
+      }
+    ]
+  },
+  {
+    "slug": "archer-push-up",
+    "frames": [
+      {
+        "path": "assets/archer-push-up/frame-1.svg",
+        "sha": "e048a01df224013c5b1ca31efe3b50c892aeed53"
+      },
+      {
+        "path": "assets/archer-push-up/frame-2.svg",
+        "sha": "30d60f3883d0bb0ad4b8152d5782f2799bad36f1"
+      },
+      {
+        "path": "assets/archer-push-up/frame-3.svg",
+        "sha": "47c9c350411e2f32823523bc29ba8cba2c487a48"
+      }
+    ]
+  },
+  {
+    "slug": "typewriter-push-up",
+    "frames": [
+      {
+        "path": "assets/typewriter-push-up/frame-1.svg",
+        "sha": "3958720b008a922fb983a55fee930f2d2b7c8caf"
+      },
+      {
+        "path": "assets/typewriter-push-up/frame-2.svg",
+        "sha": "8ac3cee1270e3986cbebbed758b0616920b108f3"
+      },
+      {
+        "path": "assets/typewriter-push-up/frame-3.svg",
+        "sha": "b1d13a872e749c8b52210b800f0998377eec590a"
+      }
+    ]
+  },
+  {
+    "slug": "explosive-push-up",
+    "frames": [
+      {
+        "path": "assets/explosive-push-up/frame-1.svg",
+        "sha": "647bc5a87a7d66f6221cbfe0573b7496d1f03575"
+      },
+      {
+        "path": "assets/explosive-push-up/frame-2.svg",
+        "sha": "7442bfffb6dd1fc842207e416955b3aa48e36581"
+      },
+      {
+        "path": "assets/explosive-push-up/frame-3.svg",
+        "sha": "b42bf8d10139f0c5a4cdbd5c3d0b6ee48a5114be"
+      }
+    ]
+  },
+  {
+    "slug": "hindu-push-up",
+    "frames": [
+      {
+        "path": "assets/hindu-push-up/frame-1.svg",
+        "sha": "a16342809219900daaf77efdd2a9931b9f1ec0c8"
+      },
+      {
+        "path": "assets/hindu-push-up/frame-2.svg",
+        "sha": "8c94dccd6031a6642409cc862259a832db8e2cfd"
+      },
+      {
+        "path": "assets/hindu-push-up/frame-3.svg",
+        "sha": "e68bf9f86e6bcb0da2b353d75dabc5a8cbcbcd80"
+      }
+    ]
+  },
+  {
+    "slug": "push-up-shoulder-tap",
+    "frames": [
+      {
+        "path": "assets/push-up-shoulder-tap/frame-1.svg",
+        "sha": "3567cb2d034dc1b13d68d5bfd8c7eddd98e32c57"
+      },
+      {
+        "path": "assets/push-up-shoulder-tap/frame-2.svg",
+        "sha": "e258eac930dff3c9ac7aa1a5ecaa72fa6a185606"
+      },
+      {
+        "path": "assets/push-up-shoulder-tap/frame-3.svg",
+        "sha": "51c6852be08322bcc7b4829b718a5ee9b0605d43"
+      }
+    ]
+  },
+  {
+    "slug": "wall-push-up",
+    "frames": [
+      {
+        "path": "assets/wall-push-up/frame-1.svg",
+        "sha": "f670d548badc1f53609ee4a95ee03d690ed60591"
+      },
+      {
+        "path": "assets/wall-push-up/frame-2.svg",
+        "sha": "b573f4059fca20126804015567802e5e0b65f719"
+      },
+      {
+        "path": "assets/wall-push-up/frame-3.svg",
+        "sha": "e56601d0217e39e8c5d0cdb6b52affda0f733d64"
+      }
+    ]
+  },
+  {
+    "slug": "wall-handstand-push-up",
+    "frames": [
+      {
+        "path": "assets/wall-handstand-push-up/frame-1.svg",
+        "sha": "900f7ccb7596671683bea5dc8e46b4cf70b5eeb5"
+      },
+      {
+        "path": "assets/wall-handstand-push-up/frame-2.svg",
+        "sha": "d2dd443d29498067319bdce8772b1378d93034a6"
+      },
+      {
+        "path": "assets/wall-handstand-push-up/frame-3.svg",
+        "sha": "3f0c17c52dc0b2a355c3c5e6e56addbdcd79bbf6"
+      }
+    ]
+  },
+  {
+    "slug": "handstand-push-up",
+    "frames": [
+      {
+        "path": "assets/handstand-push-up/frame-1.svg",
+        "sha": "f6d7a5e1126f46bfdcf970cb8d532e61c1f3c1b0"
+      },
+      {
+        "path": "assets/handstand-push-up/frame-2.svg",
+        "sha": "5314c63a1980d7f25249d46ad3b5e133164f4712"
+      },
+      {
+        "path": "assets/handstand-push-up/frame-3.svg",
+        "sha": "7a3b784f525d31d052197a2663047b6996ebe53d"
+      }
+    ]
+  },
+  {
+    "slug": "doorway-row",
+    "frames": [
+      {
+        "path": "assets/doorway-row/frame-1.svg",
+        "sha": "4b8be1792f2d80dc46d4eef358859caf8696ef65"
+      },
+      {
+        "path": "assets/doorway-row/frame-2.svg",
+        "sha": "79d1304d35009764961c419a6a3684edb26ef95b"
+      },
+      {
+        "path": "assets/doorway-row/frame-3.svg",
+        "sha": "3afae03f850cc907e9e5bfdb9b754afc681e191e"
+      }
+    ]
+  },
+  {
+    "slug": "towel-row",
+    "frames": [
+      { "path": "assets/towel-row/frame-1.svg", "sha": "080f6b64519c0ac34b5b73d040a2d372f4d61ddd" },
+      { "path": "assets/towel-row/frame-2.svg", "sha": "d6080a5ba729cd0ba835e5ed559cd0cae69f97ac" },
+      { "path": "assets/towel-row/frame-3.svg", "sha": "781918711e703ce7e028db78a6d623e6aa427770" }
+    ]
+  },
+  {
+    "slug": "prone-t-raise",
+    "frames": [
+      {
+        "path": "assets/prone-t-raise/frame-1.svg",
+        "sha": "55fdf34c7c185097f9fcd0af67d7387c052593b6"
+      },
+      {
+        "path": "assets/prone-t-raise/frame-2.svg",
+        "sha": "f66f1e4112c27890317a3458df7be9402717451a"
+      },
+      {
+        "path": "assets/prone-t-raise/frame-3.svg",
+        "sha": "d1ab41f19da72b3d1fe49003286f0cc5113a7b8b"
+      }
+    ]
+  },
+  {
+    "slug": "superman",
+    "frames": [
+      { "path": "assets/superman/frame-1.svg", "sha": "375e78ed9cfd3be43fda823183c68e9651e8c6ab" },
+      { "path": "assets/superman/frame-2.svg", "sha": "6f616f771f3742e8901277bb808682ab8aedd3ae" },
+      { "path": "assets/superman/frame-3.svg", "sha": "43ee3e8ab48a075ef6d194a7533026d4b1f8c78c" }
+    ]
+  },
+  {
+    "slug": "negative-pull-up",
+    "frames": [
+      {
+        "path": "assets/negative-pull-up/frame-1.svg",
+        "sha": "7f32007841be24321e4b8310ff501c0cb8dfc826"
+      },
+      {
+        "path": "assets/negative-pull-up/frame-2.svg",
+        "sha": "8d8d0131d25aeff6c9812aab1599738d2a3a5cac"
+      },
+      {
+        "path": "assets/negative-pull-up/frame-3.svg",
+        "sha": "f442f625391d557db1fce1163f9276f8be3b19b6"
+      }
+    ]
+  },
+  {
+    "slug": "commando-pull-up",
+    "frames": [
+      {
+        "path": "assets/commando-pull-up/frame-1.svg",
+        "sha": "3429910228df151a5e3f9ff200a98bb7578ba0d5"
+      },
+      {
+        "path": "assets/commando-pull-up/frame-2.svg",
+        "sha": "f848219d6430d9548c4159e0780eb03369c85b48"
+      },
+      {
+        "path": "assets/commando-pull-up/frame-3.svg",
+        "sha": "c78abd4f2c35561910e06aec2e9108faeac2adef"
+      }
+    ]
+  },
+  {
+    "slug": "l-sit-pull-up",
+    "frames": [
+      {
+        "path": "assets/l-sit-pull-up/frame-1.svg",
+        "sha": "1878453b3e23a56c2579b787706ef8ac45fa548c"
+      },
+      {
+        "path": "assets/l-sit-pull-up/frame-2.svg",
+        "sha": "0c9cfecb3fd3251d525b8da9193631c74843f518"
+      },
+      {
+        "path": "assets/l-sit-pull-up/frame-3.svg",
+        "sha": "57d1449851a5c063c2dd3aca21f0ed950e2554d6"
+      }
+    ]
+  },
+  {
+    "slug": "towel-pull-up",
+    "frames": [
+      {
+        "path": "assets/towel-pull-up/frame-1.svg",
+        "sha": "8cc71ab1fb7bcd5fe4c6954d31b9a51d9323f58c"
+      },
+      {
+        "path": "assets/towel-pull-up/frame-2.svg",
+        "sha": "fda7c0397403abab66deea824600afd50415efbd"
+      },
+      {
+        "path": "assets/towel-pull-up/frame-3.svg",
+        "sha": "02e3ec8ab16032ab3abc670ff23f59946d44e0b7"
+      }
+    ]
+  },
+  {
+    "slug": "bodyweight-squat",
+    "frames": [
+      {
+        "path": "assets/bodyweight-squat/frame-1.svg",
+        "sha": "686ae520fa5883c058c113949fb892af3d67b55a"
+      },
+      {
+        "path": "assets/bodyweight-squat/frame-2.svg",
+        "sha": "3fa51314bf7ac7e0ba7c5dee6d2ffaf9f9246436"
+      },
+      {
+        "path": "assets/bodyweight-squat/frame-3.svg",
+        "sha": "7dd20c254b7eb4b8b90880a94acf76f8db0ea30b"
+      }
+    ]
+  },
+  {
+    "slug": "pistol-squat",
+    "frames": [
+      {
+        "path": "assets/pistol-squat/frame-1.svg",
+        "sha": "dc658d13b220f00af3ea328de52da45ec51e28a1"
+      },
+      {
+        "path": "assets/pistol-squat/frame-2.svg",
+        "sha": "db895e1508c27702c315c463aa1a2c021b7b7f7d"
+      },
+      {
+        "path": "assets/pistol-squat/frame-3.svg",
+        "sha": "378072fffdb8238e797d7b0e7505c240df5e6a0c"
+      }
+    ]
+  },
+  {
+    "slug": "assisted-pistol-squat",
+    "frames": [
+      {
+        "path": "assets/assisted-pistol-squat/frame-1.svg",
+        "sha": "e5778f3354ea6d2af170ba2422fe21ccb1fcf3e9"
+      },
+      {
+        "path": "assets/assisted-pistol-squat/frame-2.svg",
+        "sha": "b44a1a7dc0ff94705da2c1fd9daad3fdbf8f0c34"
+      },
+      {
+        "path": "assets/assisted-pistol-squat/frame-3.svg",
+        "sha": "d449b22a144c3754b4d4fdc19931764e9020ebbb"
+      }
+    ]
+  },
+  {
+    "slug": "shrimp-squat",
+    "frames": [
+      {
+        "path": "assets/shrimp-squat/frame-1.svg",
+        "sha": "e1f8144809adb03168e1dc418bd0fa76b6ca8c7d"
+      },
+      {
+        "path": "assets/shrimp-squat/frame-2.svg",
+        "sha": "784519b675bdd820d92b88ff50e0a9d9e468f667"
+      },
+      {
+        "path": "assets/shrimp-squat/frame-3.svg",
+        "sha": "902d5e1a507d11259d13261e24ad200b88239023"
+      }
+    ]
+  },
+  {
+    "slug": "cossack-squat",
+    "frames": [
+      {
+        "path": "assets/cossack-squat/frame-1.svg",
+        "sha": "aafa0d9b2abd034f3d45a44ed65640c5033f899e"
+      },
+      {
+        "path": "assets/cossack-squat/frame-2.svg",
+        "sha": "36a29ba60cf5d7365fbd15cebfbdcbb37e49bfae"
+      },
+      {
+        "path": "assets/cossack-squat/frame-3.svg",
+        "sha": "54693653747ba75dfa3d277b3eef04ab184aea70"
+      }
+    ]
+  },
+  {
+    "slug": "sissy-squat",
+    "frames": [
+      {
+        "path": "assets/sissy-squat/frame-1.svg",
+        "sha": "5cb7a1ab2958a599880d900cba74fccab735732b"
+      },
+      {
+        "path": "assets/sissy-squat/frame-2.svg",
+        "sha": "c80612e0c74117f743a11f94cfc09518f4f0256f"
+      },
+      {
+        "path": "assets/sissy-squat/frame-3.svg",
+        "sha": "3bef9fcf098a4e74aeb91c75368feac28dc3994d"
+      }
+    ]
+  },
+  {
+    "slug": "forward-lunge",
+    "frames": [
+      {
+        "path": "assets/forward-lunge/frame-1.svg",
+        "sha": "afa68d6e84174fd55931a3df13fd534518e2c78c"
+      },
+      {
+        "path": "assets/forward-lunge/frame-2.svg",
+        "sha": "c20d19a4755115f40c1aa6d6f58be1ea94b6eaaa"
+      },
+      {
+        "path": "assets/forward-lunge/frame-3.svg",
+        "sha": "1c06480383b9f45089f6327f306ea6962f3e0a33"
+      }
+    ]
+  },
+  {
+    "slug": "lateral-lunge",
+    "frames": [
+      {
+        "path": "assets/lateral-lunge/frame-1.svg",
+        "sha": "ae8c1987a8bee93a0e643e5b4bd81431ed4b9a74"
+      },
+      {
+        "path": "assets/lateral-lunge/frame-2.svg",
+        "sha": "d320a8589ef984a90056da0c3ff58b89dc39f0b0"
+      },
+      {
+        "path": "assets/lateral-lunge/frame-3.svg",
+        "sha": "9062f45c72a290c7c8a064ca6350d8b4c317077a"
+      }
+    ]
+  },
+  {
+    "slug": "curtsy-lunge",
+    "frames": [
+      {
+        "path": "assets/curtsy-lunge/frame-1.svg",
+        "sha": "f32010a1a8e2d051ec62e17e0c3d103b299f2a9c"
+      },
+      {
+        "path": "assets/curtsy-lunge/frame-2.svg",
+        "sha": "17f63b514aae940487002d2d7f1604926daf9bec"
+      },
+      {
+        "path": "assets/curtsy-lunge/frame-3.svg",
+        "sha": "106cec67919c5c10d1812262c3ec1662b0c4e935"
+      }
+    ]
+  },
+  {
+    "slug": "skater-squat",
+    "frames": [
+      {
+        "path": "assets/skater-squat/frame-1.svg",
+        "sha": "d96a7ea0dbf84f3f58c45c23fec8d22bb8daf2fc"
+      },
+      {
+        "path": "assets/skater-squat/frame-2.svg",
+        "sha": "c27aa4d0047d9ccb72061f3af63bf0cbbf0cc126"
+      },
+      {
+        "path": "assets/skater-squat/frame-3.svg",
+        "sha": "328aa26961d28b5ec3d0996c076f1d3576584d9e"
+      }
+    ]
+  },
+  {
+    "slug": "single-leg-box-squat",
+    "frames": [
+      {
+        "path": "assets/single-leg-box-squat/frame-1.svg",
+        "sha": "a1e3e17db30b534d3182814860761dc0f849c39e"
+      },
+      {
+        "path": "assets/single-leg-box-squat/frame-2.svg",
+        "sha": "9e98fe1f8d3dbbb37b607fbe8215cf9bc0140f00"
+      },
+      {
+        "path": "assets/single-leg-box-squat/frame-3.svg",
+        "sha": "c371d0bc3dfd72c5ab1ca0a375cb64ebdde077d3"
+      }
+    ]
+  },
+  {
+    "slug": "step-down",
+    "frames": [
+      { "path": "assets/step-down/frame-1.svg", "sha": "74050b83443b22aaf120a11dc84e79047c19828a" },
+      { "path": "assets/step-down/frame-2.svg", "sha": "ca6180477918be33f90ae22e841279320cbdb2d1" },
+      { "path": "assets/step-down/frame-3.svg", "sha": "fb394421f86918d483bc74bfbcc737da749adfc9" }
+    ]
+  },
+  {
+    "slug": "calf-raise",
+    "frames": [
+      {
+        "path": "assets/calf-raise/frame-1.svg",
+        "sha": "74c9c79beaa2130203c6ff5ead58a59c9e4116fb"
+      },
+      {
+        "path": "assets/calf-raise/frame-2.svg",
+        "sha": "d7f6453791b9e95093eb6a6ed430fafa2d55446e"
+      },
+      { "path": "assets/calf-raise/frame-3.svg", "sha": "6d6f9d9b672d38b5f1ba91124bb888140a295d32" }
+    ]
+  },
+  {
+    "slug": "single-leg-calf-raise",
+    "frames": [
+      {
+        "path": "assets/single-leg-calf-raise/frame-1.svg",
+        "sha": "3de20254e03d7b08b16e96ee2ea8053a8fd12e64"
+      },
+      {
+        "path": "assets/single-leg-calf-raise/frame-2.svg",
+        "sha": "427837bde7f268ae8198ca94b0744c404ed7d710"
+      },
+      {
+        "path": "assets/single-leg-calf-raise/frame-3.svg",
+        "sha": "d55144aa4d7399aaf0c3ce2bdc81dfe29f4026a5"
+      }
+    ]
+  },
+  {
+    "slug": "glute-bridge-march",
+    "frames": [
+      {
+        "path": "assets/glute-bridge-march/frame-1.svg",
+        "sha": "97dc5a12314b1a65e3580e7b91f37d5ca52e8cb6"
+      },
+      {
+        "path": "assets/glute-bridge-march/frame-2.svg",
+        "sha": "78b09d5bc6420b61c3653f876ca6cf2bd30884ca"
+      },
+      {
+        "path": "assets/glute-bridge-march/frame-3.svg",
+        "sha": "5174d78d43537ba1763ba9db5d6996b902b55072"
+      }
+    ]
+  },
+  {
+    "slug": "frog-pump",
+    "frames": [
+      { "path": "assets/frog-pump/frame-1.svg", "sha": "1b7671ef1ad4410c328b9fb19f83f3647e4568c5" },
+      { "path": "assets/frog-pump/frame-2.svg", "sha": "10d53e0bdc686696077a314fa50322ad1aeb1324" },
+      { "path": "assets/frog-pump/frame-3.svg", "sha": "805be6e5eab8e0e4a13ab42f4979a84f1b2a5e2c" }
+    ]
+  },
+  {
+    "slug": "donkey-kick",
+    "frames": [
+      {
+        "path": "assets/donkey-kick/frame-1.svg",
+        "sha": "366bba27fdb4ded51e29b200ade85b8263eb4562"
+      },
+      {
+        "path": "assets/donkey-kick/frame-2.svg",
+        "sha": "c7e29397d55be2304baa974ba9473006f489eaa8"
+      },
+      {
+        "path": "assets/donkey-kick/frame-3.svg",
+        "sha": "f1c531916f3435f1d41acec081e63901da5b8ac8"
+      }
+    ]
+  },
+  {
+    "slug": "lying-hamstring-walkout",
+    "frames": [
+      {
+        "path": "assets/lying-hamstring-walkout/frame-1.svg",
+        "sha": "eac7c558ae7226204d20cc3bbd787b6014a86a8f"
+      },
+      {
+        "path": "assets/lying-hamstring-walkout/frame-2.svg",
+        "sha": "859d968a3cd8de9d513261da07adb3c617d8d7cb"
+      },
+      {
+        "path": "assets/lying-hamstring-walkout/frame-3.svg",
+        "sha": "79c0005ff342133fed58206878f82513b535b1fb"
+      }
+    ]
+  },
+  {
+    "slug": "towel-hamstring-curl",
+    "frames": [
+      {
+        "path": "assets/towel-hamstring-curl/frame-1.svg",
+        "sha": "9cfa690ca75c51f4b3d0d596e6b55a401d82ed5f"
+      },
+      {
+        "path": "assets/towel-hamstring-curl/frame-2.svg",
+        "sha": "fa73ba99f3d15003adf5c05e9bd0a20479d81bc3"
+      },
+      {
+        "path": "assets/towel-hamstring-curl/frame-3.svg",
+        "sha": "cfcf41b413b4a33168d61ca68a5c302569e9c85b"
+      }
+    ]
+  },
+  {
+    "slug": "stability-ball-hamstring-curl",
+    "frames": [
+      {
+        "path": "assets/stability-ball-hamstring-curl/frame-1.svg",
+        "sha": "107530069d8154caae97819cef522593e8e72e06"
+      },
+      {
+        "path": "assets/stability-ball-hamstring-curl/frame-2.svg",
+        "sha": "4383e3408b4d1ca5f2a645c6ca1c4d16e8b1f504"
+      },
+      {
+        "path": "assets/stability-ball-hamstring-curl/frame-3.svg",
+        "sha": "017bc2d370d521904b34ca2249e190bdc971bcd3"
+      }
+    ]
+  },
+  {
+    "slug": "banded-glute-bridge",
+    "frames": [
+      {
+        "path": "assets/banded-glute-bridge/frame-1.svg",
+        "sha": "6e630503c5c7d2efdb7a3551fca8cb86ea5ebfd3"
+      },
+      {
+        "path": "assets/banded-glute-bridge/frame-2.svg",
+        "sha": "09532659d379a08f0d691c7a32fac6dfaa736d53"
+      },
+      {
+        "path": "assets/banded-glute-bridge/frame-3.svg",
+        "sha": "ab98240d47500edc4cbf93932efcf61f9ceb22a1"
+      }
+    ]
+  },
+  {
+    "slug": "banded-hip-thrust",
+    "frames": [
+      {
+        "path": "assets/banded-hip-thrust/frame-1.svg",
+        "sha": "a77e47b365fd8be9c3f086c5d9092417f7d5d662"
+      },
+      {
+        "path": "assets/banded-hip-thrust/frame-2.svg",
+        "sha": "b9b172e46cbea162648910516e06dc65559aa817"
+      },
+      {
+        "path": "assets/banded-hip-thrust/frame-3.svg",
+        "sha": "bbb684b209c10622bf2dcda01b8efb1233d8b5ac"
+      }
+    ]
+  },
+  {
+    "slug": "banded-frog-pump",
+    "frames": [
+      {
+        "path": "assets/banded-frog-pump/frame-1.svg",
+        "sha": "b87fcb283d56fa7618849975548e291195d9d159"
+      },
+      {
+        "path": "assets/banded-frog-pump/frame-2.svg",
+        "sha": "90886fdef38daabeefae22d0c3a93aa1617beccd"
+      },
+      {
+        "path": "assets/banded-frog-pump/frame-3.svg",
+        "sha": "1e5afbdb8e3173daa19eb3c3fd0798707d6ae8b4"
+      }
+    ]
+  },
+  {
+    "slug": "banded-squat",
+    "frames": [
+      {
+        "path": "assets/banded-squat/frame-1.svg",
+        "sha": "e3b55390ad124ce19958617570b199f38aece3a9"
+      },
+      {
+        "path": "assets/banded-squat/frame-2.svg",
+        "sha": "6a7fc754a16ee68e67f9f84f5eb8ec99a88a269f"
+      },
+      {
+        "path": "assets/banded-squat/frame-3.svg",
+        "sha": "160bb26fb7d7305a22767db8c496a29a9ffbd3c8"
+      }
+    ]
+  },
+  {
+    "slug": "banded-donkey-kick",
+    "frames": [
+      {
+        "path": "assets/banded-donkey-kick/frame-1.svg",
+        "sha": "03adeecb67b6f6335add4652a003a5ce03d0d3df"
+      },
+      {
+        "path": "assets/banded-donkey-kick/frame-2.svg",
+        "sha": "0cbfd1d89ccab9229be857984d3c4ca789c71f95"
+      },
+      {
+        "path": "assets/banded-donkey-kick/frame-3.svg",
+        "sha": "f6dce84dc46be8c71d2b9ff75d0ac3faa1a5623a"
+      }
+    ]
+  },
+  {
+    "slug": "banded-kickback",
+    "frames": [
+      {
+        "path": "assets/banded-kickback/frame-1.svg",
+        "sha": "1bd5408346ba1befd01f7ab0edae51e2540eb418"
+      },
+      {
+        "path": "assets/banded-kickback/frame-2.svg",
+        "sha": "0a0a87328cfebb83083ec9ed01bc0a31ab42b841"
+      },
+      {
+        "path": "assets/banded-kickback/frame-3.svg",
+        "sha": "22cf3c8a62501d6c7b0193a6e68db830976d9fd7"
+      }
+    ]
+  },
+  {
+    "slug": "band-pull-apart",
+    "frames": [
+      {
+        "path": "assets/band-pull-apart/frame-1.svg",
+        "sha": "df894e98287edcc50a5f8021c9d781f2d8af726a"
+      },
+      {
+        "path": "assets/band-pull-apart/frame-2.svg",
+        "sha": "e8b1edcea475ac06feb4c44025a33adaf778e559"
+      },
+      {
+        "path": "assets/band-pull-apart/frame-3.svg",
+        "sha": "a1c07d30ca79cd840e159b6abc3f7b8d7fa17c7d"
+      }
+    ]
+  },
+  {
+    "slug": "banded-face-pull",
+    "frames": [
+      {
+        "path": "assets/banded-face-pull/frame-1.svg",
+        "sha": "d2c1e690d7c8e83bfd0a26b14c378fba45a37194"
+      },
+      {
+        "path": "assets/banded-face-pull/frame-2.svg",
+        "sha": "fa77496e5678c4768b7786c7480a0d6e180421b3"
+      },
+      {
+        "path": "assets/banded-face-pull/frame-3.svg",
+        "sha": "368b0f76bbef687e2841379ec17559fc2ed2af59"
+      }
+    ]
+  },
+  {
+    "slug": "banded-row",
+    "frames": [
+      {
+        "path": "assets/banded-row/frame-1.svg",
+        "sha": "7b474642ee976ced284b29c7d30c703ea0d3e1b2"
+      },
+      {
+        "path": "assets/banded-row/frame-2.svg",
+        "sha": "f23375ebf453cef76e48e83dcc4b2dfa59d3f190"
+      },
+      { "path": "assets/banded-row/frame-3.svg", "sha": "f12ec4735e5d1c8adc58f94d2b5a69d67fe80a7b" }
+    ]
+  },
+  {
+    "slug": "banded-lat-pulldown",
+    "frames": [
+      {
+        "path": "assets/banded-lat-pulldown/frame-1.svg",
+        "sha": "7fa88b59840782397a2c5122558f94820fe2d2cc"
+      },
+      {
+        "path": "assets/banded-lat-pulldown/frame-2.svg",
+        "sha": "01fc97ce5e155b1cae25309a810fbec76981294a"
+      },
+      {
+        "path": "assets/banded-lat-pulldown/frame-3.svg",
+        "sha": "1acda9553801812a51637e00835dd0c8036d8dd8"
+      }
+    ]
+  },
+  {
+    "slug": "banded-pallof-press",
+    "frames": [
+      {
+        "path": "assets/banded-pallof-press/frame-1.svg",
+        "sha": "ff01ffb19bb83c3d3b71ec8b1a2437116c952b14"
+      },
+      {
+        "path": "assets/banded-pallof-press/frame-2.svg",
+        "sha": "94648e3eb668c2b2693325f15c1df9a4d488f5a2"
+      },
+      {
+        "path": "assets/banded-pallof-press/frame-3.svg",
+        "sha": "34c9c946dfc6150f17d39c66b6509d198dcd3d5e"
+      }
+    ]
+  },
+  {
+    "slug": "banded-woodchop",
+    "frames": [
+      {
+        "path": "assets/banded-woodchop/frame-1.svg",
+        "sha": "9c132fc21bea618582a3534da1581c24a7cde5ae"
+      },
+      {
+        "path": "assets/banded-woodchop/frame-2.svg",
+        "sha": "ab031c6a4098ec520df48485712ff5908b742572"
+      },
+      {
+        "path": "assets/banded-woodchop/frame-3.svg",
+        "sha": "cf7bcef8371d1e1858383bd02273466f1024ee76"
+      }
+    ]
+  },
+  {
+    "slug": "banded-dead-bug",
+    "frames": [
+      {
+        "path": "assets/banded-dead-bug/frame-1.svg",
+        "sha": "9e58e101de018c146e01cf0d8653e0f2a0beda65"
+      },
+      {
+        "path": "assets/banded-dead-bug/frame-2.svg",
+        "sha": "e7ca8bdb8635ea6a604737cb8d3416d462d76452"
+      },
+      {
+        "path": "assets/banded-dead-bug/frame-3.svg",
+        "sha": "9273668f5d4c07468f0375116b5688a009fe9cdf"
+      }
+    ]
+  },
+  {
+    "slug": "hollow-rock",
+    "frames": [
+      {
+        "path": "assets/hollow-rock/frame-1.svg",
+        "sha": "3f294b8290c248ed6207b7c560c1bce21c0fce89"
+      },
+      {
+        "path": "assets/hollow-rock/frame-2.svg",
+        "sha": "1733681a511d0cfd7a08616e93f97605db809def"
+      },
+      {
+        "path": "assets/hollow-rock/frame-3.svg",
+        "sha": "9470b27954cd339062f9ef521c0498e56df3c33d"
+      }
+    ]
+  },
+  {
+    "slug": "v-up",
+    "frames": [
+      { "path": "assets/v-up/frame-1.svg", "sha": "b792d100d03c579d26424bf067ab80008957ebb1" },
+      { "path": "assets/v-up/frame-2.svg", "sha": "139029a0ddea5ffbe6a7d2267e9cb1401e9ee1ee" },
+      { "path": "assets/v-up/frame-3.svg", "sha": "6c89e453cb4f46121e28d29bee7850834bf52c9d" }
+    ]
+  },
+  {
+    "slug": "lying-leg-raise",
+    "frames": [
+      {
+        "path": "assets/lying-leg-raise/frame-1.svg",
+        "sha": "02914b18d9ff2f8394e70f15a216a962519a94eb"
+      },
+      {
+        "path": "assets/lying-leg-raise/frame-2.svg",
+        "sha": "91ff602ad1576b9b06a16c94ae1965a85a9e892a"
+      },
+      {
+        "path": "assets/lying-leg-raise/frame-3.svg",
+        "sha": "d0d41e7e803091aea413cc897a732cf0e0be54ca"
+      }
+    ]
+  },
+  {
+    "slug": "toe-touch",
+    "frames": [
+      { "path": "assets/toe-touch/frame-1.svg", "sha": "c81497b524180201defb906309df1142ec746879" },
+      { "path": "assets/toe-touch/frame-2.svg", "sha": "5990e54990225bce7c2fb73aaaea9fd2d04afee2" },
+      { "path": "assets/toe-touch/frame-3.svg", "sha": "0d96e83729d6bf8a533adebf6a1acdc99dab7310" }
+    ]
+  },
+  {
+    "slug": "heel-tap",
+    "frames": [
+      { "path": "assets/heel-tap/frame-1.svg", "sha": "c5e4cec7e43f3f08f127b76d2c8705fab9c4c1d5" },
+      { "path": "assets/heel-tap/frame-2.svg", "sha": "fc89d9d5cdb2980a70349cd5a419b48a68668480" },
+      { "path": "assets/heel-tap/frame-3.svg", "sha": "674728c1d83e6198111423cd60b22bef2b42ff66" }
+    ]
+  },
+  {
+    "slug": "plank-shoulder-tap",
+    "frames": [
+      {
+        "path": "assets/plank-shoulder-tap/frame-1.svg",
+        "sha": "633749dbee7389c53e812f2216e9618c7d22f4ac"
+      },
+      {
+        "path": "assets/plank-shoulder-tap/frame-2.svg",
+        "sha": "060e41d4f308228b5f9ea81b3a97d63eb4d48e22"
+      },
+      {
+        "path": "assets/plank-shoulder-tap/frame-3.svg",
+        "sha": "1e41cc0c8627eaf4f51ce6c3b02e5fea17c78b24"
+      }
+    ]
+  },
+  {
+    "slug": "inchworm",
+    "frames": [
+      { "path": "assets/inchworm/frame-1.svg", "sha": "33f4ef04a58a1797e3b0d7c74254d63d2d5ee2d4" },
+      { "path": "assets/inchworm/frame-2.svg", "sha": "1f12acb2dab6d855b472a7cc4da61e9214771f33" },
+      { "path": "assets/inchworm/frame-3.svg", "sha": "18f3e708935a187575b6bdc7012d970586f465ad" }
+    ]
+  },
+  {
+    "slug": "seated-knee-tuck",
+    "frames": [
+      {
+        "path": "assets/seated-knee-tuck/frame-1.svg",
+        "sha": "1ae93f614eeb7be8c85abc3797682064ce155dd5"
+      },
+      {
+        "path": "assets/seated-knee-tuck/frame-2.svg",
+        "sha": "a136346e791a87f09e160ae3545adbcd3c5a4f5b"
+      },
+      {
+        "path": "assets/seated-knee-tuck/frame-3.svg",
+        "sha": "f82f76e5caca8d02daf400d02e1a754366ef4d32"
+      }
+    ]
+  },
+  {
+    "slug": "side-plank-hip-dip",
+    "frames": [
+      {
+        "path": "assets/side-plank-hip-dip/frame-1.svg",
+        "sha": "6782704a79d67a0bfc4f87269daa254d0ae6d907"
+      },
+      {
+        "path": "assets/side-plank-hip-dip/frame-2.svg",
+        "sha": "689f11441c91fe68f9310f999419af5426635d6c"
+      },
+      {
+        "path": "assets/side-plank-hip-dip/frame-3.svg",
+        "sha": "619ba52d13237e530ee1870860a2f2574531d4b2"
+      }
+    ]
+  },
+  {
+    "slug": "dragon-flag",
+    "frames": [
+      {
+        "path": "assets/dragon-flag/frame-1.svg",
+        "sha": "fa8d92064fc6a091214a8a7e57fef80ab72e5233"
+      },
+      {
+        "path": "assets/dragon-flag/frame-2.svg",
+        "sha": "500915b71d4e7e96dca1a5ab57a617a2d27fb43c"
+      },
+      {
+        "path": "assets/dragon-flag/frame-3.svg",
+        "sha": "9103c70df04fce3dbaa190eba96a7b6be1267fdb"
+      }
+    ]
+  }
+]

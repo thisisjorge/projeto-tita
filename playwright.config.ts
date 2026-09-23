@@ -1,4 +1,5 @@
 import { defineConfig, devices } from '@playwright/test';
+const port = process.env.TITA_TEST_PORT ?? '4173';
 
 export default defineConfig({
   testDir: './tests/e2e',
@@ -9,15 +10,18 @@ export default defineConfig({
   reporter: 'list',
   workers: 1,
   use: {
-    baseURL: 'http://127.0.0.1:4173',
+    baseURL: process.env.TITA_BASE_URL ?? `http://127.0.0.1:${port}`,
     channel: 'chrome',
   },
-  webServer: {
-    command: 'node scripts/test-server.mjs',
-    url: 'http://127.0.0.1:4173/app',
-    reuseExistingServer: true,
-    timeout: 10000,
-  },
+  webServer: process.env.TITA_BASE_URL
+    ? undefined
+    : {
+        command: 'node scripts/test-server.mjs',
+        env: { PORT: port },
+        url: `http://127.0.0.1:${port}/app`,
+        reuseExistingServer: true,
+        timeout: 10000,
+      },
   projects: [
     {
       name: 'chrome',

@@ -1,7 +1,24 @@
-import { test, expect } from '@playwright/test';
+import { test as base, expect } from '@playwright/test';
+import { createOfflineOrigin } from '../helpers/offline-origin.js';
 
-test('first PWA installation prepares the shell for offline reload', async ({ page, context }) => {
-  await page.goto('/app');
+const test = base.extend<{ offlineOrigin: Awaited<ReturnType<typeof createOfflineOrigin>> }>({
+  offlineOrigin: async ({ baseURL }, use) => {
+    const origin = await createOfflineOrigin(baseURL!);
+    try {
+      await use(origin);
+    } finally {
+      await origin.stop();
+    }
+  },
+});
+
+test('first PWA installation prepares the shell for offline reload', async ({
+  page,
+  context,
+  browserName,
+  offlineOrigin,
+}) => {
+  await page.goto(offlineOrigin.url + '/app');
   await page.getByTestId('start-workout-button').waitFor();
   await page.waitForFunction(() => Boolean(navigator.serviceWorker.controller));
   await page.waitForLoadState('networkidle');
@@ -15,8 +32,11 @@ test('first PWA installation prepares the shell for offline reload', async ({ pa
   );
   expect(scriptsCached.length).toBeGreaterThan(0);
   expect(scriptsCached.every(Boolean)).toBe(true);
-  await context.setOffline(true);
-  await page.reload();
+  await offlineOrigin.stop();
+  await expect(fetch(offlineOrigin.url + '/uncached-network-probe')).rejects.toThrow();
+  if (browserName !== 'webkit') await context.setOffline(true);
+  const reloaded = await page.reload();
+  expect(reloaded?.fromServiceWorker()).toBe(true);
   await expect(page.getByTestId('start-workout-button')).toBeVisible();
   await expect(page.locator('.tita-sidebar nav button')).toHaveCount(6);
 });
@@ -168,4 +188,41 @@ test.describe('Projeto Titã — PWA & Offline Support (REQ-8, Phase 9)', () => 
     await expect(updateNowBtn).toBeVisible();
     await expect(updateNowBtn).toHaveText('Atualizar agora');
   });
+});
+
+test('exercise GIFs load progressively and stay available offline', async ({
+  page,
+  context,
+  browserName,
+  offlineOrigin,
+}) => {
+  await page.goto(offlineOrigin.url + '/app');
+  await page.getByTestId('start-workout-button').waitFor();
+  await page.waitForFunction(() => Boolean(navigator.serviceWorker.controller));
+  const initial = await page.evaluate(async () => {
+    const requests = (
+      await Promise.all((await caches.keys()).map(async (key) => (await caches.open(key)).keys()))
+    ).flat();
+    return requests.filter((r) => new URL(r.url).pathname.startsWith('/media/exercises/')).length;
+  });
+  expect(initial).toBe(0);
+  await page.goto(offlineOrigin.url + '/app/library');
+  await page.locator('[data-testid^="exercise-card-"]').first().click();
+  const img = page.getByTestId('exercise-media-gif').locator('img');
+  await expect(img).toHaveJSProperty('naturalWidth', 256);
+  const src = await img.getAttribute('src');
+  await page.waitForFunction(
+    async (url) => Boolean(await (await caches.open('tita-exercise-media-v1')).match(url!)),
+    src,
+  );
+  await offlineOrigin.stop();
+  await expect(fetch(offlineOrigin.url + '/uncached-network-probe')).rejects.toThrow();
+  if (browserName !== 'webkit') await context.setOffline(true);
+  const reloaded = await page.reload();
+  expect(reloaded?.fromServiceWorker()).toBe(true);
+  await page.locator('[data-testid^="exercise-card-"]').first().click();
+  await expect(page.getByTestId('exercise-media-gif').locator('img')).toHaveJSProperty(
+    'naturalWidth',
+    256,
+  );
 });

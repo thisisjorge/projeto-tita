@@ -1,6 +1,7 @@
 name: CI — Release Quality Matrix
 
 on:
+  workflow_call:
   push:
     branches: [main, master]
   pull_request:
@@ -26,16 +27,20 @@ jobs:
         run: npm run format:check
       - name: Strict typecheck
         run: npm run typecheck
+      - name: Version and reproducible media
+        run: node scripts/check-version.mjs && node scripts/build-exercise-catalog.mjs --check && node scripts/fetch-exercise-media.mjs --check && npm run media:check
       - name: Unit and property-based tests
         run: npm run test:unit
       - name: Production build
         run: npm run build
       - name: Install Playwright browsers
-        run: npx playwright install --with-deps chromium
+        run: npx playwright install --with-deps chromium webkit
       - name: Playwright E2E and visual/a11y/perf tests
         run: npm run test:e2e
       - name: Repeat first-install and touch target regressions
         run: npx playwright test tests/e2e/accessibility.spec.ts tests/e2e/pwa-offline.spec.ts --grep 'Interactive navigation|first PWA installation' --repeat-each=10
+      - name: WebKit full suite
+        run: npx playwright test --config playwright.webkit.config.ts
       - name: Upload test artifacts on failure
         if: failure()
         uses: actions/upload-artifact@v4

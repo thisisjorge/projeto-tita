@@ -1,5 +1,8 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useState } from 'react';
+import { AnchoredMenu } from './AnchoredMenu.js';
 import { SetType } from '../../domain/enums/set-type.js';
+import { useNumericDraft } from './useNumericDraft.js';
+import { PlayIcon } from './icons.js';
 
 export interface SetRowProps {
   setNumber: number;
@@ -24,6 +27,7 @@ export interface SetRowProps {
   onDistanceChange?: (distance: number | undefined) => void;
   onTypeChange?: (type: SetType) => void;
   onToggleComplete?: () => void;
+  onInvalidCommit?: () => void;
   previousPerformance?: string;
   targetPerformance?: string;
   weightStep?: number;
@@ -43,12 +47,20 @@ export interface SetRowProps {
 const SET_TYPE_LABELS: Record<SetType, { label: string; badge: string; color: string }> = {
   [SetType.NORMAL]: { label: 'Normal', badge: 'N', color: 'var(--tita-text-muted)' },
   [SetType.WARMUP]: { label: 'Aquecimento', badge: 'W', color: 'var(--tita-warning)' },
-  [SetType.TOP_SET]: { label: 'Top Set', badge: 'T', color: 'var(--tita-text-secondary)' },
-  [SetType.BACKOFF]: { label: 'Backoff', badge: 'B', color: 'var(--tita-info)' },
-  [SetType.DROP_SET]: { label: 'Drop Set', badge: 'D', color: 'var(--tita-warning)' },
+  [SetType.TOP_SET]: {
+    label: 'Série principal (Top Set)',
+    badge: 'T',
+    color: 'var(--tita-text-secondary)',
+  },
+  [SetType.BACKOFF]: { label: 'Série de redução (Backoff)', badge: 'B', color: 'var(--tita-info)' },
+  [SetType.DROP_SET]: {
+    label: 'Série descendente (Drop Set)',
+    badge: 'D',
+    color: 'var(--tita-warning)',
+  },
   [SetType.FAILURE]: { label: 'Até a Falha', badge: 'F', color: 'var(--tita-error)' },
-  [SetType.REST_PAUSE]: { label: 'Rest Pause', badge: 'RP', color: 'var(--tita-info)' },
-  [SetType.MYO_REP]: { label: 'Myo Rep', badge: 'M', color: 'var(--tita-text-secondary)' },
+  [SetType.REST_PAUSE]: { label: 'Rest-pause', badge: 'RP', color: 'var(--tita-info)' },
+  [SetType.MYO_REP]: { label: 'Myo-Reps', badge: 'M', color: 'var(--tita-text-secondary)' },
   [SetType.AMRAP]: { label: 'AMRAP', badge: 'A', color: 'var(--tita-accent)' },
   [SetType.CLUSTER]: { label: 'Cluster', badge: 'C', color: 'var(--tita-text-secondary)' },
   [SetType.PAUSED]: { label: 'Pausada', badge: 'P', color: 'var(--tita-text-muted)' },
@@ -79,6 +91,7 @@ export const SetRow: React.FC<SetRowProps> = ({
   onDistanceChange = () => {},
   onTypeChange = () => {},
   onToggleComplete = () => {},
+  onInvalidCommit,
   previousPerformance,
   targetPerformance,
   weightStep = 2.5,
@@ -94,22 +107,9 @@ export const SetRow: React.FC<SetRowProps> = ({
   showDistance = false,
 }) => {
   const isDone = Boolean(completed ?? isCompleted);
+  const weightDraft = useNumericDraft(weight, onWeightChange, false, onInvalidCommit);
+  const repsDraft = useNumericDraft(reps, onRepsChange, true, onInvalidCommit);
   const [isExpanded, setIsExpanded] = useState(false);
-  const menuRef = useRef<HTMLDetailsElement>(null);
-  const menuPointerActive = useRef(false);
-
-  useEffect(() => {
-    if (!onRemove) return;
-    const closeOutside = (event: PointerEvent) => {
-      const menu = menuRef.current;
-      if (menu && !menu.contains(event.target as Node)) {
-        menuPointerActive.current = false;
-        menu.open = false;
-      }
-    };
-    document.addEventListener('pointerdown', closeOutside, true);
-    return () => document.removeEventListener('pointerdown', closeOutside, true);
-  }, [onRemove]);
 
   const hasAdvancedFieldsEnabled =
     showAdvanced && (showRpe || showRir || showTempo || showNotes || showDuration || showDistance);
@@ -155,31 +155,29 @@ export const SetRow: React.FC<SetRowProps> = ({
             SÉRIE {setNumber}
           </span>
           {showSetType ? (
-            <select
-              value={type}
-              onChange={(e) => onTypeChange(e.target.value as SetType)}
+            <AnchoredMenu
+              listbox
+              className="tita-set-type-picker"
+              label={`Tipo da série ${setNumber}`}
+              trigger={
+                <span title={currentTypeInfo.label}>
+                  {currentTypeInfo.badge} · {currentTypeInfo.label}
+                </span>
+              }
               disabled={disabled}
-              title={currentTypeInfo.label}
-              aria-label={`Tipo da série ${setNumber}`}
-              data-testid={`set-type-select-${setNumber}`}
-              style={{
-                fontSize: '10px',
-                fontWeight: 'bold',
-                padding: '1px 4px',
-                backgroundColor: 'var(--tita-surface-2)',
-                color: currentTypeInfo.color,
-                border: `1px solid ${currentTypeInfo.color}`,
-                borderRadius: 'var(--tita-radius-xs)',
-                cursor: 'pointer',
-                textAlign: 'center',
-              }}
             >
               {Object.entries(SET_TYPE_LABELS).map(([t, info]) => (
-                <option key={t} value={t}>
+                <button
+                  type="button"
+                  role="option"
+                  aria-selected={type === t}
+                  key={t}
+                  onClick={() => onTypeChange(t as SetType)}
+                >
                   {info.badge} — {info.label}
-                </option>
+                </button>
               ))}
-            </select>
+            </AnchoredMenu>
           ) : type !== SetType.NORMAL ? (
             <span style={{ color: currentTypeInfo.color, fontWeight: 'bold' }}>
               • {currentTypeInfo.label}
@@ -228,32 +226,7 @@ export const SetRow: React.FC<SetRowProps> = ({
           )}
         </div>
         {onRemove && (
-          <details
-            ref={menuRef}
-            className="tita-set-row__menu"
-            onPointerDownCapture={() => {
-              menuPointerActive.current = true;
-            }}
-            onPointerCancel={() => {
-              menuPointerActive.current = false;
-            }}
-            onClick={() => {
-              menuPointerActive.current = false;
-            }}
-            onBlur={(event) => {
-              if (!menuPointerActive.current && !event.currentTarget.contains(event.relatedTarget))
-                event.currentTarget.open = false;
-            }}
-            onKeyDown={(event) => {
-              menuPointerActive.current = false;
-              if (event.key === 'Escape') {
-                event.currentTarget.open = false;
-                event.currentTarget.querySelector('summary')?.focus();
-                event.stopPropagation();
-              }
-            }}
-          >
-            <summary aria-label={`Opções da série ${setNumber}`}>⋯</summary>
+          <AnchoredMenu label={`Opções da série ${setNumber}`} className="tita-set-row__menu">
             <button
               type="button"
               // Keep keyboard focus in the menu without cancelling WebKit's touch click.
@@ -266,7 +239,7 @@ export const SetRow: React.FC<SetRowProps> = ({
             >
               Excluir série {setNumber}
             </button>
-          </details>
+          </AnchoredMenu>
         )}
       </div>
 
@@ -296,9 +269,9 @@ export const SetRow: React.FC<SetRowProps> = ({
           <button
             type="button"
             onClick={() => {
-              const current = weight !== undefined ? weight : 0;
+              const current = weightDraft.current() ?? 0;
               const next = Math.max(0, Math.round((current - weightStep) * 10) / 10);
-              onWeightChange(next);
+              weightDraft.set(next);
             }}
             disabled={disabled}
             aria-label="Diminuir carga"
@@ -330,12 +303,8 @@ export const SetRow: React.FC<SetRowProps> = ({
             placeholder={
               previousPerformance ? `${previousPerformance.split('x')[0] ?? ''}` : '0 kg'
             }
-            value={weight !== undefined ? weight : ''}
+            {...weightDraft.input}
             disabled={disabled}
-            onChange={(e) => {
-              const val = e.target.value.trim();
-              onWeightChange(val === '' ? undefined : Number(val));
-            }}
             aria-label={`Carga série ${setNumber}`}
             className="tita-num"
             style={{
@@ -357,9 +326,9 @@ export const SetRow: React.FC<SetRowProps> = ({
           <button
             type="button"
             onClick={() => {
-              const current = weight !== undefined ? weight : 0;
+              const current = weightDraft.current() ?? 0;
               const next = Math.round((current + weightStep) * 10) / 10;
-              onWeightChange(next);
+              weightDraft.set(next);
             }}
             disabled={disabled}
             aria-label="Aumentar carga"
@@ -400,9 +369,9 @@ export const SetRow: React.FC<SetRowProps> = ({
           <button
             type="button"
             onClick={() => {
-              const current = reps !== undefined ? reps : 0;
+              const current = repsDraft.current() ?? 0;
               const next = Math.max(0, current - 1);
-              onRepsChange(next);
+              repsDraft.set(next);
             }}
             disabled={disabled}
             aria-label="Diminuir repetições"
@@ -434,12 +403,8 @@ export const SetRow: React.FC<SetRowProps> = ({
             placeholder={
               previousPerformance ? `${previousPerformance.split('x')[1] ?? ''}` : 'Reps'
             }
-            value={reps !== undefined ? reps : ''}
+            {...repsDraft.input}
             disabled={disabled}
-            onChange={(e) => {
-              const val = e.target.value.trim();
-              onRepsChange(val === '' ? undefined : Number(val));
-            }}
             aria-label={`Repetições série ${setNumber}`}
             className="tita-num"
             style={{
@@ -461,9 +426,9 @@ export const SetRow: React.FC<SetRowProps> = ({
           <button
             type="button"
             onClick={() => {
-              const current = reps !== undefined ? reps : 0;
+              const current = repsDraft.current() ?? 0;
               const next = current + 1;
-              onRepsChange(next);
+              repsDraft.set(next);
             }}
             disabled={disabled}
             aria-label="Aumentar repetições"
@@ -496,7 +461,7 @@ export const SetRow: React.FC<SetRowProps> = ({
             role="checkbox"
             aria-checked={isDone}
             data-testid={`complete-set-btn-${setNumber}`}
-            disabled={disabled}
+            disabled={disabled || repsDraft.invalid || weightDraft.invalid}
             onClick={onToggleComplete}
             aria-label={
               isDone ? `Desmarcar série ${setNumber}` : `Marcar série ${setNumber} como concluída`
@@ -530,6 +495,14 @@ export const SetRow: React.FC<SetRowProps> = ({
       </div>
 
       {/* Advanced Details Expander / Sub-Row */}
+      {(repsDraft.invalid || weightDraft.invalid) && (
+        <p
+          role="status"
+          style={{ margin: 0, color: 'var(--tita-text-muted)', fontSize: 'var(--tita-text-xs)' }}
+        >
+          Série pendente. Informe um valor válido; o último valor salvo foi mantido.
+        </p>
+      )}
       {hasAdvancedFieldsEnabled && (
         <div style={{ marginTop: '2px' }}>
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
@@ -552,7 +525,12 @@ export const SetRow: React.FC<SetRowProps> = ({
                 gap: '4px',
               }}
             >
-              <span>{isExpanded ? '▼ Menos detalhes' : '▶ Detalhes avançados (RPE, RIR...)'}</span>
+              <PlayIcon
+                aria-hidden="true"
+                size={14}
+                style={{ transform: isExpanded ? 'rotate(90deg)' : undefined }}
+              />
+              <span>{isExpanded ? 'Menos detalhes' : 'Detalhes avançados (RPE, RIR...)'}</span>
               {(rpe !== undefined || rir !== undefined || tempo || notes) && (
                 <span
                   style={{

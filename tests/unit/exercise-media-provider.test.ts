@@ -29,10 +29,10 @@ describe('Exercise Media Providers (Task 6.2)', () => {
 
     it('identifies availability for mapped canonical exercises', () => {
       expect(provider.isAvailable(benchPress)).toBe(true);
-      expect(provider.getThumbnail(benchPress)).toContain('bench-press.svg');
+      expect(provider.getThumbnail(benchPress)).toContain('bench-press/frame-1.svg');
 
       const frames = provider.getFrames(benchPress);
-      expect(frames).toHaveLength(2);
+      expect(frames).toHaveLength(3);
       expect(frames![0]).toContain('frame-1.svg');
       expect(frames![1]).toContain('frame-2.svg');
     });
@@ -41,7 +41,7 @@ describe('Exercise Media Providers (Task 6.2)', () => {
       const attribution = provider.getAttribution(benchPress);
       expect(attribution).not.toBeNull();
       expect(attribution?.license).toBe('CC BY-SA 4.0');
-      expect(attribution?.author).toBe('Bryllim');
+      expect(attribution?.author).toBe('Bryl Lim / Everkinetic');
       expect(attribution?.sourceUrl).toContain('workout-guide');
     });
 
@@ -78,10 +78,11 @@ describe('Exercise Media Providers (Task 6.2)', () => {
   describe('CompositeExerciseMediaProvider Fallback Chain', () => {
     const composite = new CompositeExerciseMediaProvider();
 
-    it('resolves tier: frames for mapped canonical exercise', () => {
+    it('resolves real GIF before static fallbacks for mapped canonical exercise', () => {
       const media = composite.resolveMedia(benchPress);
-      expect(media.tier).toBe('frames');
-      expect(media.frames).toHaveLength(2);
+      expect(media.tier).toBe('gif');
+      expect(media.gif).toMatch(/\/animation\.gif$/);
+      expect(media.frames).toHaveLength(3);
       expect(media.thumbnail).toBeDefined();
       expect(media.instructions).toEqual(benchPress.instructions);
       expect(media.attribution?.license).toBe('CC BY-SA 4.0');

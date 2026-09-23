@@ -39,11 +39,12 @@ test.describe('Projeto Titã — Advanced Tracking & Progressive Disclosure E2E 
     const firstSetRow = page.locator('[data-testid="set-row-1"]').first();
     await expect(firstSetRow).toBeVisible();
 
-    const setTypeSelect = firstSetRow.locator('select[data-testid="set-type-select-1"]');
+    const setTypeSelect = firstSetRow.getByLabel('Tipo da série 1', { exact: true });
     await expect(setTypeSelect).toBeVisible();
 
     // Change Set 1 to WARMUP
-    await setTypeSelect.selectOption('WARMUP');
+    await setTypeSelect.click();
+    await page.getByRole('option', { name: 'W — Aquecimento', exact: true }).click();
 
     // 6. Expand advanced details for Set 1
     const expanderBtn = firstSetRow.locator('button[aria-label^="Campos avançados"]');
@@ -87,8 +88,8 @@ test.describe('Projeto Titã — Advanced Tracking & Progressive Disclosure E2E 
     });
 
     const reloadedFirstRow = page.locator('[data-testid="set-row-1"]').first();
-    const reloadedTypeSelect = reloadedFirstRow.locator('select[data-testid="set-type-select-1"]');
-    await expect(reloadedTypeSelect).toHaveValue('WARMUP');
+    const reloadedTypeSelect = reloadedFirstRow.getByLabel('Tipo da série 1', { exact: true });
+    await expect(reloadedTypeSelect).toContainText('Aquecimento');
 
     // Clean up workout for next test
     const discardBtn = page.locator('button[data-testid="discard-workout-button"]');

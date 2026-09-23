@@ -4,6 +4,8 @@ import type {
   ProgressionSetSuggestion,
 } from '../../domain/progression/types.js';
 import { Button } from '../../ui/components/index.js';
+import { BoltIcon, ChartIcon } from '../../ui/components/icons.js';
+import { PROGRESSION_LABELS, progressionText } from '../../ui/progression-labels.js';
 import { IntelligenceAction } from '../intelligence/IntelligenceAction.js';
 import { progressionSummary } from '../../intelligence/summaries.js';
 
@@ -59,7 +61,7 @@ export const ProgressionSuggestionCard: React.FC<ProgressionSuggestionCardProps>
         }}
       >
         <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--tita-space-2)' }}>
-          <span style={{ fontSize: '18px' }}>⚡</span>
+          <BoltIcon aria-hidden="true" />
           <span
             style={{
               fontWeight: 'var(--tita-weight-bold)',
@@ -67,7 +69,7 @@ export const ProgressionSuggestionCard: React.FC<ProgressionSuggestionCardProps>
               color: 'var(--tita-text)',
             }}
           >
-            {suggestion.title}
+            {PROGRESSION_LABELS[suggestion.strategyType] ?? progressionText(suggestion.title)}
           </span>
         </div>
         <span
@@ -81,7 +83,9 @@ export const ProgressionSuggestionCard: React.FC<ProgressionSuggestionCardProps>
             textTransform: 'uppercase',
           }}
         >
-          {suggestion.strategyType.replace('_', ' ')}
+          {suggestion.title.includes('Subir') || suggestion.title.includes('Aumentar')
+            ? 'Aumentar carga'
+            : 'Meta sugerida'}
         </span>
       </div>
 
@@ -93,7 +97,7 @@ export const ProgressionSuggestionCard: React.FC<ProgressionSuggestionCardProps>
           color: 'var(--tita-text)',
         }}
       >
-        {suggestion.summary}
+        {progressionText(suggestion.summary)}
       </div>
 
       {/* Historical Evidence Pill */}
@@ -110,9 +114,9 @@ export const ProgressionSuggestionCard: React.FC<ProgressionSuggestionCardProps>
           border: '1px solid var(--tita-border)',
         }}
       >
-        <span>📊</span>
+        <ChartIcon aria-hidden="true" style={{ flexShrink: 0 }} />
         <span>
-          <strong>Evidência:</strong> {suggestion.evidence}
+          <strong>Evidência:</strong> {progressionText(suggestion.evidence)}
         </span>
       </div>
 

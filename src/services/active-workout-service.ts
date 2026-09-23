@@ -244,6 +244,9 @@ export class ActiveWorkoutService {
     if (!workout) {
       throw new Error(`Workout not found: ${workoutId}`);
     }
+    if (workout.status === WorkoutStatus.COMPLETED) {
+      throw new Error('WORKOUT_COMPLETED');
+    }
 
     const exerciseIndex = workout.exercises.findIndex(
       (e) => e.id === exerciseId || e.exerciseId === exerciseId,
@@ -467,7 +470,16 @@ export class ActiveWorkoutService {
    * it returns the existing snapshot without duplicating records.
    * If finalization fails validation, the ActiveWorkout remains untouched and recoverable.
    */
-  async finalizeWorkout(workoutId: EntityId, nowMs = Date.now()): Promise<WorkoutSnapshot> {
+  finalizeWorkout(workoutId: EntityId, nowMs = Date.now()): Promise<WorkoutSnapshot> {
+    const result = this.setWriteQueue.then(() => this.persistFinalization(workoutId, nowMs));
+    this.setWriteQueue = result.then(
+      () => undefined,
+      () => undefined,
+    );
+    return result;
+  }
+
+  private async persistFinalization(workoutId: EntityId, nowMs: number): Promise<WorkoutSnapshot> {
     return this.db.transaction(
       ['activeWorkouts', 'workoutSnapshots', 'metadata'],
       'readwrite',

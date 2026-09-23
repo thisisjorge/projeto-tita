@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { TrophyIcon } from '../../ui/components/icons.js';
 import type { MonthlyReview } from '../../domain/analytics/types.js';
 import { HistoryService } from '../../services/history-service.js';
 import { Card, EmptyState } from '../../ui/components/index.js';
@@ -216,7 +217,7 @@ export const MonthlyReviewTab: React.FC<MonthlyReviewTabProps> = ({ historyServi
               color: 'var(--tita-warning)',
             }}
           >
-            🏆 {monthlyReview.totalPRs}
+            <TrophyIcon aria-hidden="true" /> {monthlyReview.totalPRs}
           </div>
         </Card>
       </div>

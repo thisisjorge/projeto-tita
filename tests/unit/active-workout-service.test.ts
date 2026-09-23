@@ -20,6 +20,26 @@ describe('ActiveWorkoutService — Durable Lifecycle (REQ-4)', () => {
     db.close();
   });
 
+  it('finalization drains edits and rejects writes after the immutable snapshot', async () => {
+    const result = await service.startWorkout();
+    if (result.type !== 'started') throw new Error('fixture');
+    const workout = await service.addExercise(result.workout.id, {
+      exerciseId: 'bench-press',
+      exerciseName: 'Supino',
+      initialSetsCount: 1,
+    });
+    const ex = workout.exercises[0]!;
+    const set = ex.sets[0]!;
+    await service.updateSet(workout.id, ex.id, set.id, { weight: 55, reps: 20, completed: true });
+    const edit = service.updateSet(workout.id, ex.id, set.id, { reps: 15 });
+    const snapshot = await service.finalizeWorkout(workout.id);
+    await edit;
+    expect(snapshot.totalReps).toBe(15);
+    expect(snapshot.totalVolumeKg).toBe(825);
+    await expect(service.updateSet(workout.id, ex.id, set.id, { reps: 99 })).rejects.toThrow();
+    expect((await service.finalizeWorkout(workout.id)).totalReps).toBe(15);
+  });
+
   it('starts a new workout with stable ID and persisted startedAt (Task 5.1)', async () => {
     const fixedNow = 1700000000000;
     const result = await service.startWorkout({

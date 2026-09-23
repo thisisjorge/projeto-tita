@@ -1,7 +1,7 @@
 {
   "name": "Projeto Titã",
   "short_name": "Titã",
-  "description": "Workout tracker local-first. Treinos, rotinas, progresso e backup.",
+  "description": "Registro de treinos no dispositivo. Rotinas, progresso e backup.",
   "start_url": "/",
   "display": "standalone",
   "background_color": "#060709",

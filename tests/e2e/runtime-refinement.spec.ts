@@ -128,16 +128,14 @@ test('set menu preserves keyboard focus, Escape and keyboard deletion', async ({
   await page.getByTestId('start-workout-button').click();
   const row = page.getByTestId('set-row-1').first();
   const trigger = row.locator('summary');
-  const remove = row.getByRole('button', { name: 'Remover série 1' });
+  const remove = page.getByRole('button', { name: 'Remover série 1', exact: true });
   await trigger.focus();
   await trigger.press('Enter');
-  await page.keyboard.press('Tab');
   await expect(remove).toBeFocused();
   await page.keyboard.press('Escape');
   await expect(remove).toBeHidden();
   await expect(trigger).toBeFocused();
   await trigger.press('Enter');
-  await page.keyboard.press('Tab');
   await page.keyboard.press('Enter');
   await expect(page.locator('.tita-set-row')).toHaveCount(5);
 });
@@ -149,7 +147,7 @@ test.describe('touch set menu', () => {
     await page.getByTestId('start-workout-button').tap();
     const row = page.getByTestId('set-row-1').first();
     await row.locator('summary').tap();
-    await row.getByRole('button', { name: 'Remover série 1' }).tap();
+    await page.getByRole('button', { name: 'Remover série 1', exact: true }).tap();
     await expect(page.locator('.tita-set-row')).toHaveCount(5);
     await page.reload();
     await expect(page.locator('.tita-set-row')).toHaveCount(5);

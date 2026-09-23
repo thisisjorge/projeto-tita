@@ -31,6 +31,16 @@ export class CompositeExerciseMediaProvider {
 
     // 1. Try multi-frame animation from primary provider
     if (this.primaryProvider.isAvailable(exercise)) {
+      const gif = this.primaryProvider.getGif?.(exercise);
+      if (gif)
+        return {
+          tier: 'gif',
+          gif,
+          frames: this.primaryProvider.getFrames(exercise) ?? undefined,
+          thumbnail: this.primaryProvider.getThumbnail(exercise) ?? undefined,
+          instructions,
+          attribution: this.primaryProvider.getAttribution(exercise) ?? undefined,
+        };
       const frames = this.primaryProvider.getFrames(exercise);
       if (frames && frames.length > 0) {
         return {

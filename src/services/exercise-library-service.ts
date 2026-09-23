@@ -85,9 +85,7 @@ export class ExerciseLibraryService {
       await this.db.open();
     }
     const existing = await this.exerciseRepo.getAll(true);
-    const existingSystemIds = new Set(
-      existing.filter((e) => e.source === 'system').map((e) => e.id),
-    );
+    const existingSystemIds = new Set(existing.map((e) => e.id));
 
     const toInsert = SEED_EXERCISES.filter((seed) => !existingSystemIds.has(seed.id));
     if (toInsert.length > 0) {
