@@ -4,6 +4,7 @@ test('mobile mostra built-ins legados em PT-BR sem regravar dados', async ({ pag
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto('/app/routines');
   await expect(page.getByRole('heading', { name: 'Minhas Rotinas' })).toBeVisible();
+  await expect(page.getByText('Nenhuma rotina criada ainda')).toBeVisible();
 
   const exerciseId = '3f353d81-231a-52ea-a84d-36ae89aee8b5';
   await page.evaluate(async (id) => {
@@ -12,14 +13,19 @@ test('mobile mostra built-ins legados em PT-BR sem regravar dados', async ({ pag
       request.onsuccess = () => resolve(request.result);
       request.onerror = () => reject(request.error);
     });
+    const exercise = await new Promise<Record<string, unknown> | undefined>((resolve, reject) => {
+      const transaction = db.transaction('exercises', 'readonly');
+      const request = transaction.objectStore('exercises').get(id);
+      transaction.oncomplete = () => resolve(request.result);
+      transaction.onerror = () => reject(transaction.error);
+    });
+    if (!exercise) throw new Error(`Exercício built-in ${id} não foi inicializado`);
     await new Promise<void>((resolve, reject) => {
       const transaction = db.transaction(
         ['programs', 'routines', 'exercises', 'workoutSnapshots'],
         'readwrite',
       );
-      const exercises = transaction.objectStore('exercises');
-      const request = exercises.get(id);
-      request.onsuccess = () => exercises.put({ ...request.result, name: 'Row Chest' });
+      transaction.objectStore('exercises').put({ ...exercise, name: 'Row Chest' });
       transaction.objectStore('programs').put({
         id: 'prog_legacy_ptbr',
         name: 'Push / Pull / Legs (PPL) 6x Semanal',
