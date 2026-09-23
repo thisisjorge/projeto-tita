@@ -8,6 +8,7 @@ import { IdbActiveWorkoutRepository } from '../../repositories/indexeddb/idb-wor
 import { prefetchRouteChunks } from '../../services/route-prefetcher.js';
 import {
   DumbbellIcon,
+  HomeIcon,
   ClipboardIcon,
   BookIcon,
   CalendarIcon,
@@ -29,6 +30,7 @@ interface NavItem {
 }
 
 const NAV_ITEMS: readonly NavItem[] = [
+  { path: '/home', label: 'Home', icon: HomeIcon, section: 'SESSION' },
   { path: '/', label: 'Treino', icon: DumbbellIcon, section: 'SESSION' },
   { path: '/routines', label: 'Rotinas', icon: ClipboardIcon, section: 'SESSION' },
   { path: '/library', label: 'Exercícios', icon: BookIcon, section: 'SESSION' },
@@ -93,16 +95,29 @@ export const AppShell: React.FC = () => {
   };
 
   const currentPath = location.pathname;
+  const publicRoot =
+    !window.location.pathname.startsWith('/app') && !window.location.pathname.startsWith('/v2');
+  const isNavActive = (item: NavItem) => {
+    if (publicRoot && currentPath === '/') return item.path === '/home';
+    return currentPath === item.path;
+  };
+  const goToNav = (item: NavItem) => {
+    if (publicRoot && item.path !== '/home') {
+      window.location.assign(`/app${item.path === '/' ? '' : item.path}`);
+      return;
+    }
+    navigate(item.path);
+  };
 
   const renderNavButton = (item: NavItem) => {
-    const isActive = currentPath === item.path;
+    const isActive = isNavActive(item);
     const Icon = item.icon;
     return (
       <button
         key={item.path}
         aria-label={item.label}
         title={item.label}
-        onClick={() => navigate(item.path)}
+        onClick={() => goToNav(item)}
         aria-current={isActive ? 'page' : undefined}
         style={{
           display: 'flex',
@@ -227,6 +242,7 @@ export const AppShell: React.FC = () => {
             {renderNavButton(NAV_ITEMS[0])}
             {renderNavButton(NAV_ITEMS[1])}
             {renderNavButton(NAV_ITEMS[2])}
+            {renderNavButton(NAV_ITEMS[3])}
 
             <div
               className="brand-text"
@@ -243,8 +259,8 @@ export const AppShell: React.FC = () => {
             >
               Análise
             </div>
-            {renderNavButton(NAV_ITEMS[3])}
             {renderNavButton(NAV_ITEMS[4])}
+            {renderNavButton(NAV_ITEMS[5])}
 
             <div
               className="brand-text"
@@ -261,7 +277,7 @@ export const AppShell: React.FC = () => {
             >
               Sistema
             </div>
-            {renderNavButton(NAV_ITEMS[5])}
+            {renderNavButton(NAV_ITEMS[6])}
           </nav>
         </div>
 
@@ -528,12 +544,12 @@ export const AppShell: React.FC = () => {
           }}
         >
           {NAV_ITEMS.map((item) => {
-            const isActive = currentPath === item.path;
+            const isActive = isNavActive(item);
             const Icon = item.icon;
             return (
               <button
                 key={item.path}
-                onClick={() => navigate(item.path)}
+                onClick={() => goToNav(item)}
                 aria-current={isActive ? 'page' : undefined}
                 aria-label={item.label}
                 style={{
@@ -573,7 +589,7 @@ export const AppShell: React.FC = () => {
                 />
                 <span
                   style={{
-                    fontSize: '11px',
+                    fontSize: '10px',
                     fontWeight: isActive ? 'var(--tita-weight-bold)' : 'var(--tita-weight-medium)',
                     letterSpacing: '0.01em',
                   }}

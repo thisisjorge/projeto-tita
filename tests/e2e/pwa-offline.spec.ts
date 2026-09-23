@@ -73,7 +73,11 @@ test('first PWA installation prepares the shell for offline reload', async ({
   const reloaded = await page.reload();
   expect(reloaded?.fromServiceWorker()).toBe(true);
   await expect(page.getByTestId('start-workout-button')).toBeVisible();
-  await expect(page.locator('.tita-sidebar nav button')).toHaveCount(6);
+  await expect(page.locator('.tita-sidebar nav button')).toHaveCount(7);
+  await expect(page.locator('.tita-sidebar nav button').first()).toHaveAttribute(
+    'aria-label',
+    'Home',
+  );
 });
 
 test.describe('Projeto Titã — PWA & Offline Support (REQ-8, Phase 9)', () => {

@@ -1,0 +1,58 @@
+[
+  {
+    "file": "01-rotinas-dark.png",
+    "description": "Rotinas preenchidas no tema escuro",
+    "source": "https://tita.jorgetavares.dev",
+    "releaseSha": "fc9b5d831a79cf89ae3333db8bdbd450dad44ff2",
+    "syntheticProfile": true,
+    "width": 1440
+  },
+  {
+    "file": "02-progresso-dark.png",
+    "description": "Gráficos e indicadores de progresso",
+    "source": "https://tita.jorgetavares.dev",
+    "releaseSha": "fc9b5d831a79cf89ae3333db8bdbd450dad44ff2",
+    "syntheticProfile": true,
+    "width": 1440
+  },
+  {
+    "file": "03-exercicio-animado-dark.png",
+    "description": "Detalhe real de exercício com GIF licenciado",
+    "source": "https://tita.jorgetavares.dev",
+    "releaseSha": "fc9b5d831a79cf89ae3333db8bdbd450dad44ff2",
+    "syntheticProfile": true,
+    "width": 390
+  },
+  {
+    "file": "04-treino-em-andamento-dark.png",
+    "description": "Séries, carga e repetições em treino ativo",
+    "source": "https://tita.jorgetavares.dev",
+    "releaseSha": "fc9b5d831a79cf89ae3333db8bdbd450dad44ff2",
+    "syntheticProfile": true,
+    "width": 390
+  },
+  {
+    "file": "05-resumo-do-treino-dark.png",
+    "description": "Resumo após conclusão do treino",
+    "source": "https://tita.jorgetavares.dev",
+    "releaseSha": "fc9b5d831a79cf89ae3333db8bdbd450dad44ff2",
+    "syntheticProfile": true,
+    "width": 390
+  },
+  {
+    "file": "06-dashboard-light.png",
+    "description": "Início do app com dados locais no tema claro",
+    "source": "https://tita.jorgetavares.dev",
+    "releaseSha": "fc9b5d831a79cf89ae3333db8bdbd450dad44ff2",
+    "syntheticProfile": true,
+    "width": 1440
+  },
+  {
+    "file": "07-historico-light.png",
+    "description": "Histórico de sessões e dados de treino",
+    "source": "https://tita.jorgetavares.dev",
+    "releaseSha": "fc9b5d831a79cf89ae3333db8bdbd450dad44ff2",
+    "syntheticProfile": true,
+    "width": 1440
+  }
+]

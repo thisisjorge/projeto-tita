@@ -7,6 +7,9 @@ import { LoadingFallback } from './ui/components/LoadingFallback.js';
 const WorkoutView = lazy(() =>
   import('./features/workout/WorkoutView.js').then((m) => ({ default: m.WorkoutView })),
 );
+const PublicHome = lazy(() =>
+  import('./features/public-home/PublicHome.js').then((m) => ({ default: m.PublicHome })),
+);
 const RoutinesView = lazy(() =>
   import('./features/routines/RoutinesView.js').then((m) => ({ default: m.RoutinesView })),
 );
@@ -55,7 +58,16 @@ export const routeConfig: RouteObject[] = [
     children: [
       {
         index: true,
-        element: withSuspense(WorkoutView, 'Carregando treino...'),
+        element:
+          typeof window !== 'undefined' &&
+          (window.location.pathname.startsWith('/app') ||
+            window.location.pathname.startsWith('/v2'))
+            ? withSuspense(WorkoutView, 'Carregando treino...')
+            : withSuspense(PublicHome),
+      },
+      {
+        path: 'home',
+        element: withSuspense(PublicHome),
       },
       {
         path: 'routines',
