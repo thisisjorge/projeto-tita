@@ -13,6 +13,20 @@ const defaultProps = {
   strokeLinejoin: 'round' as const,
 };
 
+export const HomeIcon: React.FC<IconProps> = ({ size = 20, color = 'currentColor', ...props }) => (
+  <svg
+    width={size}
+    height={size}
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke={color}
+    {...defaultProps}
+    {...props}
+  >
+    <path d="m3 10 9-7 9 7v10a1 1 0 0 1-1 1h-5v-7H9v7H4a1 1 0 0 1-1-1V10Z" />
+  </svg>
+);
+
 export const DumbbellIcon: React.FC<IconProps> = ({
   size = 20,
   color = 'currentColor',

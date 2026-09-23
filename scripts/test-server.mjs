@@ -50,8 +50,10 @@ const server = http.createServer((req, res) => {
     }
   }
 
-  // 2. React App root routing (/v2, /app)
+  // 2. React App routes (matching the Cloudflare Pages dist root)
   if (
+    reqPath === '/' ||
+    reqPath === '/home' ||
     reqPath === '/v2' ||
     reqPath.startsWith('/v2/') ||
     reqPath === '/app' ||
