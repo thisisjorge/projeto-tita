@@ -2,6 +2,8 @@ import { describe, it, expect, beforeEach, afterEach } from 'vitest';
 import { createTestDatabase } from '../helpers/test-db.js';
 import type { IndexedDBTitaDatabase } from '../../src/repositories/indexeddb/tita-database.js';
 import { ExerciseLibraryService } from '../../src/services/exercise-library-service.js';
+import { SEED_EXERCISES } from '../../src/data/seed-exercises.js';
+import { IdbExerciseRepository } from '../../src/repositories/indexeddb/idb-exercise-repository.js';
 import { ExerciseRole } from '../../src/domain/enums/exercise-role.js';
 import { SetType } from '../../src/domain/enums/set-type.js';
 import type { WorkoutSnapshot } from '../../src/domain/entities/workout-snapshot.js';
@@ -27,6 +29,27 @@ describe('ExerciseLibraryService (Task 6.1)', () => {
     const exercises = await service.getExercises();
     expect(exercises.length).toBeGreaterThanOrEqual(42);
     expect(exercises.every((e) => e.source === 'system')).toBe(true);
+  });
+
+  it('mostra nome PT-BR de exercício built-in antigo sem regravar IndexedDB ou alterar customizados', async () => {
+    const seed = SEED_EXERCISES.find((exercise) =>
+      exercise.aliases.includes('Chest Supported Row'),
+    )!;
+    const repo = new IdbExerciseRepository(db);
+    await repo.save({ ...seed, name: 'Row Chest' });
+    const custom = await service.createCustomExercise({
+      name: 'Row Chest pessoal',
+      primaryMuscle: 'Costas',
+      equipment: 'Máquina',
+    });
+
+    await service.initialize();
+    expect((await service.getExerciseById(seed.id))?.name).toBe(seed.name);
+    expect((await service.getExercises()).find((exercise) => exercise.id === seed.id)?.name).toBe(
+      seed.name,
+    );
+    expect((await repo.getById(seed.id))?.name).toBe('Row Chest');
+    expect((await service.getExerciseById(custom.id))?.name).toBe('Row Chest pessoal');
   });
 
   it('initialize is idempotent and does not erase custom exercises', async () => {

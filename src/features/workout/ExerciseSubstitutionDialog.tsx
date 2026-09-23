@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
+import { builtinExerciseName } from '../../data/builtin-display.js';
 import type { Exercise } from '../../domain/entities/exercise.js';
 import type { ActiveWorkout, ActiveWorkoutExercise } from '../../domain/entities/active-workout.js';
 import {
@@ -88,7 +89,7 @@ export function ExerciseSubstitutionDialog({
       isOpen
       onClose={onClose}
       title="Trocar exercício"
-      description={slot.exerciseName}
+      description={builtinExerciseName(slot.exerciseId, slot.exerciseName)}
       className="tita-substitution-sheet"
       footer={
         <Button

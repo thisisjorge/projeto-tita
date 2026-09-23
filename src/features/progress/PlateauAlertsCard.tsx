@@ -1,4 +1,5 @@
 import React from 'react';
+import { builtinExerciseName } from '../../data/builtin-display.js';
 import type { PlateauReport } from '../../domain/analytics/types.js';
 
 export interface PlateauAlertsCardProps {
@@ -104,7 +105,7 @@ export const PlateauAlertsCard: React.FC<PlateauAlertsCardProps> = ({ reports })
                   color: 'var(--tita-text)',
                 }}
               >
-                {report.exerciseName}
+                {builtinExerciseName(report.exerciseId, report.exerciseName)}
               </span>
 
               <span

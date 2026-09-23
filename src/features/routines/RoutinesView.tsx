@@ -9,6 +9,8 @@ import { ProgressionStrategyType } from '../../domain/enums/progression-strategy
 import { RoutineService } from '../../services/routine-service.js';
 import { TemplateService } from '../../services/template-service.js';
 import { ExerciseLibraryService } from '../../services/exercise-library-service.js';
+import { builtinRoutineName } from '../../data/builtin-display.js';
+import { IdbProgramRepository } from '../../repositories/indexeddb/idb-program-repository.js';
 import { ActiveWorkoutService } from '../../services/active-workout-service.js';
 import { getAppDatabase } from '../../services/db-provider.js';
 import { generateId } from '../../domain/common/id.js';
@@ -41,6 +43,7 @@ export const RoutinesView: React.FC = () => {
   const libraryService = useMemo(() => new ExerciseLibraryService(), []);
 
   const [routines, setRoutines] = useState<Routine[]>([]);
+  const [templateRefs, setTemplateRefs] = useState<Record<string, string>>({});
   const [exercisesMap, setExercisesMap] = useState<Record<string, string>>({});
   const [activeTab, setActiveTab] = useState<'active' | 'archived'>('active');
   const [isLoading, setIsLoading] = useState(true);
@@ -68,6 +71,14 @@ export const RoutinesView: React.FC = () => {
       const list = await routineService.getRoutines({
         includeArchived: activeTab === 'archived',
       });
+      const programs = await new IdbProgramRepository(getAppDatabase()).getAll();
+      setTemplateRefs(
+        Object.fromEntries(
+          programs
+            .filter((program) => program.templateRef)
+            .map((program) => [program.id, program.templateRef!]),
+        ),
+      );
 
       if (activeTab === 'archived') {
         setRoutines(list.filter((r) => Boolean(r.deletedAt)));
@@ -587,7 +598,7 @@ export const RoutinesView: React.FC = () => {
                           whiteSpace: 'nowrap',
                         }}
                       >
-                        {routine.name}
+                        {builtinRoutineName(templateRefs[routine.programId ?? ''], routine.name)}
                       </h3>
 
                       {/* Clean Telemetry String (NO CARD-ITIS CHIPS) */}

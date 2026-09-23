@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
+import { builtinExerciseName } from '../../data/builtin-display.js';
 import { useNavigate } from 'react-router-dom';
 import type { WorkoutSnapshot } from '../../domain/entities/workout-snapshot.js';
 import type { MonthlyWorkoutGroup, PaginatedResult } from '../../domain/analytics/index.js';
@@ -738,7 +739,7 @@ export const HistoryView: React.FC = () => {
                             color: 'var(--tita-text)',
                           }}
                         >
-                          {ex.exerciseName}
+                          {builtinExerciseName(ex.exerciseId, ex.exerciseName)}
                         </span>
                         <span
                           style={{

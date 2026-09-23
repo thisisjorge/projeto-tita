@@ -41,7 +41,7 @@ export const SEED_TEMPLATES: readonly ProgramTemplate[] = [
   // 1. FULL BODY 3X
   {
     id: 'template-full-body-3x',
-    name: 'Full Body 3x Semanal',
+    name: 'Corpo inteiro 3x por semana',
     description:
       'Estrutura equilibrada de corpo inteiro 3 vezes por semana (ex: Seg/Qua/Sex), ideal para desenvolver base de força e hipertrofia com alta frequência.',
     daysPerWeek: 3,
@@ -54,7 +54,7 @@ export const SEED_TEMPLATES: readonly ProgramTemplate[] = [
     progressionStrategy: ProgressionStrategyType.LINEAR_PROGRESSION,
     routines: [
       {
-        name: 'Full Body A',
+        name: 'Corpo inteiro A',
         description: 'Foco em agachamento, supino plano e remada horizontal.',
         dayNumber: 1,
         exercises: [
@@ -109,8 +109,8 @@ export const SEED_TEMPLATES: readonly ProgramTemplate[] = [
         ],
       },
       {
-        name: 'Full Body B',
-        description: 'Foco em hip hinge, puxada vertical e desenvolvimento militar.',
+        name: 'Corpo inteiro B',
+        description: 'Foco em dobradiça de quadril, puxada vertical e desenvolvimento militar.',
         dayNumber: 2,
         exercises: [
           {
@@ -163,7 +163,7 @@ export const SEED_TEMPLATES: readonly ProgramTemplate[] = [
         ],
       },
       {
-        name: 'Full Body C',
+        name: 'Corpo inteiro C',
         description: 'Foco em variações em máquinas e halteres.',
         dayNumber: 3,
         exercises: [
@@ -211,9 +211,9 @@ export const SEED_TEMPLATES: readonly ProgramTemplate[] = [
   // 2. UPPER / LOWER 4X
   {
     id: 'template-upper-lower-4x',
-    name: 'Upper / Lower 4x Semanal',
+    name: 'Superior / Inferior 4x por semana',
     description:
-      'Divisão consagrada de 4 dias dividida entre membros superiores e inferiores (ex: Seg: Upper A, Ter: Lower A, Qui: Upper B, Sex: Lower B). Excelente equilíbrio entre estímulo e recuperação.',
+      'Divisão de 4 dias entre membros superiores e inferiores (ex.: seg.: Superior A, ter.: Inferior A, qui.: Superior B, sex.: Inferior B). Equilibra estímulo e recuperação.',
     daysPerWeek: 4,
     durationWeeks: 10,
     experienceLevel: 'intermediate',
@@ -224,7 +224,7 @@ export const SEED_TEMPLATES: readonly ProgramTemplate[] = [
     progressionStrategy: ProgressionStrategyType.DOUBLE_PROGRESSION,
     routines: [
       {
-        name: 'Upper A — Força & Peitoral',
+        name: 'Superior A — Força e peitoral',
         description: 'Membros superiores com ênfase em compostos pesados e empurrar.',
         dayNumber: 1,
         exercises: [
@@ -276,7 +276,7 @@ export const SEED_TEMPLATES: readonly ProgramTemplate[] = [
         ],
       },
       {
-        name: 'Lower A — Quadríceps & Panturrilha',
+        name: 'Inferior A — Quadríceps e panturrilha',
         description: 'Membros inferiores com ênfase em agachamentos e cadeia anterior.',
         dayNumber: 2,
         exercises: [
@@ -328,7 +328,7 @@ export const SEED_TEMPLATES: readonly ProgramTemplate[] = [
         ],
       },
       {
-        name: 'Upper B — Costas & Deltoides',
+        name: 'Superior B — Costas e deltoides',
         description: 'Membros superiores com ênfase em puxadas e deltoide lateral.',
         dayNumber: 3,
         exercises: [
@@ -380,7 +380,7 @@ export const SEED_TEMPLATES: readonly ProgramTemplate[] = [
         ],
       },
       {
-        name: 'Lower B — Cadeia Posterior & Glúteos',
+        name: 'Inferior B — Posteriores e glúteos',
         description: 'Membros inferiores com ênfase em flexão de joelho, terra e glúteos.',
         dayNumber: 4,
         exercises: [
@@ -437,9 +437,9 @@ export const SEED_TEMPLATES: readonly ProgramTemplate[] = [
   // 3. PUSH / PULL / LEGS 6X
   {
     id: 'template-ppl-6x',
-    name: 'Push / Pull / Legs (PPL) 6x Semanal',
+    name: 'PPL 6x por semana (empurrar / puxar / pernas)',
     description:
-      'A divisão mais popular do fisiculturismo clássico (Push, Pull, Legs, Push, Pull, Legs, Descanso). Alto volume de trabalho semanal e isolamento de grupos musculares sinérgicos.',
+      'Divisão PPL de seis dias (empurrar, puxar e pernas, duas vezes por semana). Alto volume semanal com foco em grupos musculares sinérgicos.',
     daysPerWeek: 6,
     durationWeeks: 12,
     experienceLevel: 'advanced',
@@ -450,7 +450,7 @@ export const SEED_TEMPLATES: readonly ProgramTemplate[] = [
     progressionStrategy: ProgressionStrategyType.DOUBLE_PROGRESSION,
     routines: [
       {
-        name: 'Push A — Peitoral & Tríceps',
+        name: 'Empurrar A — Peitoral e tríceps',
         dayNumber: 1,
         exercises: [
           {
@@ -501,7 +501,7 @@ export const SEED_TEMPLATES: readonly ProgramTemplate[] = [
         ],
       },
       {
-        name: 'Pull A — Costas & Bíceps',
+        name: 'Puxar A — Costas e bíceps',
         dayNumber: 2,
         exercises: [
           {
@@ -552,7 +552,7 @@ export const SEED_TEMPLATES: readonly ProgramTemplate[] = [
         ],
       },
       {
-        name: 'Legs A — Foco Quadríceps',
+        name: 'Pernas A — Foco em quadríceps',
         dayNumber: 3,
         exercises: [
           {
@@ -603,7 +603,7 @@ export const SEED_TEMPLATES: readonly ProgramTemplate[] = [
         ],
       },
       {
-        name: 'Push B — Foco Ombros & Superior Peitoral',
+        name: 'Empurrar B — Ombros e peitoral superior',
         dayNumber: 4,
         exercises: [
           {
@@ -654,7 +654,7 @@ export const SEED_TEMPLATES: readonly ProgramTemplate[] = [
         ],
       },
       {
-        name: 'Pull B — Foco Dorsal & Trapézio',
+        name: 'Puxar B — Dorsal e trapézio',
         dayNumber: 5,
         exercises: [
           {
@@ -705,7 +705,7 @@ export const SEED_TEMPLATES: readonly ProgramTemplate[] = [
         ],
       },
       {
-        name: 'Legs B — Foco Posterior & Glúteos',
+        name: 'Pernas B — Posteriores e glúteos',
         dayNumber: 6,
         exercises: [
           {

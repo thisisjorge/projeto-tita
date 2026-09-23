@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import type { ProgramTemplate } from '../../data/seed-templates.js';
+import { builtinSplitLabel } from '../../data/builtin-display.js';
 import { TemplateService } from '../../services/template-service.js';
 import { Dialog, Button, Card } from '../../ui/components/index.js';
 
@@ -133,7 +134,7 @@ export const TemplateBrowserDialog: React.FC<TemplateBrowserDialogProps> = ({
                             color: 'var(--tita-accent)',
                           }}
                         >
-                          {tpl.splitType}
+                          {builtinSplitLabel(tpl.splitType)}
                         </span>
                         <span
                           style={{

@@ -5,6 +5,7 @@ import type { ExerciseRole } from '../domain/enums/exercise-role.js';
 import { validateExercise } from '../domain/validators/exercise-validator.js';
 import { calculateEpley1RM } from '../domain/math/progress-math.js';
 import { SEED_EXERCISES } from '../data/seed-exercises.js';
+import { builtinExerciseName } from '../data/builtin-display.js';
 import type { TitaDatabase } from '../repositories/interfaces/database.interface.js';
 import { IdbExerciseRepository } from '../repositories/indexeddb/idb-exercise-repository.js';
 import { IdbMetadataRepository } from '../repositories/indexeddb/idb-metadata-repository.js';
@@ -97,7 +98,11 @@ export class ExerciseLibraryService {
    * Retrieves all exercises matching the specified filters.
    */
   async getExercises(filters?: ExerciseFilterOptions): Promise<Exercise[]> {
-    const all = await this.exerciseRepo.getAll(false);
+    const all = (await this.exerciseRepo.getAll(false)).map((exercise) =>
+      exercise.source === 'system'
+        ? { ...exercise, name: builtinExerciseName(exercise.id, exercise.name) }
+        : exercise,
+    );
     const favoriteIds = new Set(await this.getFavoriteIds());
     const recentIds = new Set(await this.getRecentExerciseIds());
 
@@ -158,7 +163,10 @@ export class ExerciseLibraryService {
    * Retrieves a single exercise by ID.
    */
   async getExerciseById(id: EntityId): Promise<Exercise | null> {
-    return this.exerciseRepo.getById(id);
+    const exercise = await this.exerciseRepo.getById(id);
+    return exercise?.source === 'system'
+      ? { ...exercise, name: builtinExerciseName(exercise.id, exercise.name) }
+      : exercise;
   }
 
   /**

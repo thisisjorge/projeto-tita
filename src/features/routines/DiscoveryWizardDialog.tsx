@@ -1,4 +1,5 @@
 import React, { useState, useMemo } from 'react';
+import { builtinSplitLabel } from '../../data/builtin-display.js';
 import {
   ProgramDiscoveryEngine,
   type DiscoveryPreferences,
@@ -258,9 +259,9 @@ export const DiscoveryWizardDialog: React.FC<DiscoveryWizardDialogProps> = ({
             <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
               {[
                 { id: 'any', label: 'Sem preferência (deixar o algoritmo calcular)' },
-                { id: 'full_body', label: 'Full Body (Corpo Inteiro por sessão)' },
-                { id: 'upper_lower', label: 'Upper / Lower (Superiores / Inferiores)' },
-                { id: 'ppl', label: 'Push / Pull / Legs (Empurrar / Puxar / Pernas)' },
+                { id: 'full_body', label: 'Corpo inteiro' },
+                { id: 'upper_lower', label: 'Superior / Inferior' },
+                { id: 'ppl', label: 'PPL (empurrar / puxar / pernas)' },
               ].map((sp) => (
                 <Button
                   key={sp.id}
@@ -344,8 +345,8 @@ export const DiscoveryWizardDialog: React.FC<DiscoveryWizardDialogProps> = ({
                             marginTop: '2px',
                           }}
                         >
-                          {rec.template.splitType} • {rec.template.daysPerWeek} dias/sem • ~
-                          {rec.template.estimatedSessionDurationMinutes} min
+                          {builtinSplitLabel(rec.template.splitType)} • {rec.template.daysPerWeek}{' '}
+                          dias/sem • ~{rec.template.estimatedSessionDurationMinutes} min
                         </div>
                       </div>
 

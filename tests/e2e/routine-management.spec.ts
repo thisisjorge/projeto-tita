@@ -21,7 +21,7 @@ test.describe('Projeto Titã — React Routine Management & Discovery E2E (REQ-5
     const dialog = page.locator('div[role="dialog"]');
     await expect(dialog).toBeVisible();
 
-    const nameInput = dialog.locator('input[placeholder*="Upper A"]');
+    const nameInput = dialog.locator('input[placeholder*="Superior A"]');
     await nameInput.fill('Treino A — Peito & Tríceps');
 
     // Add exercise to routine
@@ -81,7 +81,7 @@ test.describe('Projeto Titã — React Routine Management & Discovery E2E (REQ-5
     await openTemplatesBtn.click();
 
     await expect(page.locator('text=Modelos de Treino Oficiais')).toBeVisible();
-    await expect(page.locator('text=Full Body 3x Semanal')).toBeVisible();
+    await expect(page.locator('text=Corpo inteiro 3x por semana')).toBeVisible();
 
     // Close template browser
     await page.locator('div[role="dialog"] button:has-text("Fechar")').click();
@@ -113,8 +113,8 @@ test.describe('Projeto Titã — React Routine Management & Discovery E2E (REQ-5
     await page.locator('button:has-text("Academia Completa")').click();
     await page.locator('button:has-text("Próximo →")').click();
 
-    // Step 6: Full Body split
-    await page.locator('button:has-text("Full Body")').click();
+    // Step 6: divisão de corpo inteiro
+    await page.locator('button:has-text("Corpo inteiro")').click();
 
     // Submit discovery
     await page.locator('[data-testid="submit-discovery-btn"]').click();

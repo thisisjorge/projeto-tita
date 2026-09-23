@@ -175,7 +175,7 @@ export const OnboardingView: React.FC<OnboardingViewProps> = ({ onSkip, onNaviga
       <section className="tita-onboarding__starter" aria-labelledby="starter-title">
         <div className="tita-onboarding__eyebrow">UM PONTO DE PARTIDA</div>
         <h2 id="starter-title">
-          Full Body <span>3× / semana</span>
+          Corpo inteiro <span>3× / semana</span>
         </h2>
         <p>Agachamento, supino e remada. Uma ficha pronta para usar e adaptar ao seu ritmo.</p>
         <Button
@@ -185,7 +185,7 @@ export const OnboardingView: React.FC<OnboardingViewProps> = ({ onSkip, onNaviga
           onClick={handleLoadSampleRoutine}
           data-testid="onboarding-load-sample-btn"
         >
-          Começar com Full Body 3x
+          Começar com corpo inteiro 3x
         </Button>
         <small>Você pode editar todos os exercícios depois.</small>
       </section>
@@ -235,7 +235,7 @@ export const OnboardingView: React.FC<OnboardingViewProps> = ({ onSkip, onNaviga
 
         <Card
           title="Explorar Modelos"
-          subtitle="Full Body, Upper/Lower ou PPL."
+          subtitle="Corpo inteiro, superior/inferior ou PPL."
           action={
             <Button size="sm" variant="secondary" onClick={() => navigate('/routines')}>
               Ver Modelos
