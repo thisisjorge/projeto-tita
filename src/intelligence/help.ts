@@ -22,7 +22,7 @@ export const helpQuestions: Record<HelpScreen, readonly string[]> = {
   ],
   routine: [
     'O que é progressão?',
-    'Como funciona Double Progression?',
+    'Como funciona a Progressão Dupla?',
     'Como funciona a estratégia escolhida?',
   ],
   library: [
@@ -67,8 +67,8 @@ const knowledge: [string, string][] = [
     'Progressão organiza ajustes de carga ou repetições com base nos registros e na estratégia escolhida. No Titã, o motor local calcula a sugestão e você decide se aplica. A IA não altera seu treino.',
   ],
   [
-    'Como funciona Double Progression?',
-    'Double Progression trabalha com uma faixa de repetições. Primeiro a sugestão busca avançar nas repetições; ao cumprir os critérios da estratégia, pode propor um incremento de carga. Confira a evidência e a meta exibidas antes de aplicar.',
+    'Como funciona a Progressão Dupla?',
+    'A Progressão Dupla trabalha com uma faixa de repetições. Primeiro a sugestão busca avançar nas repetições; ao cumprir os critérios da estratégia, pode propor um incremento de carga. Confira a evidência e a meta exibidas antes de aplicar.',
   ],
   [
     'Como funciona o descanso?',

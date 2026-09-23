@@ -9,10 +9,12 @@ import './home.css';
 /** Read-only summary of saved sessions; mounted only outside the workout logger. */
 export function HomeTrainingSummary({
   onStart,
+  startDisabled,
   error,
   onDismissError,
 }: {
   onStart: () => void;
+  startDisabled: boolean;
   error: string | null;
   onDismissError: () => void;
 }) {
@@ -47,6 +49,7 @@ export function HomeTrainingSummary({
           <Button
             size="lg"
             onClick={onStart}
+            disabled={startDisabled}
             data-testid="start-workout-button"
             className="tita-home__quick-start"
             leftIcon={<DumbbellIcon size={20} />}

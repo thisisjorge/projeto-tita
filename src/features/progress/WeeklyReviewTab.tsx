@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { TrophyIcon } from '../../ui/components/icons.js';
 import { IntelligenceAction } from '../intelligence/IntelligenceAction.js';
 import { weeklySummary } from '../../intelligence/summaries.js';
 import type { WeeklyReview } from '../../domain/analytics/types.js';
@@ -227,7 +228,7 @@ export const WeeklyReviewTab: React.FC<WeeklyReviewTabProps> = ({ historyService
             }}
             data-testid="weekly-total-prs"
           >
-            🏆 {weeklyReview.totalPRs}
+            <TrophyIcon aria-hidden="true" /> {weeklyReview.totalPRs}
           </div>
         </Card>
       </div>
@@ -341,7 +342,7 @@ export const WeeklyReviewTab: React.FC<WeeklyReviewTabProps> = ({ historyService
                   gap: 'var(--tita-space-2)',
                 }}
               >
-                <span style={{ fontSize: '18px' }}>🏆</span>
+                <TrophyIcon aria-hidden="true" />
                 <div>
                   <div
                     style={{

@@ -74,7 +74,7 @@ for (const theme of ['dark', 'light']) {
     await page.getByRole('button', { name: 'Usar nesta aba', exact: true }).click();
     await page.getByRole('button', { name: 'Rotinas', exact: true }).click();
     await page.getByRole('button', { name: '? Ajude-me', exact: true }).first().click();
-    await dialog.getByRole('button', { name: 'Como funciona Double Progression?' }).click();
+    await dialog.getByRole('button', { name: 'Como funciona a Progressão Dupla?' }).click();
     expect(calls).toHaveLength(0);
     await capture('help-local-routine');
     await dialog.getByRole('button', { name: 'Fazer outra pergunta', exact: true }).click();

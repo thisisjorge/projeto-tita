@@ -1,5 +1,9 @@
 import React, { useState, useEffect, useTransition } from 'react';
 import { HomeTrainingSummary } from './HomeTrainingSummary.js';
+import { workoutErrorMessage } from '../../ui/workout-error.js';
+import { AnchoredMenu } from '../../ui/components/AnchoredMenu.js';
+import { TrophyIcon } from '../../ui/components/icons.js';
+import { Link } from 'react-router-dom';
 import { ExerciseSubstitutionDialog } from './ExerciseSubstitutionDialog.js';
 import { substitutionCatalogId } from '../../domain/workout/substitution.js';
 import {
@@ -145,6 +149,8 @@ export const WorkoutView: React.FC = () => {
   const [isAddExerciseDialogOpen, setIsAddExerciseDialogOpen] = useState(false);
   const [newExerciseName, setNewExerciseName] = useState('');
   const [completedSnapshot, setCompletedSnapshot] = useState<WorkoutSnapshot | null>(null);
+  const finalizingRef = React.useRef(false);
+  const editGeneration = React.useRef(0);
 
   // Active Workout Focus Mode effect: hides bottom nav on mobile when active workout is running
   useEffect(() => {
@@ -242,9 +248,7 @@ export const WorkoutView: React.FC = () => {
         }
       } catch (err) {
         if (isMounted) {
-          setErrorMessage(
-            `Erro ao conectar ao banco de dados: ${err instanceof Error ? err.message : String(err)}`,
-          );
+          setErrorMessage(workoutErrorMessage(err));
         }
       }
     }
@@ -411,7 +415,7 @@ export const WorkoutView: React.FC = () => {
       serviceWorkerManager.notifyActiveWorkoutChanged(true);
       setSaveStatus('saved');
     } else {
-      setErrorMessage(result.error.message);
+      setErrorMessage(workoutErrorMessage(result.error));
       setSaveStatus('error');
     }
   };
@@ -430,7 +434,7 @@ export const WorkoutView: React.FC = () => {
       serviceWorkerManager.notifyActiveWorkoutChanged(true);
       setSaveStatus('saved');
     } catch (err) {
-      setErrorMessage(err instanceof Error ? err.message : String(err));
+      setErrorMessage(workoutErrorMessage(err));
       setSaveStatus('error');
     }
   };
@@ -444,7 +448,7 @@ export const WorkoutView: React.FC = () => {
       setActiveWorkout(paused);
       setSaveStatus('saved');
     } catch (err) {
-      setErrorMessage(err instanceof Error ? err.message : String(err));
+      setErrorMessage(workoutErrorMessage(err));
       setSaveStatus('error');
     }
   };
@@ -465,7 +469,7 @@ export const WorkoutView: React.FC = () => {
       serviceWorkerManager.notifyActiveWorkoutChanged(false);
       setSaveStatus('saved');
     } catch (err) {
-      setErrorMessage(err instanceof Error ? err.message : String(err));
+      setErrorMessage(workoutErrorMessage(err));
       setSaveStatus('error');
     }
   };
@@ -476,12 +480,15 @@ export const WorkoutView: React.FC = () => {
     setId: string,
     updates: Partial<ExerciseSet>,
   ) => {
-    if (!service || !activeWorkout) return;
+    if (!service || !activeWorkout || finalizingRef.current) return;
+    const generation = editGeneration.current;
 
     setSaveStatus('saving');
     try {
       const updated = await service.updateSet(activeWorkout.id, exerciseSlotId, setId, updates);
+      if (generation !== editGeneration.current) return;
       setActiveWorkout(updated);
+      setErrorMessage(null);
       setSaveStatus('saved');
 
       if (updates.completed) {
@@ -493,6 +500,7 @@ export const WorkoutView: React.FC = () => {
 
       // Refresh timer if triggered
       const activeTimer = await service.getActiveTimer();
+      if (generation !== editGeneration.current) return;
       if (activeTimer) {
         setTimer(activeTimer);
         if (activeTimer.status === TimerStatus.RUNNING && activeTimer.deadlineAt) {
@@ -505,7 +513,8 @@ export const WorkoutView: React.FC = () => {
         }
       }
     } catch (err) {
-      setErrorMessage(err instanceof Error ? err.message : String(err));
+      if (generation !== editGeneration.current) return;
+      setErrorMessage(workoutErrorMessage(err));
       setSaveStatus('error');
     }
   };
@@ -549,7 +558,7 @@ export const WorkoutView: React.FC = () => {
       setSuccessNotice(`Sugestão de sobrecarga aplicada para ${exerciseSlot.exerciseName}.`);
       setSaveStatus('saved');
     } catch (err) {
-      setErrorMessage(err instanceof Error ? err.message : String(err));
+      setErrorMessage(workoutErrorMessage(err));
       setSaveStatus('error');
     }
   };
@@ -587,7 +596,7 @@ export const WorkoutView: React.FC = () => {
       setSuccessNotice('Agrupamento criado com sucesso.');
       setSaveStatus('saved');
     } catch (err) {
-      setErrorMessage(err instanceof Error ? err.message : String(err));
+      setErrorMessage(workoutErrorMessage(err));
       setSaveStatus('error');
     }
   };
@@ -602,7 +611,7 @@ export const WorkoutView: React.FC = () => {
       setSuccessNotice('Agrupamento removido.');
       setSaveStatus('saved');
     } catch (err) {
-      setErrorMessage(err instanceof Error ? err.message : String(err));
+      setErrorMessage(workoutErrorMessage(err));
       setSaveStatus('error');
     }
   };
@@ -616,7 +625,7 @@ export const WorkoutView: React.FC = () => {
       setActiveWorkout(updated);
       setSaveStatus('saved');
     } catch (err) {
-      setErrorMessage(err instanceof Error ? err.message : String(err));
+      setErrorMessage(workoutErrorMessage(err));
       setSaveStatus('error');
     }
   };
@@ -630,7 +639,7 @@ export const WorkoutView: React.FC = () => {
       setActiveWorkout(updated);
       setSaveStatus('saved');
     } catch (err) {
-      setErrorMessage(err instanceof Error ? err.message : String(err));
+      setErrorMessage(workoutErrorMessage(err));
       setSaveStatus('error');
     }
   };
@@ -682,7 +691,7 @@ export const WorkoutView: React.FC = () => {
       setIsAddExerciseDialogOpen(false);
       setSaveStatus('saved');
     } catch (err) {
-      setErrorMessage(err instanceof Error ? err.message : String(err));
+      setErrorMessage(workoutErrorMessage(err));
       setSaveStatus('error');
     }
   };
@@ -758,10 +767,13 @@ export const WorkoutView: React.FC = () => {
 
   // Handler: Finalize workout
   const handleFinalizeWorkout = async () => {
-    if (!service || !activeWorkout) return;
+    if (!service || !activeWorkout || finalizingRef.current) return;
+    finalizingRef.current = true;
     setSaveStatus('saving');
     try {
       const snapshot = await service.finalizeWorkout(activeWorkout.id);
+      editGeneration.current += 1;
+      setErrorMessage(null);
       serviceWorkerManager.notifyActiveWorkoutChanged(false);
       startTransition(() => {
         setCompletedSnapshot(snapshot);
@@ -771,8 +783,10 @@ export const WorkoutView: React.FC = () => {
         setSaveStatus('saved');
       });
     } catch (err) {
-      setErrorMessage(err instanceof Error ? err.message : String(err));
+      setErrorMessage(workoutErrorMessage(err));
       setSaveStatus('error');
+    } finally {
+      finalizingRef.current = false;
     }
   };
 
@@ -790,7 +804,11 @@ export const WorkoutView: React.FC = () => {
         data-testid="workout-completion-summary"
       >
         <Card
-          title="🏆 Treino Concluído com Sucesso!"
+          title={
+            <>
+              <TrophyIcon aria-hidden="true" /> Treino Concluído com Sucesso!
+            </>
+          }
           subtitle={completedSnapshot.title}
           style={{ border: '1px solid var(--tita-accent)' }}
         >
@@ -814,7 +832,7 @@ export const WorkoutView: React.FC = () => {
                 Volume Total
               </div>
               <strong style={{ fontSize: 'var(--tita-text-xl)', color: 'var(--tita-accent)' }}>
-                {completedSnapshot.totalVolumeKg} kg
+                {completedSnapshot.totalVolumeKg.toLocaleString('pt-BR')} kg
               </strong>
             </div>
 
@@ -849,6 +867,23 @@ export const WorkoutView: React.FC = () => {
             </div>
           </div>
 
+          <p data-testid="completion-extra-stats">
+            Exercícios concluídos:{' '}
+            {
+              completedSnapshot.exercises.filter((exercise) =>
+                exercise.sets.some((set) => set.completed),
+              ).length
+            }{' '}
+            · Repetições: {completedSnapshot.totalReps}
+          </p>
+          <nav
+            aria-label="Depois do treino"
+            style={{ display: 'flex', flexWrap: 'wrap', gap: '16px' }}
+          >
+            <Link to="/app/history">Ver histórico</Link>
+            <Link to="/app/progress">Ver progresso</Link>
+            <Link to="/app/routines">Ver próximas rotinas</Link>
+          </nav>
           <div
             style={{
               display: 'flex',
@@ -930,6 +965,7 @@ export const WorkoutView: React.FC = () => {
     return (
       <HomeTrainingSummary
         onStart={() => handleStartWorkout('Treino Rápido')}
+        startDisabled={!service}
         error={errorMessage}
         onDismissError={() => setErrorMessage(null)}
       />
@@ -967,9 +1003,11 @@ export const WorkoutView: React.FC = () => {
         action={
           <div style={{ display: 'flex', gap: 'var(--tita-space-1)', flexShrink: 0 }}>
             {
-              <details className="tita-exercise-options">
-                <summary aria-label={`Opções de ${exerciseSlot.exerciseName}`}>⋯</summary>
-                <div className="tita-exercise-options__menu">
+              <AnchoredMenu
+                className="tita-exercise-options"
+                label={`Opções de ${exerciseSlot.exerciseName}`}
+              >
+                <div>
                   <HelpAction
                     screen="workout"
                     getContext={() =>
@@ -1010,7 +1048,7 @@ export const WorkoutView: React.FC = () => {
                     </Button>
                   )}
                 </div>
-              </details>
+              </AnchoredMenu>
             }
             <Button
               variant="secondary"
@@ -1076,6 +1114,9 @@ export const WorkoutView: React.FC = () => {
                     durationSeconds={set.durationSeconds}
                     distanceMeters={set.distanceMeters}
                     completed={set.completed}
+                    onInvalidCommit={() =>
+                      handleUpdateSet(exerciseSlot.id, set.id, { completed: false })
+                    }
                     previousPerformance={prevPerfStr}
                     targetPerformance={targetPerfStr}
                     onRemove={

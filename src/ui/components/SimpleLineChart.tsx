@@ -1,4 +1,5 @@
 import React, { useState, useId } from 'react';
+import { TrophyIcon } from './icons.js';
 
 export interface ChartDataPoint {
   readonly label: string;
@@ -127,7 +128,7 @@ export const SimpleLineChart: React.FC<SimpleLineChartProps> = ({
                 gap: '4px',
               }}
             >
-              🏆 Recorde Pessoal
+              <TrophyIcon aria-hidden="true" /> Recorde Pessoal
             </span>
           )}
         </div>

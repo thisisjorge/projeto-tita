@@ -15,4 +15,6 @@ ios/App/Pods/
 ios/App/build/
 ios/App/App.xcworkspace/xcuserdata/
 .agents/
-
+*.jks
+*.keystore
+release-assets/

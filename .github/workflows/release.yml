@@ -1,0 +1,37 @@
+name: Release SemVer
+on:
+  push:
+    tags: ['v*.*.*']
+permissions:
+  contents: read
+jobs:
+  quality:
+    uses: ./.github/workflows/ci.yml
+  android:
+    needs: quality
+    uses: ./.github/workflows/android-apk.yml
+    secrets: inherit
+  release:
+    needs: android
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: node scripts/check-version.mjs
+      - uses: actions/download-artifact@v4
+        with:
+          name: projeto-tita-apk
+          path: release-assets
+      - name: Publicar candidato com APK e checksum
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          if compgen -G 'release-assets/*-debug.apk' > /dev/null; then
+            gh release create "$GITHUB_REF_NAME" release-assets/* --verify-tag --prerelease --title "Projeto Titã $GITHUB_REF_NAME (Android debug)" --notes "APK de teste. Assinatura estável pendente; consulte CHANGELOG.md e docs/V1_RELEASE.md."
+          else
+            gh release create "$GITHUB_REF_NAME" release-assets/* --verify-tag --title "Projeto Titã $GITHUB_REF_NAME" --generate-notes
+          fi

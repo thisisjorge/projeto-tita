@@ -2,7 +2,9 @@ import { z } from 'zod';
 
 export const MAX_SUMMARY_BYTES = 12000;
 export const MAX_RESPONSE_BYTES = 48000;
-export const REQUEST_TIMEOUT_MS = 20000;
+export const CONNECTION_TEST_TIMEOUT_MS = 15000;
+export const FAST_JUDGE_TIMEOUT_MS = 4500;
+export const FULL_INSIGHT_TIMEOUT_MS = 30000;
 export const providerConfigSchema = z
   .object({
     provider: z

@@ -1,0 +1,263 @@
+# Curadoria de nomes, sem tradução automática em runtime. Slug | nome principal PT-BR.
+incline-bench-press|Supino inclinado com barra
+dumbbell-bench-press|Supino reto com halteres
+machine-chest-press|Supino na máquina
+pec-deck|Crucifixo na máquina (Peck Deck)
+weighted-push-up|Flexão de braços com carga
+arnold-press|Desenvolvimento Arnold
+front-raise|Elevação frontal com halteres
+reverse-pec-deck|Crucifixo inverso na máquina
+upright-row|Remada alta com barra
+t-bar-row|Remada cavalinho na máquina
+dumbbell-bent-over-row|Remada curvada com halteres
+chest-supported-row|Remada na máquina com apoio no peito
+machine-row|Remada na máquina
+close-grip-lat-pulldown|Puxada frontal com pegada fechada
+straight-arm-pulldown|Pulldown com braços estendidos
+assisted-pull-up|Barra fixa assistida na máquina
+weighted-pull-up|Barra fixa com carga
+chin-up|Barra fixa com pegada supinada
+shrug|Encolhimento de ombros com barra
+hack-squat|Agachamento no Hack
+walking-lunge|Afundo caminhando com halteres
+step-up|Subida no banco com halteres
+leg-curl|Flexão de joelhos na máquina
+glute-bridge|Ponte de glúteos no solo
+good-morning|Bom dia com barra (Good Morning)
+bicep-curl|Rosca direta com halteres
+preacher-curl|Rosca Scott na máquina
+cable-curl|Rosca direta na polia
+reverse-curl|Rosca inversa com barra
+wrist-curl|Flexão de punhos com barra
+overhead-tricep-extension|Tríceps acima da cabeça na polia
+close-grip-bench-press|Supino com pegada fechada
+assisted-dip|Mergulho assistido na máquina
+side-plank|Prancha lateral
+ab-wheel|Abdominal com roda
+running|Corrida
+walking|Caminhada
+cycling|Ciclismo
+rowing|Remo ergométrico
+stair-climber|Escada ergométrica
+incline-cable-fly|Crucifixo inclinado na polia
+decline-dumbbell-press|Supino declinado com halteres
+smith-machine-bench-press|Supino reto no Smith
+landmine-press|Desenvolvimento com barra no landmine
+chest-dip|Mergulho nas paralelas com ênfase no peito
+weighted-dip|Mergulho nas paralelas com carga
+machine-shoulder-press|Desenvolvimento na máquina
+standing-dumbbell-press|Desenvolvimento em pé com halteres
+push-press|Desenvolvimento com impulso (Push Press)
+machine-lateral-raise|Elevação lateral na máquina
+cable-front-raise|Elevação frontal na polia
+plate-front-raise|Elevação frontal com anilha
+bent-over-rear-delt-raise|Crucifixo inverso com halteres
+cable-rear-delt-fly|Crucifixo inverso na polia
+pendlay-row|Remada Pendlay
+inverted-row|Remada invertida com peso corporal
+meadows-row|Remada Meadows
+single-arm-cable-row|Remada unilateral na polia
+wide-grip-lat-pulldown|Puxada frontal com pegada aberta
+neutral-grip-pull-up|Barra fixa com pegada neutra
+assisted-chin-up|Barra fixa supinada assistida na máquina
+weighted-chin-up|Barra fixa supinada com carga
+rack-pull|Levantamento terra parcial no suporte
+back-extension|Extensão lombar no banco
+dumbbell-shrug|Encolhimento de ombros com halteres
+goblet-squat|Agachamento taça com halter
+smith-machine-squat|Agachamento no Smith
+belt-squat|Agachamento com cinto na máquina
+sumo-deadlift|Levantamento terra sumô com barra
+trap-bar-deadlift|Levantamento terra com barra hexagonal
+nordic-hamstring-curl|Flexão nórdica de joelhos
+single-leg-romanian-deadlift|Levantamento terra romeno unilateral com halter
+reverse-lunge|Afundo para trás com halteres
+split-squat|Agachamento afundo com halteres
+cable-kickback|Extensão de quadril na polia
+hip-abduction-machine|Abdução de quadril na máquina
+single-leg-glute-bridge|Ponte de glúteos unilateral no solo
+barbell-glute-bridge|Ponte de glúteos no solo com barra
+dumbbell-glute-bridge|Ponte de glúteos no solo com halter
+dumbbell-hip-thrust|Elevação pélvica no banco com halter
+smith-machine-hip-thrust|Elevação pélvica no Smith
+smith-machine-romanian-deadlift|Levantamento terra romeno no Smith
+dumbbell-romanian-deadlift|Levantamento terra romeno com halteres
+kettlebell-romanian-deadlift|Levantamento terra romeno com kettlebell
+cable-pull-through|Extensão de quadril entre as pernas na polia (Pull-Through)
+machine-glute-kickback|Extensão de quadril na máquina
+cable-standing-hip-abduction|Abdução de quadril em pé na polia
+cable-standing-hip-adduction|Adução de quadril em pé na polia
+hip-adduction-machine|Adução de quadril na máquina
+smith-machine-bulgarian-split-squat|Agachamento búlgaro no Smith
+smith-machine-reverse-lunge|Afundo para trás no Smith
+smith-machine-split-squat|Agachamento afundo no Smith
+heel-elevated-goblet-squat|Agachamento taça com calcanhares elevados
+dumbbell-sumo-squat|Agachamento sumô com halter
+dumbbell-sumo-deadlift|Levantamento terra sumô com halteres
+front-foot-elevated-split-squat|Agachamento afundo com pé da frente elevado
+deficit-reverse-lunge|Afundo para trás em déficit com halteres
+dumbbell-lateral-lunge|Afundo lateral com halteres
+dumbbell-curtsy-lunge|Afundo cruzado com halteres
+landmine-squat|Agachamento com barra no landmine
+landmine-romanian-deadlift|Levantamento terra romeno no landmine
+kettlebell-swing|Balanço com kettlebell (Swing)
+glute-focused-back-extension|Extensão de quadril no banco com ênfase nos glúteos
+reverse-hyperextension|Extensão reversa de quadril na máquina
+donkey-calf-raise|Elevação de panturrilhas com tronco inclinado na máquina
+leg-press-calf-raise|Elevação de panturrilhas no Leg Press
+wall-sit|Agachamento isométrico na parede
+jump-squat|Agachamento com salto
+concentration-curl|Rosca concentrada com halter
+ez-bar-curl|Rosca direta com barra W
+spider-curl|Rosca aranha com halteres
+rope-hammer-curl|Rosca martelo com corda na polia
+drag-curl|Rosca arrastada com barra (Drag Curl)
+dumbbell-skull-crusher|Tríceps testa com dois halteres
+single-dumbbell-skullcrusher|Tríceps testa com um halter
+single-arm-dumbbell-tricep-extension|Tríceps francês unilateral com halter
+bench-dip|Mergulho de tríceps no banco
+tricep-kickback|Tríceps coice com halter
+wrist-extension|Extensão de punhos com halteres
+farmer-carry|Caminhada do fazendeiro com halteres
+reverse-crunch|Abdominal inverso
+russian-twist|Rotação russa sem carga
+bicycle-crunch|Abdominal bicicleta
+mountain-climber|Escalador no solo
+dead-bug|Abdominal com extensão alternada (Dead Bug)
+bird-dog|Extensão alternada em quatro apoios (Bird Dog)
+pallof-press|Pressão antirrotação na polia (Pallof Press)
+cable-woodchop|Rotação diagonal de tronco na polia
+half-kneeling-pallof-press|Pressão antirrotação na polia em meio-ajoelhado
+cable-pallof-hold|Isometria antirrotação na polia
+hanging-knee-raise|Elevação de joelhos na barra
+captains-chair-knee-raise|Elevação de joelhos com apoio nos antebraços
+decline-sit-up|Abdominal no banco declinado
+weighted-crunch|Abdominal supra com anilha
+weighted-russian-twist|Rotação russa com halter
+dumbbell-side-bend|Flexão lateral de tronco com halter
+elliptical|Elíptico
+swimming|Natação
+jump-rope|Pular corda
+assault-bike|Bicicleta de resistência a ar
+skierg|Esqui ergométrico (SkiErg)
+hiking|Caminhada em trilha
+treadmill-incline-walk|Caminhada na esteira inclinada
+battle-ropes|Ondulações com corda naval
+incline-push-up|Flexão de braços com mãos elevadas
+knee-push-up|Flexão de braços com joelhos apoiados
+wide-push-up|Flexão de braços com mãos afastadas
+diamond-push-up|Flexão diamante
+decline-push-up|Flexão de braços com pés elevados
+pike-push-up|Flexão com quadril elevado (Pike)
+feet-elevated-pike-push-up|Flexão Pike com pés elevados
+archer-push-up|Flexão arqueiro
+typewriter-push-up|Flexão com deslocamento lateral (Typewriter)
+explosive-push-up|Flexão de braços explosiva
+hindu-push-up|Flexão hindu
+scapular-push-up|Flexão escapular
+push-up-shoulder-tap|Flexão de braços com toque nos ombros
+wall-push-up|Flexão de braços na parede
+wall-walk|Caminhada na parede com as mãos
+wall-handstand-push-up|Flexão em parada de mãos na parede
+handstand-push-up|Flexão em parada de mãos
+chair-dip|Mergulho de tríceps na cadeira
+doorway-row|Remada no batente da porta
+towel-row|Remada com toalha
+prone-y-raise|Elevação em Y deitado de bruços
+prone-t-raise|Elevação em T deitado de bruços
+superman|Extensão de tronco e pernas no solo (Superman)
+superman-hold|Isometria de tronco e pernas no solo (Superman)
+reverse-snow-angel|Movimento de anjo deitado de bruços
+dead-hang|Suspensão passiva na barra
+active-hang|Suspensão ativa na barra
+scapular-pull-up|Elevação escapular na barra
+negative-pull-up|Barra fixa com descida controlada
+commando-pull-up|Barra fixa com pegada alternada (Commando)
+l-sit-pull-up|Barra fixa com pernas em L
+towel-pull-up|Barra fixa com toalha
+bodyweight-squat|Agachamento com peso corporal
+pistol-squat|Agachamento unilateral com perna à frente (Pistol)
+assisted-pistol-squat|Agachamento Pistol com apoio
+shrimp-squat|Agachamento unilateral com perna atrás (Shrimp)
+cossack-squat|Agachamento cossaco
+sissy-squat|Agachamento Sissy
+forward-lunge|Afundo para a frente com peso corporal
+lateral-lunge|Afundo lateral com peso corporal
+curtsy-lunge|Afundo cruzado com peso corporal
+skater-squat|Agachamento unilateral do patinador
+single-leg-box-squat|Agachamento unilateral até o banco
+step-down|Descida unilateral do degrau
+calf-raise|Elevação de panturrilhas com peso corporal
+single-leg-calf-raise|Elevação unilateral de panturrilha
+glute-bridge-march|Ponte de glúteos com marcha
+frog-pump|Elevação pélvica com solas dos pés unidas (Frog Pump)
+donkey-kick|Extensão de quadril em quatro apoios
+fire-hydrant|Abdução de quadril em quatro apoios
+clamshell|Abdução de quadril deitado com joelhos flexionados (Concha)
+hip-airplane|Rotação de quadril em apoio unilateral (Avião)
+side-lying-hip-abduction|Abdução de quadril deitado de lado
+side-lying-leg-raise|Elevação lateral da perna deitado
+lying-hamstring-walkout|Ponte com afastamento alternado dos pés
+towel-hamstring-curl|Flexão de joelhos deslizando na toalha
+stability-ball-hamstring-curl|Flexão de joelhos na bola suíça
+banded-glute-bridge|Ponte de glúteos com elástico
+banded-hip-thrust|Elevação pélvica no banco com elástico
+banded-frog-pump|Elevação pélvica com pés unidos e elástico
+banded-clamshell|Abdução de quadril em concha com elástico
+banded-lateral-walk|Caminhada lateral com elástico
+banded-monster-walk|Caminhada diagonal com elástico (Monster Walk)
+banded-squat|Agachamento com elástico
+banded-donkey-kick|Extensão de quadril em quatro apoios com elástico
+banded-fire-hydrant|Abdução de quadril em quatro apoios com elástico
+banded-kickback|Extensão de quadril para trás com elástico
+banded-standing-hip-abduction|Abdução de quadril em pé com elástico
+banded-seated-hip-abduction|Abdução de quadril sentado com elástico
+band-pull-apart|Abertura de braços com elástico
+banded-face-pull|Puxada ao rosto com elástico (Face Pull)
+banded-row|Remada com elástico
+banded-lat-pulldown|Puxada dorsal com elástico
+banded-pallof-press|Pressão antirrotação com elástico (Pallof Press)
+banded-woodchop|Rotação diagonal de tronco com elástico
+banded-dead-bug|Abdominal com extensão alternada e elástico
+hollow-body-hold|Isometria abdominal em posição oca (Hollow Body)
+hollow-rock|Balanço abdominal em posição oca (Hollow Rock)
+v-up|Abdominal em V
+flutter-kick|Batimento alternado de pernas no solo
+lying-leg-raise|Elevação de pernas deitado
+toe-touch|Abdominal tocando os pés elevados
+heel-tap|Abdominal com toque alternado nos calcanhares
+plank-shoulder-tap|Prancha com toque nos ombros
+plank-jack|Prancha com saltos de abertura das pernas
+bear-plank|Prancha em quatro apoios com joelhos suspensos
+bear-crawl|Deslocamento em quatro apoios (Urso)
+crab-walk|Deslocamento em quatro apoios invertido (Caranguejo)
+inchworm|Caminhada das mãos até a prancha
+l-sit-hold|Isometria com pernas em L
+seated-knee-tuck|Abdominal sentado recolhendo os joelhos
+side-plank-hip-dip|Prancha lateral com descida do quadril
+copenhagen-plank|Prancha Copenhagen
+dragon-flag|Elevação do corpo em alavanca (Dragon Flag)
+burpee|Burpee
+half-burpee|Meio burpee
+squat-thrust|Recolhimento das pernas em apoio de mãos
+high-knees|Corrida parada com joelhos altos
+jumping-jack|Polichinelo
+skater-hop|Salto lateral do patinador
+lateral-shuffle|Deslocamento lateral
+fast-feet|Passos rápidos no lugar
+sprawl|Extensão das pernas para trás em apoio de mãos (Sprawl)
+seal-jack|Polichinelo com braços à frente
+cat-cow-stretch|Mobilidade de coluna em quatro apoios (Gato e vaca)
+arm-circles|Círculos com os braços
+worlds-greatest-stretch|Alongamento em afundo com rotação de tronco
+leg-swings-stretch|Balanço de pernas
+torso-twist-stretch|Rotações de tronco em pé
+doorway-chest-stretch|Alongamento de peitoral no batente
+childs-pose|Postura da criança
+kneeling-hip-flexor-stretch|Alongamento de flexores do quadril ajoelhado
+hamstring-stretch|Alongamento de posteriores da coxa
+standing-quad-stretch|Alongamento de quadríceps em pé
+seated-forward-fold-stretch|Flexão do tronco à frente sentado
+cross-body-shoulder-stretch|Alongamento de ombro com braço cruzado
+wall-calf-stretch|Alongamento de panturrilha na parede
+butterfly-stretch|Alongamento de quadril em borboleta

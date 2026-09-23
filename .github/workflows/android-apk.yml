@@ -2,6 +2,8 @@ name: Gerar APK Android
 
 on:
   workflow_dispatch:
+  workflow_call:
+  pull_request:
   push:
     branches: [main, master]
     paths:
@@ -34,17 +36,62 @@ jobs:
           java-version: 21
           cache: gradle
       - uses: android-actions/setup-android@v3
+        with:
+          packages: 'platform-tools platforms;android-36 build-tools;36.0.0'
       - run: npm ci
+      - run: node scripts/check-version.mjs
       - name: Build web application
         run: npm run build
       - name: Sync Capacitor Android assets
         run: npx cap sync android
       - run: chmod +x android/gradlew
-      - name: Compilar APK de teste
+      - name: Configurar assinatura quando disponível
+        id: signing
+        env:
+          KEYSTORE: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
+          STORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
+          KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
+          KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
+        run: |
+          if [[ -n "$KEYSTORE" && -n "$STORE_PASSWORD" && -n "$KEY_ALIAS" && -n "$KEY_PASSWORD" ]]; then
+            printf '%s' "$KEYSTORE" | base64 --decode > "$RUNNER_TEMP/tita-release.jks"
+            echo "signed=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "signed=false" >> "$GITHUB_OUTPUT"
+          fi
+      - name: Compilar APK
         working-directory: android
-        run: ./gradlew assembleDebug
+        env:
+          ANDROID_KEYSTORE_PATH: ${{ runner.temp }}/tita-release.jks
+          ANDROID_KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
+          ANDROID_KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
+          ANDROID_KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
+          SIGNED: ${{ steps.signing.outputs.signed }}
+        run: |
+          if [[ "$SIGNED" == "true" ]]; then ./gradlew assembleRelease; else ./gradlew assembleDebug; fi
+      - name: Nome e checksum do APK
+        env:
+          SIGNED: ${{ steps.signing.outputs.signed }}
+        run: |
+          VERSION=$(node -p "require('./package.json').version")
+          mkdir -p release-assets
+          if [[ "$SIGNED" == "true" ]]; then
+            cp android/app/build/outputs/apk/release/app-release.apk "release-assets/Projeto-Tita-v${VERSION}.apk"
+          else
+            cp android/app/build/outputs/apk/debug/app-debug.apk "release-assets/Projeto-Tita-v${VERSION}-debug.apk"
+          fi
+          cd release-assets
+          sha256sum *.apk > SHA256SUMS.txt
+      - name: Verificar assinatura e registrar pacote
+        run: |
+          "$ANDROID_HOME/build-tools/36.0.0/apksigner" verify --verbose --print-certs release-assets/*.apk > release-assets/SIGNING.txt
+          "$ANDROID_HOME/build-tools/36.0.0/aapt" dump badging release-assets/*.apk > release-assets/PACKAGE.txt
+          cp dist/release.json release-assets/release.json
+      - name: Remover keystore temporária
+        if: always()
+        run: rm -f "$RUNNER_TEMP/tita-release.jks"
       - uses: actions/upload-artifact@v4
         with:
-          name: projeto-tita-debug-apk
-          path: android/app/build/outputs/apk/debug/app-debug.apk
+          name: projeto-tita-apk
+          path: release-assets/
           if-no-files-found: error

@@ -1,5 +1,6 @@
 import type { Exercise } from '../domain/entities/exercise.js';
 import { ExerciseRole } from '../domain/enums/exercise-role.js';
+import { EXPANDED_EXERCISES } from './catalog-generated.js';
 
 const SEED_TIMESTAMP = '2026-01-01T00:00:00.000Z';
 
@@ -1002,4 +1003,5 @@ export const SEED_EXERCISES: readonly Exercise[] = [
     license: 'CC BY-SA 4.0',
     attribution: 'Projeto Titã Knowledge Base',
   },
+  ...EXPANDED_EXERCISES,
 ];

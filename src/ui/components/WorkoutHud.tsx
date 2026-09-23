@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from './Button.js';
-import { TimerIcon, PlusIcon } from './icons.js';
+import { TimerIcon, PlusIcon, PlayIcon, PauseIcon } from './icons.js';
 
 export interface WorkoutHudProps {
   remainingSeconds?: number;
@@ -120,7 +120,7 @@ export const MobileWorkoutHud: React.FC<WorkoutHudProps> = ({
               >
                 <span>{isPaused ? 'Retomar Treino' : 'Pausar Treino'}</span>
                 <span style={{ fontSize: '12px', color: 'var(--tita-text-muted)' }}>
-                  {isPaused ? '▶' : '⏸'}
+                  {isPaused ? <PlayIcon aria-hidden="true" /> : <PauseIcon aria-hidden="true" />}
                 </span>
               </button>
             )}

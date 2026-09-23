@@ -1,3 +1,20 @@
+# Changelog
+
+## 1.0.0
+
+- Corrige edição de reps/carga e ordenação das gravações ao concluir treino.
+- Mantém menus na viewport e substitui tipo de série nativo por seletor Titã com teclado e foco.
+- Preserva os 42 exercícios existentes e adiciona 175 exercícios localizados, com IDs estáveis.
+- Disponibiliza 215 GIFs reais e reproduzíveis a partir de frames CC BY-SA 4.0; dois legados usam fallback correto.
+- Mantém mídia offline progressiva na PWA e embarcada no Android, sem download inicial de todo o acervo.
+- Ajusta PT-BR, ícones SVG, cartões de progressão e resumo pós-treino sem redesign.
+- Limita BYOK inclusive em streams travados, com fallback local e retry explícito.
+- Corrige instalação de SDK Android no CI, versionamento, checksum e distinção entre debug e release assinada.
+
+## Registro anterior do desenvolvimento
+
+A anotação 2.0.0 abaixo é preservada como histórico do desenvolvimento. Não existe tag publicada correspondente; a versão do pacote e das plataformas para a primeira release é 1.0.0.
+
 # Changelog — Projeto Titã
 
 Todas as mudanças relevantes deste projeto são documentadas neste arquivo.

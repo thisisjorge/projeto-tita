@@ -158,7 +158,7 @@ describe('main provider help routing and failure boundaries', () => {
       expect(localHelp('RIR')).toBeTruthy();
     },
   );
-  it('times out main help in 20 seconds with abort, without invoking Fast Judge', async () => {
+  it('times out main help in 30 seconds with abort, without invoking Fast Judge', async () => {
     vi.useFakeTimers();
     const fetcher = vi.fn<typeof fetch>(
       (_url, options) =>
@@ -173,7 +173,7 @@ describe('main provider help routing and failure boundaries', () => {
     const pending = expect(session.generateInsight(payload)).rejects.toMatchObject({
       code: 'timeout',
     });
-    await vi.advanceTimersByTimeAsync(20001);
+    await vi.advanceTimersByTimeAsync(30001);
     await pending;
     expect(fetcher).toHaveBeenCalledTimes(1);
     expect(localHelp('RIR')).toBeTruthy();

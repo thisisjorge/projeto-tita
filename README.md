@@ -2,7 +2,7 @@
 
 **Workout tracker local-first, com Web/PWA instalável e IA opcional.**
 
-**Release Candidate disponível para testes públicos.** O foco atual é validação em uso real antes da primeira versão estável.
+**Projeto Titã V1.** Veja as mudanças, o catálogo licenciado, a estratégia offline e os gates de publicação em [V1_RELEASE.md](docs/V1_RELEASE.md).
 
 ![Projeto Titã: progresso e registro de treino](docs/public-showcase/showcase-hero.png)
 
@@ -62,10 +62,10 @@ As chamadas HTTPS enviam a chave ao endpoint escolhido para autenticação. Mem�
 
 | Plataforma | Status do RC |
 | --- | --- |
-| Web/PWA | Release Candidate / Public Dogfooding Ready; gates finais registrados nas [evidências](docs/rc-public-dogfooding/validation.json). Publicação suspensa. |
-| Android Native | Scaffold/build configuration ready; real-device QA pending. Sem validação em aparelho real nesta rodada. |
+| Web/PWA | V1: publicação e evidências em [V1_RELEASE.md](docs/V1_RELEASE.md). |
+| Android Native | APK gerado pelo GitHub Actions; debug quando os secrets de assinatura não estão configurados. QA em aparelho físico pendente. |
 | iOS Native | Scaffold ready; macOS/Xcode + real-device QA pending. |
-| Safari / WebKit | WebKit automated PASS (12 testes focados); Safari real-device/macOS pending. |
+| Safari / WebKit | Suíte WebKit completa no CI. Safari em aparelho/macOS físico não validado. |
 | Android Chrome | Chromium mobile/PWA automated PASS; real-device QA pending. |
 | Google Artemis | Pending runner. |
 
@@ -95,7 +95,7 @@ Abra `http://127.0.0.1:4173/app`. O Service Worker exige contexto seguro: HTTPS 
 npm run test:ci
 ```
 
-Último CI: **288/288 unit/PBT e 46/46 E2E PASS**, além de lint, formatação, typecheck e build. WebKit complementar: **12/12 PASS**. A suíte E2E padrão usa Chrome instalado e o servidor local de testes. Chamadas a providers são interceptadas por mocks. Os números finais e limites estão em [validation.json](docs/rc-public-dogfooding/validation.json), com [relatório do RC](docs/rc-public-dogfooding/REPORT.md).
+O CI executa lint, formatação, typecheck, unit/PBT, build, Chromium e WebKit completos, com acessibilidade/axe, offline e lifecycles. Também verifica versão, catálogo e reprodução dos GIFs. Chamadas a providers usam mocks sem cobrança. Resultados e limites da V1: [V1_RELEASE.md](docs/V1_RELEASE.md).
 
 As imagens usam dados sintéticos. Resultados de IA nas demonstrações são simulados e não comprovam respostas de contas reais. Veja o [pacote de showcase e créditos](docs/public-showcase/README.md).
 
