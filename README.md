@@ -14,7 +14,15 @@ Uma sessão de treino costuma se perder entre anotações, planilhas e apps que 
 | --- | --- | --- |
 | ![Registro de séries e cargas](public/showcase/v1/04-treino-em-andamento-dark.png) | ![Detalhe de exercício com GIF](public/showcase/v1/03-exercicio-animado-dark.png) | ![Resumo de sessão concluída](public/showcase/v1/05-resumo-do-treino-dark.png) |
 
-As [sete capturas](public/showcase/v1/manifest.json) foram feitas na produção em um perfil isolado com dados de demonstração. Elas mostram a interface real; não incluem dados de usuários.
+O mesmo perfil de demonstração no tema claro:
+
+| Rotinas | Progresso |
+| --- | --- |
+| ![Rotinas no tema claro](public/showcase/v1/08-rotinas-light.png) | ![Progresso no tema claro](public/showcase/v1/09-progresso-light.png) |
+
+![Treino em andamento no tema claro](public/showcase/v1/10-treino-em-andamento-light.png)
+
+As [dez capturas](public/showcase/v1/manifest.json) foram feitas na produção em um perfil isolado com dados de demonstração. Elas mostram a interface real; não incluem dados de usuários.
 
 ## Principais recursos
 
