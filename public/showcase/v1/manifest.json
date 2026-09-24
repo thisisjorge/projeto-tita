@@ -54,5 +54,29 @@
     "releaseSha": "fc9b5d831a79cf89ae3333db8bdbd450dad44ff2",
     "syntheticProfile": true,
     "width": 1440
+  },
+  {
+    "file": "08-rotinas-light.png",
+    "description": "Rotinas preenchidas no tema claro",
+    "source": "https://tita.jorgetavares.dev",
+    "releaseSha": "f5e956ea6139fb624d39b17d84d55c7b0c7f90ea",
+    "syntheticProfile": true,
+    "width": 1440
+  },
+  {
+    "file": "09-progresso-light.png",
+    "description": "Gráficos e indicadores de progresso no tema claro",
+    "source": "https://tita.jorgetavares.dev",
+    "releaseSha": "f5e956ea6139fb624d39b17d84d55c7b0c7f90ea",
+    "syntheticProfile": true,
+    "width": 1440
+  },
+  {
+    "file": "10-treino-em-andamento-light.png",
+    "description": "Séries, carga e repetições em treino ativo no tema claro",
+    "source": "https://tita.jorgetavares.dev",
+    "releaseSha": "f5e956ea6139fb624d39b17d84d55c7b0c7f90ea",
+    "syntheticProfile": true,
+    "width": 390
   }
 ]
