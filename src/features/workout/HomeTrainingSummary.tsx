@@ -3,17 +3,22 @@ import { useNavigate } from 'react-router-dom';
 import { HistoryService } from '../../services/history-service.js';
 import type { WorkoutSnapshot } from '../../domain/entities/workout-snapshot.js';
 import type { WeeklyReview } from '../../domain/analytics/types.js';
+import type { Routine } from '../../domain/entities/routine.js';
+import { isOptionalRoutine, localWeekday, WEEKDAY_SHORT } from '../../domain/weekday.js';
+import { RoutineService } from '../../services/routine-service.js';
 import { Button, DumbbellIcon, StatusBanner } from '../../ui/components/index.js';
 import './home.css';
 
 /** Read-only summary of saved sessions; mounted only outside the workout logger. */
 export function HomeTrainingSummary({
   onStart,
+  onStartRoutine,
   startDisabled,
   error,
   onDismissError,
 }: {
   onStart: () => void;
+  onStartRoutine?: (routine: Routine) => void;
   startDisabled: boolean;
   error: string | null;
   onDismissError: () => void;
@@ -23,9 +28,19 @@ export function HomeTrainingSummary({
     null,
   );
   const [loadFailed, setLoadFailed] = useState(false);
+  const [todayRoutine, setTodayRoutine] = useState<Routine | null>(null);
   useEffect(() => {
     let mounted = true;
     const history = new HistoryService();
+    void new RoutineService()
+      .getRoutines()
+      .then((routines) => {
+        if (mounted)
+          setTodayRoutine(
+            routines.find((routine) => routine.weekday === localWeekday(new Date())) ?? null,
+          );
+      })
+      .catch(() => {});
     Promise.all([history.getHistory({ pageSize: 1 }), history.getWeeklyReview()])
       .then(([recent, week]) => {
         if (mounted) setSummary({ latest: recent.pagination.items[0], week });
@@ -46,6 +61,18 @@ export function HomeTrainingSummary({
         <h2>Pronto para treinar?</h2>
         <p>Escolha sua rotina ou comece uma sessão livre. Uma série de cada vez.</p>
         <div className="tita-home__actions">
+          {todayRoutine && onStartRoutine && (
+            <Button
+              size="lg"
+              onClick={() => onStartRoutine(todayRoutine)}
+              disabled={startDisabled}
+              data-testid="start-today-routine-button"
+              leftIcon={<DumbbellIcon size={20} />}
+            >
+              {WEEKDAY_SHORT[todayRoutine.weekday!]} · {todayRoutine.name}
+              {isOptionalRoutine(todayRoutine) ? ' (opcional)' : ''}
+            </Button>
+          )}
           <Button
             size="lg"
             onClick={onStart}

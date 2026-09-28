@@ -10,8 +10,9 @@ export class ProgressionEngine {
   static evaluate(
     context: ProgressionContext,
     ruleConfig?: ProgressionRuleConfig,
+    fallbackStrategy: ProgressionStrategyType = ProgressionStrategyType.DOUBLE_PROGRESSION,
   ): ProgressionSuggestion | null {
-    const strategyType = ruleConfig?.type ?? ProgressionStrategyType.DOUBLE_PROGRESSION;
+    const strategyType = ruleConfig?.type ?? fallbackStrategy;
     const strategy = progressionStrategies[strategyType];
     if (!strategy) {
       return null;

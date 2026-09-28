@@ -5,6 +5,7 @@ import type { SetTemplate } from '../domain/entities/set-template.js';
 import { SetType } from '../domain/enums/set-type.js';
 import type { ProgressionStrategyType } from '../domain/enums/progression-strategy-type.js';
 import { validateRoutine } from '../domain/validators/routine-validator.js';
+import { sortRoutinesByWeekday, type Weekday } from '../domain/weekday.js';
 import type { TitaDatabase } from '../repositories/interfaces/database.interface.js';
 import { IdbRoutineRepository } from '../repositories/indexeddb/idb-routine-repository.js';
 import { getAppDatabase } from './db-provider.js';
@@ -33,6 +34,8 @@ export interface RoutineExerciseInput {
 
 export interface CreateRoutineInput {
   name: string;
+  weekday?: Weekday;
+  optional?: boolean;
   notes?: string;
   programId?: EntityId;
   defaultProgressionStrategy?: ProgressionStrategyType;
@@ -42,6 +45,8 @@ export interface CreateRoutineInput {
 
 export interface UpdateRoutineInput {
   name?: string;
+  weekday?: Weekday | null;
+  optional?: boolean;
   notes?: string;
   programId?: EntityId;
   defaultProgressionStrategy?: ProgressionStrategyType;
@@ -69,7 +74,7 @@ export class RoutineService {
    */
   async getRoutines(options?: { includeArchived?: boolean }): Promise<Routine[]> {
     await this.ensureDatabaseOpen();
-    return this.routineRepo.getAll(options?.includeArchived ?? false);
+    return sortRoutinesByWeekday(await this.routineRepo.getAll(options?.includeArchived ?? false));
   }
 
   /**
@@ -127,6 +132,8 @@ export class RoutineService {
       createdAt: now,
       updatedAt: now,
       name: input.name.trim(),
+      weekday: input.weekday,
+      optional: input.optional,
       notes: input.notes?.trim(),
       programId: input.programId,
       exercises: formattedExercises,
@@ -199,6 +206,8 @@ export class RoutineService {
     const updated: Routine = {
       ...existing,
       name: input.name !== undefined ? input.name.trim() : existing.name,
+      weekday: input.weekday === null ? undefined : (input.weekday ?? existing.weekday),
+      optional: input.optional ?? existing.optional,
       notes: input.notes !== undefined ? input.notes.trim() : existing.notes,
       programId: input.programId !== undefined ? input.programId : existing.programId,
       exercises: updatedExercises,
@@ -265,10 +274,13 @@ export class RoutineService {
       createdAt: now,
       updatedAt: now,
       name: newName ? newName.trim() : `${original.name} (Cópia)`,
+      weekday: original.weekday,
+      optional: original.optional,
       notes: original.notes,
       programId: original.programId,
       exercises: clonedExercises,
       groups: clonedGroups,
+      defaultProgressionStrategy: original.defaultProgressionStrategy,
     };
 
     const validation = validateRoutine(clonedRoutine);

@@ -9,8 +9,8 @@ import { SEED_TEMPLATES } from '../../src/data/seed-templates.js';
 
 describe('Rótulos dos built-ins', () => {
   it('mantém IDs e usa nomes PT-BR em todo o catálogo de exercícios', () => {
-    expect(SEED_EXERCISES).toHaveLength(217);
-    expect(new Set(SEED_EXERCISES.map((exercise) => exercise.id)).size).toBe(217);
+    expect(SEED_EXERCISES).toHaveLength(218);
+    expect(new Set(SEED_EXERCISES.map((exercise) => exercise.id)).size).toBe(218);
     for (const exercise of SEED_EXERCISES) {
       expect(builtinExerciseName(exercise.id, 'Legacy English Name')).toBe(exercise.name);
     }

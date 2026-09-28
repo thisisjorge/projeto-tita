@@ -109,8 +109,13 @@ export interface ProgressionContext {
     readonly weight?: number;
     readonly reps?: number;
     readonly type?: SetType;
+    readonly minReps?: number;
+    readonly maxReps?: number;
+    readonly targetRir?: number;
   }[];
   readonly previousSets: readonly ExerciseSet[];
+  readonly earlierSessions?: readonly (readonly ExerciseSet[])[];
+  readonly incrementKg?: number;
   readonly estimated1Rm?: number;
 }
 

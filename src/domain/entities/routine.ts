@@ -2,6 +2,7 @@ import type { BaseEntity, EntityId } from '../common/types.js';
 import type { GroupType } from '../enums/group-type.js';
 import type { ProgressionStrategyType } from '../enums/progression-strategy-type.js';
 import type { SetTemplate } from './set-template.js';
+import type { Weekday } from '../weekday.js';
 
 /**
  * Exercise entry planned within a Routine.
@@ -44,6 +45,10 @@ export interface RoutineGroup {
 export interface Routine extends BaseEntity {
   /** Name of the routine (e.g. 'Costas + Bíceps', 'Upper A') */
   readonly name: string;
+  /** Local calendar day assigned to this routine. Omitted in legacy routines. */
+  readonly weekday?: Weekday;
+  /** Excluded from required weekly training frequency. */
+  readonly optional?: boolean;
   /** Optional descriptive notes or guidelines */
   readonly notes?: string;
   /** Optional link to a parent Program */

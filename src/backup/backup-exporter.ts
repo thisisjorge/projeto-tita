@@ -11,6 +11,7 @@ import {
   calculateSha256,
   serializeDeterministicJson,
 } from './backup-grammar.js';
+import type { WorkoutSnapshot } from '../domain/entities/workout-snapshot.js';
 
 function sortRecords(records: readonly unknown[]): unknown[] {
   return [...records].sort((a, b) => {
@@ -37,6 +38,25 @@ export interface ExportBackupOptions {
 export interface ExportBackupResult {
   readonly backup: BackupV1;
   readonly json: string;
+}
+
+/** A single session in the same checksum-protected grammar as a full backup. */
+export async function exportWorkoutSnapshot(
+  snapshot: WorkoutSnapshot,
+): Promise<ExportBackupResult> {
+  const records = { workoutSnapshots: [snapshot] };
+  const backup: BackupV1 = {
+    manifest: {
+      format: BACKUP_FORMAT_IDENTIFIER,
+      schemaVersion: CURRENT_BACKUP_SCHEMA_VERSION,
+      exportedAt: new Date().toISOString(),
+      categories: ['workoutSnapshots'],
+      counts: { workoutSnapshots: 1 },
+      checksum: await calculateSha256(serializeDeterministicJson(records)),
+    },
+    records,
+  };
+  return { backup, json: serializeDeterministicJson(backup) };
 }
 
 /**

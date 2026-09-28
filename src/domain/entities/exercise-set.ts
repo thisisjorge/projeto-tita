@@ -29,6 +29,10 @@ export interface ExerciseSet {
    * Undefined indicates not yet recorded.
    */
   readonly reps?: number;
+  /** Planned range and effort carried from a routine, if available. */
+  readonly minReps?: number;
+  readonly maxReps?: number;
+  readonly targetRir?: number;
   /** Whether the set has been completed by the lifter */
   readonly completed: boolean;
   /** Exact UTC timestamp when completion was registered */

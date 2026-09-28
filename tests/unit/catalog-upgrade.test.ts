@@ -14,7 +14,7 @@ const legacy = JSON.parse(
 describe('V1 catalog upgrade', () => {
   it('preserves every field and ID of all 42 legacy exercises', () => {
     expect(SEED_EXERCISES.slice(0, 42)).toEqual(legacy);
-    expect(SEED_EXERCISES).toHaveLength(217);
+    expect(SEED_EXERCISES).toHaveLength(218);
   });
   it('ships verified frames and real GIFs for every supported mapping', () => {
     let count = 0;
@@ -52,7 +52,7 @@ describe('V1 catalog upgrade', () => {
       await service.initialize();
       await service.initialize();
       for (const e of [...old, custom]) expect(await repo.getById(e.id)).toEqual(e);
-      expect(await repo.getAll(true)).toHaveLength(218);
+      expect(await repo.getAll(true)).toHaveLength(219);
     } finally {
       db.close();
     }

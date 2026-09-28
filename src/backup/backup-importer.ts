@@ -34,7 +34,7 @@ export interface ImportPreflightResult {
   };
 }
 
-export type ImportMode = 'merge' | 'replace_selected' | 'cancel';
+export type ImportMode = 'merge' | 'merge_keep_existing' | 'replace_selected' | 'cancel';
 
 export interface ImportExecutionOptions {
   readonly mode: ImportMode;
@@ -315,11 +315,19 @@ export async function executeImport(
           await store.clear();
         }
 
+        let imported = 0;
         for (const record of incomingRecords) {
+          if (options.mode === 'merge_keep_existing' && record && typeof record === 'object') {
+            const item = record as Record<string, unknown>;
+            const key = item.id ?? item.key ?? item.source;
+            if ((typeof key === 'string' || typeof key === 'number') && (await store.get(key)))
+              continue;
+          }
           await store.put(record);
+          imported++;
         }
 
-        importedCounts[storeName] = incomingRecords.length;
+        importedCounts[storeName] = imported;
       }
     });
 

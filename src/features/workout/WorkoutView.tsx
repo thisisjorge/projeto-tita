@@ -5,6 +5,8 @@ import { workoutErrorMessage } from '../../ui/workout-error.js';
 import { AnchoredMenu } from '../../ui/components/AnchoredMenu.js';
 import { TrophyIcon } from '../../ui/components/icons.js';
 import { Link } from 'react-router-dom';
+import type { Routine } from '../../domain/entities/routine.js';
+import { startRoutineWorkout } from '../../services/start-routine-workout.js';
 import { ExerciseSubstitutionDialog } from './ExerciseSubstitutionDialog.js';
 import { substitutionCatalogId } from '../../domain/workout/substitution.js';
 import {
@@ -44,6 +46,8 @@ import type {
 import { ProgressionSuggestionCard } from './ProgressionSuggestionCard.js';
 import { serviceWorkerManager } from '../../services/service-worker-manager.js';
 import type { Exercise } from '../../domain/entities/exercise.js';
+import { isAndroidApk } from '../../platform/native-incoming-json.js';
+import { nativeTimerState, onNativeTimerChanged, openExactAlarmSettings } from '../../platform/native-rest-timer.js';
 import {
   notificationAdapter,
   hapticsAdapter,
@@ -91,6 +95,8 @@ export const WorkoutView: React.FC = () => {
   const [timerRemainingSeconds, setTimerRemainingSeconds] = useState<number>(0);
   const [activeExerciseSlotId, setActiveExerciseSlotId] = useState<string | null>(null);
   const [timerAnnouncement, setTimerAnnouncement] = useState('');
+  const [timerWarning, setTimerWarning] = useState<string | null>(null);
+  const [exactAlarmNeedsAccess, setExactAlarmNeedsAccess] = useState(false);
   const prevRunningRef = React.useRef(false);
   const announcedMilestones = React.useRef<Set<number>>(new Set());
 
@@ -203,12 +209,19 @@ export const WorkoutView: React.FC = () => {
               const prevSets = await s.getPreviousExerciseSets(ex.exerciseId);
               if (prevSets && prevSets.length > 0) {
                 prevSetsRecord[ex.exerciseId] = prevSets;
-                const sugg = ProgressionEngine.evaluate({
-                  exerciseId: ex.exerciseId,
-                  exerciseName: ex.exerciseName,
-                  plannedSets: ex.sets,
-                  previousSets: prevSets,
-                });
+                const sugg = ProgressionEngine.evaluate(
+                  {
+                    exerciseId: ex.exerciseId,
+                    exerciseName: ex.exerciseName,
+                    plannedSets: ex.sets,
+                    previousSets: prevSets,
+                    earlierSessions: (await s.getRecentExerciseSessions(ex.exerciseId, 3)).slice(1),
+                    incrementKg: (await exerciseLibService.getExerciseById(ex.exerciseId))
+                      ?.increment,
+                  },
+                  undefined,
+                  ex.progressionStrategy,
+                );
                 if (sugg) {
                   suggMap[ex.exerciseId] = sugg;
                 }
@@ -277,8 +290,10 @@ export const WorkoutView: React.FC = () => {
             setTimer(activeTimer);
             const remaining = calculateRemainingMs(activeTimer, Date.now());
             if (remaining <= 0 && activeTimer.status === TimerStatus.RUNNING) {
-              notificationAdapter.playChime();
-              hapticsAdapter.impact('heavy');
+              if (!isAndroidApk()) {
+                notificationAdapter.playChime();
+                hapticsAdapter.impact('heavy');
+              }
             }
           }
         } catch {
@@ -290,6 +305,21 @@ export const WorkoutView: React.FC = () => {
     return () => {
       unsubscribe();
     };
+  }, [service]);
+
+  useEffect(() => {
+    if (!service || !isAndroidApk()) return;
+    let live = true;
+    let listener: { remove: () => Promise<void> } | null = null;
+    void onNativeTimerChanged(() => {
+      void service.getActiveTimer().then((updated) => {
+        if (live) setTimer(updated);
+      });
+    }).then((handle) => {
+      if (!live) void handle?.remove();
+      else listener = handle;
+    });
+    return () => { live = false; void listener?.remove(); };
   }, [service]);
 
   // Timer countdown synchronization (derived purely from deadline, zero tick drift)
@@ -314,8 +344,10 @@ export const WorkoutView: React.FC = () => {
 
       if (remainingMs <= 0) {
         setTimer((prev) => (prev ? { ...prev, status: TimerStatus.COMPLETED } : null));
-        notificationAdapter.playChime();
-        hapticsAdapter.impact('heavy');
+        if (!isAndroidApk()) {
+          notificationAdapter.playChime();
+          hapticsAdapter.impact('heavy');
+        }
         clearInterval(interval);
       }
     }, 500);
@@ -504,7 +536,16 @@ export const WorkoutView: React.FC = () => {
       if (generation !== editGeneration.current) return;
       if (activeTimer) {
         setTimer(activeTimer);
-        if (activeTimer.status === TimerStatus.RUNNING && activeTimer.deadlineAt) {
+        if (isAndroidApk() && activeTimer.status === TimerStatus.RUNNING) {
+          const native = await nativeTimerState();
+          if (native && !native.notificationsAllowed)
+            setTimerWarning('Permita notificações do Titã nas configurações do Android para receber alertas fora do app.');
+          else if (native && !native.exactAlertsAllowed)
+            setTimerWarning('Ative alarmes precisos para avisos pontuais com a tela apagada. O timer continua contando.');
+          else setTimerWarning(null);
+          setExactAlarmNeedsAccess(Boolean(native && !native.exactAlertsAllowed));
+        }
+        if (!isAndroidApk() && activeTimer.status === TimerStatus.RUNNING && activeTimer.deadlineAt) {
           notificationAdapter.scheduleNotification({
             id: 1001,
             title: 'Tempo de Descanso Concluído!',
@@ -727,13 +768,13 @@ export const WorkoutView: React.FC = () => {
       const paused = await service.pauseTimer();
       if (paused) {
         setTimer(paused);
-        notificationAdapter.cancelNotification(1001);
+        if (!isAndroidApk()) notificationAdapter.cancelNotification(1001);
       }
     } else if (timer.status === TimerStatus.PAUSED) {
       const resumed = await service.resumeTimer();
       if (resumed) {
         setTimer(resumed);
-        if (resumed.deadlineAt) {
+        if (!isAndroidApk() && resumed.deadlineAt) {
           notificationAdapter.scheduleNotification({
             id: 1001,
             title: 'Tempo de Descanso Concluído!',
@@ -750,7 +791,7 @@ export const WorkoutView: React.FC = () => {
     const updated = await service.addTimerSeconds(seconds);
     if (updated) {
       setTimer(updated);
-      if (updated.status === TimerStatus.RUNNING && updated.deadlineAt) {
+      if (!isAndroidApk() && updated.status === TimerStatus.RUNNING && updated.deadlineAt) {
         notificationAdapter.scheduleNotification({
           id: 1001,
           title: 'Tempo de Descanso Concluído!',
@@ -764,7 +805,7 @@ export const WorkoutView: React.FC = () => {
   const handleSkipTimer = async () => {
     if (!service) return;
     await service.skipTimer();
-    notificationAdapter.cancelNotification(1001);
+    if (!isAndroidApk()) notificationAdapter.cancelNotification(1001);
     setTimer(null);
   };
 
@@ -968,6 +1009,23 @@ export const WorkoutView: React.FC = () => {
     return (
       <HomeTrainingSummary
         onStart={() => handleStartWorkout('Treino Rápido')}
+        onStartRoutine={(routine: Routine) => {
+          if (!service) return;
+          void startRoutineWorkout(routine, service, exerciseLibService)
+            .then((result) => {
+              if (result.type === 'started') {
+                setActiveWorkout(result.workout);
+                serviceWorkerManager.notifyActiveWorkoutChanged(true);
+              } else if (result.type === 'mustResume') {
+                setUnfinishedExisting(result.existing);
+              } else {
+                setErrorMessage(workoutErrorMessage(result.error));
+              }
+            })
+            .catch((error: unknown) =>
+              setErrorMessage(error instanceof Error ? error.message : 'Erro ao iniciar rotina.'),
+            );
+        }}
         startDisabled={!service}
         error={errorMessage}
         onDismissError={() => setErrorMessage(null)}
@@ -1463,6 +1521,14 @@ export const WorkoutView: React.FC = () => {
         }}
       >
         {/* Error Banner */}
+        {timerWarning && (
+          <StatusBanner
+            type="warning"
+            message={timerWarning}
+            action={exactAlarmNeedsAccess ? { label: 'Ativar alarmes precisos', onClick: () => void openExactAlarmSettings() } : undefined}
+            onDismiss={() => setTimerWarning(null)}
+          />
+        )}
         {errorMessage && (
           <StatusBanner
             type="error"

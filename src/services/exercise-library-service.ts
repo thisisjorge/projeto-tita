@@ -11,6 +11,8 @@ import { IdbExerciseRepository } from '../repositories/indexeddb/idb-exercise-re
 import { IdbMetadataRepository } from '../repositories/indexeddb/idb-metadata-repository.js';
 import { IdbWorkoutSnapshotRepository } from '../repositories/indexeddb/idb-workout-repository.js';
 import { getAppDatabase } from './db-provider.js';
+import { enhanceExercise } from '../data/exercise-enhancements.js';
+import { exerciseSearchScore } from './exercise-search.js';
 
 export interface ExerciseFilterOptions {
   search?: string;
@@ -62,6 +64,12 @@ export interface ExerciseHistorySummary {
   }>;
 }
 
+export interface CustomExerciseAudit {
+  readonly custom: Exercise;
+  readonly possibleNative: Exercise | null;
+  readonly issues: readonly string[];
+}
+
 const FAVORITES_METADATA_KEY = 'favorite_exercise_ids';
 
 export class ExerciseLibraryService {
@@ -99,64 +107,102 @@ export class ExerciseLibraryService {
    */
   async getExercises(filters?: ExerciseFilterOptions): Promise<Exercise[]> {
     const all = (await this.exerciseRepo.getAll(false)).map((exercise) =>
-      exercise.source === 'system'
-        ? { ...exercise, name: builtinExerciseName(exercise.id, exercise.name) }
-        : exercise,
+      enhanceExercise(
+        exercise.source === 'system'
+          ? { ...exercise, name: builtinExerciseName(exercise.id, exercise.name) }
+          : exercise,
+      ),
     );
     const favoriteIds = new Set(await this.getFavoriteIds());
     const recentIds = new Set(await this.getRecentExerciseIds());
 
-    const searchNormalized = filters?.search?.trim().toLowerCase();
+    const search = filters?.search?.trim();
 
-    return all.filter((ex) => {
-      // 1. Source filter
-      if (filters?.source && filters.source !== 'all') {
-        if (ex.source !== filters.source) return false;
-      }
+    return all
+      .filter((ex) => {
+        // 1. Source filter
+        if (filters?.source && filters.source !== 'all') {
+          if (ex.source !== filters.source) return false;
+        }
 
-      // 2. Favorites only
-      if (filters?.onlyFavorites && !favoriteIds.has(ex.id)) {
-        return false;
-      }
-
-      // 3. Recent only
-      if (filters?.onlyRecent && !recentIds.has(ex.id)) {
-        return false;
-      }
-
-      // 4. Muscle filter
-      if (filters?.muscle && filters.muscle !== 'all') {
-        const muscleTarget = filters.muscle.toLowerCase();
-        const primaryMatch = ex.primaryMuscle.toLowerCase().includes(muscleTarget);
-        const secondaryMatch = ex.secondaryMuscles.some((m) =>
-          m.toLowerCase().includes(muscleTarget),
-        );
-        if (!primaryMatch && !secondaryMatch) return false;
-      }
-
-      // 5. Equipment filter
-      if (filters?.equipment && filters.equipment !== 'all') {
-        if (ex.equipment.toLowerCase() !== filters.equipment.toLowerCase()) {
+        // 2. Favorites only
+        if (filters?.onlyFavorites && !favoriteIds.has(ex.id)) {
           return false;
         }
-      }
 
-      // 6. Category filter
-      if (filters?.category && filters.category !== 'all') {
-        if (ex.category.toLowerCase() !== filters.category.toLowerCase()) {
+        // 3. Recent only
+        if (filters?.onlyRecent && !recentIds.has(ex.id)) {
           return false;
         }
-      }
 
-      // 7. Text search (name + aliases)
-      if (searchNormalized && searchNormalized.length > 0) {
-        const nameMatch = ex.name.toLowerCase().includes(searchNormalized);
-        const aliasMatch = ex.aliases.some((a) => a.toLowerCase().includes(searchNormalized));
-        if (!nameMatch && !aliasMatch) return false;
-      }
+        // 4. Muscle filter
+        if (filters?.muscle && filters.muscle !== 'all') {
+          const muscleTarget = filters.muscle.toLowerCase();
+          const primaryMatch = ex.primaryMuscle.toLowerCase().includes(muscleTarget);
+          const secondaryMatch = ex.secondaryMuscles.some((m) =>
+            m.toLowerCase().includes(muscleTarget),
+          );
+          if (!primaryMatch && !secondaryMatch) return false;
+        }
 
-      return true;
-    });
+        // 5. Equipment filter
+        if (filters?.equipment && filters.equipment !== 'all') {
+          if (ex.equipment.toLowerCase() !== filters.equipment.toLowerCase()) {
+            return false;
+          }
+        }
+
+        // 6. Category filter
+        if (filters?.category && filters.category !== 'all') {
+          if (ex.category.toLowerCase() !== filters.category.toLowerCase()) {
+            return false;
+          }
+        }
+
+        // 7. Text search (name + aliases)
+        if (search && exerciseSearchScore(ex, search) < 0) return false;
+
+        return true;
+      })
+      .sort((a, b) =>
+        search
+          ? exerciseSearchScore(b, search) - exerciseSearchScore(a, search) ||
+            a.name.localeCompare(b.name, 'pt-BR')
+          : 0,
+      );
+  }
+
+  /** Read-only candidates; never changes custom IDs, workouts or personal records. */
+  async auditCustomExercises(): Promise<CustomExerciseAudit[]> {
+    const all = await this.getExercises();
+    const native = all.filter((exercise) => exercise.source === 'system');
+    return all
+      .filter((exercise) => exercise.source === 'custom')
+      .map((custom) => {
+        const possibleNative =
+          native
+            .map((exercise) => ({
+              exercise,
+              score:
+                exerciseSearchScore(exercise, custom.name) +
+                (exercise.equipment === custom.equipment ? 5 : 0),
+            }))
+            .filter((item) => item.score >= 90)
+            .sort((a, b) => b.score - a.score)[0]?.exercise ?? null;
+        const issues: string[] = [];
+        if (custom.primaryMuscle.toLowerCase() === 'general')
+          issues.push('Grupo muscular genérico');
+        if (possibleNative && custom.equipment !== possibleNative.equipment)
+          issues.push('Equipamento diferente do nativo sugerido');
+        if (
+          possibleNative &&
+          custom.roles.length > 0 &&
+          !custom.roles.some((role) => possibleNative.roles.includes(role))
+        )
+          issues.push('Padrão de movimento diferente do nativo sugerido');
+        if (possibleNative && custom.roles.length === 0) issues.push('Padrão de movimento ausente');
+        return { custom, possibleNative, issues };
+      });
   }
 
   /**
@@ -165,7 +211,7 @@ export class ExerciseLibraryService {
   async getExerciseById(id: EntityId): Promise<Exercise | null> {
     const exercise = await this.exerciseRepo.getById(id);
     return exercise?.source === 'system'
-      ? { ...exercise, name: builtinExerciseName(exercise.id, exercise.name) }
+      ? enhanceExercise({ ...exercise, name: builtinExerciseName(exercise.id, exercise.name) })
       : exercise;
   }
 

@@ -5,6 +5,8 @@ import { SetType } from '../../domain/enums/set-type.js';
 import { ProgressionStrategyType } from '../../domain/enums/progression-strategy-type.js';
 import { RoutineService } from '../../services/routine-service.js';
 import { ExerciseLibraryService } from '../../services/exercise-library-service.js';
+import { exerciseSearchScore } from '../../services/exercise-search.js';
+import { WEEKDAYS, WEEKDAY_SHORT, isOptionalRoutine, type Weekday } from '../../domain/weekday.js';
 import { Dialog, Button, Field, Card } from '../../ui/components/index.js';
 
 interface RoutineEditorDialogProps {
@@ -19,6 +21,9 @@ interface EditableSet {
   type: SetType;
   targetLoad?: number;
   targetReps?: number;
+  minReps?: number;
+  maxReps?: number;
+  targetRir?: number;
   restSeconds?: number;
   notes?: string;
 }
@@ -92,6 +97,8 @@ export const RoutineEditorDialog: React.FC<RoutineEditorDialogProps> = ({
   const libraryService = useMemo(() => new ExerciseLibraryService(), []);
 
   const [name, setName] = useState('');
+  const [weekday, setWeekday] = useState<Weekday | ''>('');
+  const [optional, setOptional] = useState(false);
   const [notes, setNotes] = useState('');
   const [defaultProgressionStrategy, setDefaultProgressionStrategy] =
     useState<ProgressionStrategyType>(ProgressionStrategyType.DOUBLE_PROGRESSION);
@@ -124,6 +131,8 @@ export const RoutineEditorDialog: React.FC<RoutineEditorDialogProps> = ({
 
     if (routineToEdit) {
       setName(routineToEdit.name);
+      setWeekday(routineToEdit.weekday ?? '');
+      setOptional(isOptionalRoutine(routineToEdit));
       setNotes(routineToEdit.notes || '');
       setDefaultProgressionStrategy(
         routineToEdit.defaultProgressionStrategy ?? ProgressionStrategyType.DOUBLE_PROGRESSION,
@@ -144,6 +153,9 @@ export const RoutineEditorDialog: React.FC<RoutineEditorDialogProps> = ({
             type: s.type,
             targetLoad: s.targetLoad,
             targetReps: s.targetReps ?? s.minReps ?? 10,
+            minReps: s.minReps,
+            maxReps: s.maxReps,
+            targetRir: s.targetRir,
             restSeconds: s.restSeconds ?? slot.restSeconds ?? 90,
             notes: s.notes,
           })),
@@ -153,6 +165,8 @@ export const RoutineEditorDialog: React.FC<RoutineEditorDialogProps> = ({
       setSlots(mappedSlots);
     } else {
       setName('');
+      setWeekday('');
+      setOptional(false);
       setNotes('');
       setDefaultProgressionStrategy(ProgressionStrategyType.DOUBLE_PROGRESSION);
       setSlots([]);
@@ -232,6 +246,9 @@ export const RoutineEditorDialog: React.FC<RoutineEditorDialogProps> = ({
         type: lastSet ? lastSet.type : SetType.NORMAL,
         targetLoad: lastSet?.targetLoad,
         targetReps: lastSet?.targetReps ?? 10,
+        minReps: lastSet?.minReps,
+        maxReps: lastSet?.maxReps,
+        targetRir: lastSet?.targetRir,
         restSeconds: lastSet?.restSeconds ?? slot.restSeconds,
       };
 
@@ -290,6 +307,7 @@ export const RoutineEditorDialog: React.FC<RoutineEditorDialogProps> = ({
 
     try {
       const exerciseInputs = slots.map((s) => ({
+        id: s.id,
         exerciseId: s.exerciseId,
         restSeconds: s.restSeconds,
         notes: s.notes,
@@ -298,6 +316,9 @@ export const RoutineEditorDialog: React.FC<RoutineEditorDialogProps> = ({
           type: st.type,
           targetLoad: st.targetLoad,
           targetReps: st.targetReps,
+          minReps: st.minReps,
+          maxReps: st.maxReps,
+          targetRir: st.targetRir,
           restSeconds: st.restSeconds,
           notes: st.notes,
         })),
@@ -306,6 +327,8 @@ export const RoutineEditorDialog: React.FC<RoutineEditorDialogProps> = ({
       if (routineToEdit) {
         await routineService.updateRoutine(routineToEdit.id, {
           name: name.trim(),
+          weekday: weekday || null,
+          optional,
           notes: notes.trim(),
           defaultProgressionStrategy,
           exercises: exerciseInputs,
@@ -313,6 +336,8 @@ export const RoutineEditorDialog: React.FC<RoutineEditorDialogProps> = ({
       } else {
         await routineService.createRoutine({
           name: name.trim(),
+          weekday: weekday || undefined,
+          optional,
           notes: notes.trim(),
           defaultProgressionStrategy,
           exercises: exerciseInputs,
@@ -379,6 +404,60 @@ export const RoutineEditorDialog: React.FC<RoutineEditorDialogProps> = ({
             onChange={(e) => setName(e.target.value)}
           />
 
+          <label
+            style={{
+              display: 'grid',
+              gap: 'var(--tita-space-1)',
+              fontSize: 'var(--tita-text-sm)',
+              color: 'var(--tita-text-secondary)',
+            }}
+          >
+            Dia da semana
+            <select
+              value={weekday}
+              onChange={(event) => {
+                const day = event.target.value as Weekday | '';
+                setWeekday(day);
+                if (day === 'SÁBADO' || day === 'DOMINGO') setOptional(true);
+              }}
+              data-testid="routine-weekday-select"
+              style={{
+                minHeight: 44,
+                background: 'var(--tita-surface-2)',
+                color: 'var(--tita-text)',
+                border: '1px solid var(--tita-border)',
+                borderRadius: 'var(--tita-radius-sm)',
+                padding: '0 var(--tita-space-3)',
+              }}
+            >
+              <option value="">Sem dia fixo</option>
+              {WEEKDAYS.map((day) => (
+                <option key={day} value={day}>
+                  {WEEKDAY_SHORT[day]} · {day}
+                </option>
+              ))}
+            </select>
+          </label>
+
+          <label
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: 'var(--tita-space-2)',
+              fontSize: 'var(--tita-text-sm)',
+              color: 'var(--tita-text-secondary)',
+            }}
+          >
+            <input
+              type="checkbox"
+              checked={optional}
+              onChange={(event) => setOptional(event.target.checked)}
+              data-testid="routine-optional-checkbox"
+              style={{ width: 44, height: 44, flex: '0 0 44px', accentColor: 'var(--tita-accent)' }}
+            />
+            Rotina opcional (fora da meta semanal)
+          </label>
+
           {/* Notes */}
           <Field
             label="Observações / Instruções (opcional):"
@@ -388,7 +467,26 @@ export const RoutineEditorDialog: React.FC<RoutineEditorDialogProps> = ({
           />
 
           {/* Default Progression Strategy Selector (Guardrail 3) */}
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--tita-space-1)' }}>
+          <div
+            style={{
+              display: 'flex',
+              flexDirection: 'column',
+              gap: 'var(--tita-space-2)',
+              padding: 'var(--tita-space-4)',
+              background: 'var(--tita-surface-2)',
+              border: '1px solid var(--tita-border)',
+              borderRadius: 'var(--tita-radius-md)',
+            }}
+          >
+            <strong
+              style={{
+                color: 'var(--tita-text)',
+                fontFamily: 'var(--tita-font-display)',
+                fontSize: 'var(--tita-text-base)',
+              }}
+            >
+              Progressão
+            </strong>
             <label
               htmlFor="routine-progression-strategy"
               style={{
@@ -429,6 +527,21 @@ export const RoutineEditorDialog: React.FC<RoutineEditorDialogProps> = ({
             <span style={{ fontSize: '11px', color: 'var(--tita-text-muted)', marginTop: '2px' }}>
               {STRATEGY_OPTIONS.find((o) => o.value === defaultProgressionStrategy)?.desc}
             </span>
+            {defaultProgressionStrategy === ProgressionStrategyType.DOUBLE_PROGRESSION && (
+              <p
+                style={{
+                  margin: 0,
+                  fontSize: 'var(--tita-text-xs)',
+                  lineHeight: 1.5,
+                  color: 'var(--tita-text-secondary)',
+                }}
+              >
+                Exemplo 4 × 5–8: com 70 kg, 8/8/7/6 indica manter. Quando todas as séries chegarem a
+                8 com RIR adequado, considere o menor aumento disponível. Com 72,5 kg, volte à base
+                da faixa. Uma queda isolada pede observação; quedas repetidas podem pedir redução.
+                Toda mudança de carga exige sua confirmação.
+              </p>
+            )}
           </div>
 
           {/* Exercise Slots Section */}
@@ -565,6 +678,61 @@ export const RoutineEditorDialog: React.FC<RoutineEditorDialogProps> = ({
                     </div>
 
                     {/* Sets List */}
+                    <div
+                      style={{
+                        display: 'flex',
+                        flexWrap: 'wrap',
+                        gap: 'var(--tita-space-2)',
+                        marginTop: 'var(--tita-space-3)',
+                      }}
+                    >
+                      {(['minReps', 'maxReps', 'targetRir'] as const).map((field) => (
+                        <label
+                          key={field}
+                          style={{
+                            display: 'grid',
+                            gap: 4,
+                            fontSize: 'var(--tita-text-xs)',
+                            color: 'var(--tita-text-muted)',
+                          }}
+                        >
+                          {field === 'minReps'
+                            ? 'Reps mín.'
+                            : field === 'maxReps'
+                              ? 'Reps máx.'
+                              : 'RIR alvo'}
+                          <input
+                            type="number"
+                            min="0"
+                            max={field === 'targetRir' ? 5 : 50}
+                            value={slot.sets[0]?.[field] ?? ''}
+                            onChange={(event) => {
+                              const value =
+                                event.target.value === '' ? undefined : Number(event.target.value);
+                              setSlots((previous) =>
+                                previous.map((item, index) =>
+                                  index === sIdx
+                                    ? {
+                                        ...item,
+                                        sets: item.sets.map((set) => ({ ...set, [field]: value })),
+                                      }
+                                    : item,
+                                ),
+                              );
+                            }}
+                            style={{
+                              width: 76,
+                              height: 32,
+                              background: 'var(--tita-surface-2)',
+                              color: 'var(--tita-text)',
+                              border: '1px solid var(--tita-border)',
+                              borderRadius: 4,
+                              padding: '0 6px',
+                            }}
+                          />
+                        </label>
+                      ))}
+                    </div>
                     <div
                       style={{
                         marginTop: '4px',
@@ -749,11 +917,13 @@ export const RoutineEditorDialog: React.FC<RoutineEditorDialogProps> = ({
             {availableExercises
               .filter(
                 (ex) =>
-                  !exerciseSearchTerm.trim() ||
-                  ex.name.toLowerCase().includes(exerciseSearchTerm.toLowerCase()) ||
-                  ex.aliases.some((a) =>
-                    a.toLowerCase().includes(exerciseSearchTerm.toLowerCase()),
-                  ),
+                  !exerciseSearchTerm.trim() || exerciseSearchScore(ex, exerciseSearchTerm) >= 0,
+              )
+              .sort((a, b) =>
+                exerciseSearchTerm.trim()
+                  ? exerciseSearchScore(b, exerciseSearchTerm) -
+                    exerciseSearchScore(a, exerciseSearchTerm)
+                  : 0,
               )
               .slice(0, 20)
               .map((ex) => (

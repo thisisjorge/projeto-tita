@@ -6,6 +6,7 @@ import { StatusBanner } from '../components/StatusBanner.js';
 import { getAppDatabase } from '../../services/db-provider.js';
 import { IdbActiveWorkoutRepository } from '../../repositories/indexeddb/idb-workout-repository.js';
 import { prefetchRouteChunks } from '../../services/route-prefetcher.js';
+import { onNativeIncomingJson, hasNativeIncomingJson, isAndroidApk } from '../../platform/native-incoming-json.js';
 import {
   DumbbellIcon,
   HomeIcon,
@@ -47,6 +48,27 @@ export const AppShell: React.FC = () => {
   const [isOnline, setIsOnline] = useState(
     typeof navigator !== 'undefined' ? navigator.onLine : true,
   );
+
+  useEffect(() => {
+    if (!isAndroidApk()) return;
+    let live = true;
+    const received = () => {
+      if (!live) return;
+      navigate('/routines');
+      window.dispatchEvent(new Event('tita-native-json-received'));
+    };
+    let listener: { remove: () => Promise<void> } | null = null;
+    void onNativeIncomingJson(received).then((handle) => {
+      if (!live) void handle?.remove();
+      else listener = handle;
+    });
+    // Cold starts can receive the intent before the WebView registers the listener.
+    void hasNativeIncomingJson().then((present) => { if (present) received(); });
+    return () => {
+      live = false;
+      void listener?.remove();
+    };
+  }, [navigate]);
 
   useEffect(() => {
     // Non-blocking prefetch of secondary route chunks for offline PWA readiness

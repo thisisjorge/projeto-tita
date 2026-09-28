@@ -44,9 +44,9 @@ describe('ExerciseLibraryService (Task 6.1)', () => {
     });
 
     await service.initialize();
-    expect((await service.getExerciseById(seed.id))?.name).toBe(seed.name);
+    expect((await service.getExerciseById(seed.id))?.name).toBe('Remada Apoiada na Máquina');
     expect((await service.getExercises()).find((exercise) => exercise.id === seed.id)?.name).toBe(
-      seed.name,
+      'Remada Apoiada na Máquina',
     );
     expect((await repo.getById(seed.id))?.name).toBe('Row Chest');
     expect((await service.getExerciseById(custom.id))?.name).toBe('Row Chest pessoal');

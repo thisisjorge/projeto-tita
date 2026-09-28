@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { builtinExerciseName } from '../../data/builtin-display.js';
 import type { WorkoutSnapshot } from '../../domain/entities/workout-snapshot.js';
 import { Button, Dialog } from '../../ui/components/index.js';
+import { exportWorkoutSnapshot } from '../../backup/backup-exporter.js';
+import { fileShareAdapter } from '../../platform/index.js';
 
 export interface WorkoutSessionDetailDialogProps {
   readonly snapshot: WorkoutSnapshot | null;
@@ -39,6 +41,25 @@ export const WorkoutSessionDetailDialog: React.FC<WorkoutSessionDetailDialogProp
       onClose();
     } finally {
       setIsDeleting(false);
+    }
+  };
+
+  const handleExport = async () => {
+    try {
+      const { json } = await exportWorkoutSnapshot(snapshot);
+      const fileName = `tita-sessao-${snapshot.completedAt.slice(0, 10)}.json`;
+      const blob = new Blob([json], { type: 'application/json' });
+      const result = await fileShareAdapter.shareFile({ fileName, blob, text: snapshot.title });
+      if (result.method !== 'native-share' && result.method !== 'web-share') {
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = fileName;
+        link.click();
+        URL.revokeObjectURL(url);
+      }
+    } catch (error) {
+      alert(error instanceof Error ? error.message : 'Não foi possível exportar a sessão.');
     }
   };
 
@@ -291,6 +312,13 @@ export const WorkoutSessionDetailDialog: React.FC<WorkoutSessionDetailDialogProp
         </div>
 
         {/* Delete Confirmation / Actions */}
+        <Button
+          variant="secondary"
+          onClick={() => void handleExport()}
+          data-testid="export-session-btn"
+        >
+          Exportar sessão JSON
+        </Button>
         <div
           style={{
             display: 'flex',

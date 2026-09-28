@@ -117,14 +117,23 @@ export class DoubleProgressionStrategy implements ProgressionStrategy {
     const workingSets = getWorkingSets(context.previousSets);
     if (workingSets.length === 0) return null;
 
+    const plannedWorkingSet = context.plannedSets.find((set) => set.type !== SetType.WARMUP);
     const config: DoubleProgressionConfig = {
-      minReps: userConfig?.minReps ?? 8,
-      maxReps: userConfig?.maxReps ?? 12,
-      incrementKg: userConfig?.incrementKg ?? 2.5,
+      minReps: userConfig?.minReps ?? plannedWorkingSet?.minReps ?? 8,
+      maxReps: userConfig?.maxReps ?? plannedWorkingSet?.maxReps ?? 12,
+      incrementKg: userConfig?.incrementKg ?? context.incrementKg ?? 2.5,
     };
 
     const lastWeight = workingSets[0]?.weight ?? 0;
-    const allHitMax = workingSets.every((s) => (s.reps ?? 0) >= config.maxReps);
+    const targetRir = plannedWorkingSet?.targetRir;
+    const rirSuitable =
+      targetRir === undefined ||
+      workingSets.every((set) => set.rir !== undefined && set.rir >= targetRir);
+    const plannedWorkingSets = context.plannedSets.filter((set) => set.type !== SetType.WARMUP);
+    const allHitMax =
+      (plannedWorkingSets.length === 0 || workingSets.length >= plannedWorkingSets.length) &&
+      workingSets.every((s) => (s.reps ?? 0) >= config.maxReps && s.weight === lastWeight) &&
+      rirSuitable;
     const setsCount =
       context.plannedSets.length > 0 ? context.plannedSets.length : workingSets.length;
 
@@ -152,6 +161,41 @@ export class DoubleProgressionStrategy implements ProgressionStrategy {
         createdAt: new Date().toISOString(),
       };
     } else {
+      const totals = [workingSets, ...(context.earlierSessions ?? [])]
+        .slice(0, 3)
+        .map((sets) =>
+          sets
+            .filter((set) => set.completed && set.type !== SetType.WARMUP)
+            .reduce((sum, set) => sum + (set.reps ?? 0), 0),
+        );
+      const comparableSessions = [workingSets, ...(context.earlierSessions ?? [])].slice(0, 3);
+      const comparableLoad =
+        comparableSessions.length === 3 &&
+        comparableSessions.every((session) => {
+          const sets = session.filter((set) => set.completed && set.type !== SetType.WARMUP);
+          return (
+            sets.length === workingSets.length && sets.every((set) => set.weight === lastWeight)
+          );
+        });
+      if (comparableLoad && totals[0]! < totals[1]! && totals[1]! < totals[2]!) {
+        const reducedWeight = roundToHalf(lastWeight * 0.95);
+        return {
+          id: generateId('prog'),
+          exerciseId: context.exerciseId,
+          strategyType: this.type,
+          title: 'Double Progression (Revisar Carga)',
+          summary: `Revisar recuperação e considerar ${reducedWeight}kg (redução de cerca de 5%)`,
+          evidence: `Repetições totais caíram em duas sessões consecutivas: ${totals[2]} → ${totals[1]} → ${totals[0]}.`,
+          suggestedSets: Array.from({ length: setsCount }, (_, i) => ({
+            setNumber: i + 1,
+            weight: reducedWeight,
+            reps: config.minReps,
+            type: SetType.NORMAL,
+          })),
+          status: 'PENDING',
+          createdAt: new Date().toISOString(),
+        };
+      }
       const minPrevReps = Math.min(...workingSets.map((s) => s.reps ?? 0));
       const maxPrevReps = Math.max(...workingSets.map((s) => s.reps ?? 0));
       const targetReps = Math.min(config.maxReps, maxPrevReps + 1);
@@ -172,7 +216,7 @@ export class DoubleProgressionStrategy implements ProgressionStrategy {
         strategyType: this.type,
         title: 'Double Progression (Adicionar Reps)',
         summary: `Manter ${lastWeight}kg e buscar ${targetReps} reps rumo ao teto de ${config.maxReps}`,
-        evidence: `Sessão anterior: repetições entre ${minPrevReps} e ${maxPrevReps} reps com ${lastWeight}kg.`,
+        evidence: `Sessão anterior: repetições entre ${minPrevReps} e ${maxPrevReps} reps com ${lastWeight}kg.${!rirSuitable ? ' RIR abaixo do alvo ou não registrado; mantenha a carga.' : ''}`,
         suggestedSets,
         status: 'PENDING',
         createdAt: new Date().toISOString(),

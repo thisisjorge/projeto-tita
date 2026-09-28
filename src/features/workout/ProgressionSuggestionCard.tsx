@@ -85,7 +85,9 @@ export const ProgressionSuggestionCard: React.FC<ProgressionSuggestionCardProps>
         >
           {suggestion.title.includes('Subir') || suggestion.title.includes('Aumentar')
             ? 'Aumentar carga'
-            : 'Meta sugerida'}
+            : suggestion.title.includes('Revisar Carga')
+              ? 'Revisar / reduzir'
+              : 'Manter carga'}
         </span>
       </div>
 

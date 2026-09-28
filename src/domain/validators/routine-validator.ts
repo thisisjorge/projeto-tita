@@ -1,5 +1,6 @@
 import type { ValidationResult } from '../common/types.js';
 import type { Routine } from '../entities/routine.js';
+import { isWeekday } from '../weekday.js';
 
 /**
  * Validates a Routine entity and its nested exercise slots.
@@ -14,6 +15,9 @@ export function validateRoutine(routine: Partial<Routine>): ValidationResult {
 
   if (!routine.name || typeof routine.name !== 'string' || routine.name.trim().length === 0) {
     errors.push('Routine name is required and must be a non-empty string');
+  }
+  if (routine.weekday !== undefined && !isWeekday(routine.weekday)) {
+    errors.push('Routine weekday is invalid');
   }
 
   if (!routine.exercises || !Array.isArray(routine.exercises)) {

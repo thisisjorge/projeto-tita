@@ -12,8 +12,13 @@ import { ExerciseLibraryService } from '../../services/exercise-library-service.
 import { builtinRoutineName } from '../../data/builtin-display.js';
 import { IdbProgramRepository } from '../../repositories/indexeddb/idb-program-repository.js';
 import { ActiveWorkoutService } from '../../services/active-workout-service.js';
+import { startRoutineWorkout } from '../../services/start-routine-workout.js';
 import { getAppDatabase } from '../../services/db-provider.js';
 import { generateId } from '../../domain/common/id.js';
+import { WEEKDAY_SHORT, isOptionalRoutine, sortRoutinesByWeekday } from '../../domain/weekday.js';
+import { preflightImport, executeImport } from '../../backup/backup-importer.js';
+import { takeIncomingShare } from '../../platform/incoming-share.js';
+import { takeNativeIncomingJson } from '../../platform/native-incoming-json.js';
 import {
   exportProgramToShareableJson,
   importShareableProgram,
@@ -30,6 +35,7 @@ import {
   DumbbellIcon,
   DownloadIcon,
   UploadIcon,
+  Dialog,
 } from '../../ui/components/index.js';
 import { RoutineEditorDialog } from './RoutineEditorDialog.js';
 import { TemplateBrowserDialog } from './TemplateBrowserDialog.js';
@@ -55,6 +61,12 @@ export const RoutinesView: React.FC = () => {
   const [isDiscoveryOpen, setIsDiscoveryOpen] = useState(false);
   const [startingRoutineId, setStartingRoutineId] = useState<string | null>(null);
   const [shareNotice, setShareNotice] = useState<string | null>(null);
+  const [pendingImport, setPendingImport] = useState<{ name: string; text: string } | null>(null);
+  const [importPreview, setImportPreview] = useState<{
+    valid: boolean;
+    type: string;
+    errors: readonly string[];
+  } | null>(null);
   const importFileInputRef = useRef<HTMLInputElement>(null);
 
   const loadData = useCallback(async () => {
@@ -95,6 +107,97 @@ export const RoutinesView: React.FC = () => {
   useEffect(() => {
     loadData();
   }, [loadData]);
+
+  useEffect(() => {
+    let mounted = true;
+    let receivingNative = false;
+    const receiveNative = () => {
+      if (receivingNative) return;
+      receivingNative = true;
+      void takeNativeIncomingJson()
+        .then((incoming) => {
+          if (!mounted || !incoming) return;
+          if (incoming.error) setShareNotice(incoming.error);
+          else if (incoming.text !== undefined)
+            setPendingImport({ name: incoming.name ?? 'arquivo.json', text: incoming.text });
+        })
+        .catch(() => {
+          if (mounted) setShareNotice('Não foi possível receber o arquivo compartilhado.');
+        })
+        .finally(() => { receivingNative = false; });
+    };
+    window.addEventListener('tita-native-json-received', receiveNative);
+    receiveNative();
+    if (new URLSearchParams(window.location.search).has('shareError'))
+      setShareNotice('Arquivo compartilhado inválido ou maior que 5 MB. Use Importar JSON.');
+    void takeIncomingShare()
+      .then((incoming) => {
+        if (mounted && incoming) setPendingImport(incoming);
+      })
+      .catch(() => {
+        if (mounted)
+          setShareNotice('Não foi possível receber o arquivo compartilhado. Use Importar JSON.');
+      });
+    const launchWindow = window as Window & {
+      launchQueue?: {
+        setConsumer: (
+          consumer: (params: { files: Array<{ getFile: () => Promise<File> }> }) => void,
+        ) => void;
+      };
+    };
+    launchWindow.launchQueue?.setConsumer((params) => {
+      void params.files[0]?.getFile().then(async (file) => {
+        if (mounted) {
+          if (!file.name.toLowerCase().endsWith('.json') || file.size > 5_000_000)
+            setShareNotice('Selecione um JSON de até 5 MB.');
+          else setPendingImport({ name: file.name, text: await file.text() });
+        }
+      });
+    });
+    return () => {
+      mounted = false;
+      window.removeEventListener('tita-native-json-received', receiveNative);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (!pendingImport) {
+      setImportPreview(null);
+      return;
+    }
+    let mounted = true;
+    const program = validateShareableProgram(pendingImport.text);
+    if (program.valid && program.shareable) {
+      setImportPreview({
+        valid: true,
+        type: program.shareable.kind === 'routine' ? 'Rotina Titã' : 'Programa Titã',
+        errors: [],
+      });
+    } else {
+      setImportPreview(null);
+      void (async () => {
+        const db = getAppDatabase();
+        if (!db.isOpen()) await db.open();
+        const backup = await preflightImport(db, pendingImport.text);
+        if (mounted)
+          setImportPreview({
+            valid: backup.valid,
+            type: backup.sourceFormat === 'legacy-v1' ? 'JSON legado' : 'Backup Titã',
+            errors: backup.valid ? [] : [...program.errors, ...backup.errors],
+          });
+      })().catch((error: unknown) => {
+        if (mounted)
+          setImportPreview({
+            valid: false,
+            type: 'JSON inválido',
+            errors: [error instanceof Error ? error.message : 'Falha ao validar JSON.'],
+          });
+      });
+    }
+    return () => {
+      mounted = false;
+    };
+  }, [pendingImport]);
 
   // Handlers
   const handleOpenCreate = () => {
@@ -147,9 +250,14 @@ export const RoutinesView: React.FC = () => {
     }
   };
 
-  const handleExportRoutine = async (routine: Routine) => {
+  const handleExportRoutine = async (routine: Routine, wholeWeek = false) => {
     try {
       const allExercises = await libraryService.getExercises();
+      const selectedRoutines = wholeWeek ? sortRoutinesByWeekday(routines) : [routine];
+      const usedExerciseIds = new Set(
+        selectedRoutines.flatMap((item) => item.exercises.map((slot) => slot.exerciseId)),
+      );
+      const usedExercises = allExercises.filter((exercise) => usedExerciseIds.has(exercise.id));
       const now = new Date().toISOString();
       const programId = generateId('prog');
       const programWrapper: Program = {
@@ -157,12 +265,13 @@ export const RoutinesView: React.FC = () => {
         schemaVersion: 1,
         createdAt: now,
         updatedAt: now,
-        name: routine.name,
-        description: routine.notes ?? 'Ficha de treino',
+        name: wholeWeek ? 'Programa semanal' : routine.name,
+        description: wholeWeek ? 'Rotinas da semana' : (routine.notes ?? 'Ficha de treino'),
         progressionStrategy:
           routine.defaultProgressionStrategy ?? ProgressionStrategyType.DOUBLE_PROGRESSION,
         durationWeeks: 4,
-        daysPerWeek: 1,
+        daysPerWeek: selectedRoutines.filter((item) => item.weekday && !isOptionalRoutine(item))
+          .length,
         active: true,
         weeks: [
           {
@@ -172,18 +281,24 @@ export const RoutinesView: React.FC = () => {
             createdAt: now,
             updatedAt: now,
             weekNumber: 1,
-            routineIds: [routine.id],
+            routineIds: selectedRoutines.map((item) => item.id),
           },
         ],
       };
-      const json = exportProgramToShareableJson(programWrapper, [routine], allExercises, '1.0.0');
+      const json = exportProgramToShareableJson(
+        programWrapper,
+        selectedRoutines,
+        usedExercises,
+        '1.0.0',
+        wholeWeek ? 'program' : 'routine',
+      );
       const blob = new Blob([json], { type: 'application/json' });
       const slug =
         routine.name
           .toLowerCase()
           .replace(/[^a-z0-9]+/g, '-')
           .replace(/(^-|-$)/g, '') || 'ficha';
-      const fileName = `${slug}-ficha.json`;
+      const fileName = wholeWeek ? 'tita-programa-semanal.json' : `${slug}-rotina.json`;
       const result = await fileShareAdapter.shareFile({
         fileName,
         blob,
@@ -197,7 +312,9 @@ export const RoutinesView: React.FC = () => {
         a.click();
         URL.revokeObjectURL(url);
       }
-      setShareNotice(`Ficha "${routine.name}" exportada com sucesso!`);
+      setShareNotice(
+        wholeWeek ? 'Programa semanal exportado.' : `Rotina "${routine.name}" exportada.`,
+      );
     } catch (err) {
       alert(err instanceof Error ? err.message : 'Erro ao exportar ficha.');
     }
@@ -207,25 +324,40 @@ export const RoutinesView: React.FC = () => {
     const file = e.target.files?.[0];
     if (!file) return;
     try {
-      const text = await file.text();
-      const validation = validateShareableProgram(text);
-      if (!validation.valid || !validation.shareable) {
-        alert(`Arquivo de ficha inválido: ${validation.errors.join(', ')}`);
-        return;
-      }
-      const db = getAppDatabase();
-      if (!db.isOpen()) await db.open();
-      const result = await importShareableProgram(db, validation.shareable);
-      await loadData();
-      setShareNotice(
-        `Ficha importada com sucesso! (${result.routineIds.length} ${
-          result.routineIds.length === 1 ? 'rotina criada' : 'rotinas criadas'
-        })`,
-      );
+      if (!file.name.toLowerCase().endsWith('.json') || file.size > 5_000_000)
+        throw new Error('Selecione um JSON de até 5 MB.');
+      setPendingImport({ name: file.name, text: await file.text() });
     } catch (err) {
       alert(err instanceof Error ? err.message : 'Erro ao importar ficha.');
     } finally {
       if (importFileInputRef.current) importFileInputRef.current.value = '';
+    }
+  };
+
+  const confirmImport = async () => {
+    if (!pendingImport || !importPreview?.valid) return;
+    try {
+      const db = getAppDatabase();
+      if (!db.isOpen()) await db.open();
+      await libraryService.initialize();
+      const program = validateShareableProgram(pendingImport.text);
+      if (program.valid && program.shareable) {
+        const result = await importShareableProgram(db, program.shareable);
+        setShareNotice(`${result.routineIds.length} rotina(s) importada(s).`);
+      } else {
+        const backup = await preflightImport(db, pendingImport.text);
+        if (!backup.valid || !backup.backup)
+          throw new Error([...program.errors, ...backup.errors].join('; '));
+        const result = await executeImport(db, backup.backup, { mode: 'merge_keep_existing' });
+        if (!result.success) throw new Error(result.error ?? 'Falha ao importar backup.');
+        setShareNotice(
+          'Backup importado sem sobrescrever registros locais, com ponto de recuperação.',
+        );
+      }
+      setPendingImport(null);
+      await loadData();
+    } catch (err) {
+      alert(err instanceof Error ? err.message : 'Erro ao importar JSON.');
     }
   };
 
@@ -238,45 +370,10 @@ export const RoutinesView: React.FC = () => {
       }
       const workoutService = new ActiveWorkoutService(db);
 
-      const exercises = await Promise.all(
-        routine.exercises.map(async (slot, sIdx) => {
-          const prevSets = await workoutService.getPreviousExerciseSets(slot.exerciseId);
-          return {
-            id: generateId('slot'),
-            exerciseId: slot.exerciseId,
-            exerciseName: exercisesMap[slot.exerciseId] || `Exercício ${sIdx + 1}`,
-            order: sIdx + 1,
-            targetRestSeconds: slot.restSeconds ?? 90,
-            progressionStrategy: slot.progressionStrategy ?? routine.defaultProgressionStrategy,
-            sets: slot.sets.map((st, setIdx) => {
-              const prevSet = prevSets?.[setIdx] ?? prevSets?.[0];
-              const resolvedWeight = st.targetLoad !== undefined ? st.targetLoad : prevSet?.weight;
-              const resolvedReps =
-                st.targetReps !== undefined
-                  ? st.targetReps
-                  : prevSet?.reps !== undefined
-                    ? prevSet.reps
-                    : (st.minReps ?? 10);
-
-              return {
-                id: generateId('set'),
-                setNumber: setIdx + 1,
-                type: st.type,
-                weight: resolvedWeight,
-                reps: resolvedReps,
-                restTargetSeconds: st.restSeconds ?? slot.restSeconds ?? 90,
-                completed: false,
-              };
-            }),
-          };
-        }),
-      );
-
-      await workoutService.startWorkout({
-        title: routine.name,
-        sourceRoutineId: routine.id,
-        exercises,
-      });
+      const result = await startRoutineWorkout(routine, workoutService, libraryService);
+      if (result.type === 'failed') throw result.error;
+      if (result.type === 'mustResume')
+        throw new Error('Já existe uma sessão ativa. Retome ou finalize antes de iniciar outra.');
 
       navigate('/');
     } catch (err) {
@@ -400,8 +497,18 @@ export const RoutinesView: React.FC = () => {
             style={{ display: 'inline-flex', alignItems: 'center', gap: 'var(--tita-space-2)' }}
           >
             <UploadIcon size={16} color="var(--tita-accent)" />
-            <span>Importar</span>
+            <span>Importar JSON</span>
           </Button>
+          {routines.length > 0 && activeTab === 'active' && (
+            <Button
+              variant="secondary"
+              onClick={() => void handleExportRoutine(routines[0]!, true)}
+              data-testid="export-week-btn"
+              leftIcon={<DownloadIcon size={16} />}
+            >
+              Exportar programa/semana
+            </Button>
+          )}
           <input
             ref={importFileInputRef}
             type="file"
@@ -412,6 +519,43 @@ export const RoutinesView: React.FC = () => {
           />
         </div>
       </div>
+
+      <Dialog
+        isOpen={Boolean(pendingImport)}
+        onClose={() => setPendingImport(null)}
+        title="Importar JSON"
+        footer={
+          <div style={{ display: 'flex', gap: 'var(--tita-space-2)' }}>
+            <Button variant="secondary" onClick={() => setPendingImport(null)}>
+              Cancelar
+            </Button>
+            <Button
+              variant="primary"
+              disabled={!importPreview?.valid}
+              onClick={() => void confirmImport()}
+              data-testid="confirm-json-import"
+            >
+              Confirmar importação
+            </Button>
+          </div>
+        }
+      >
+        <p>
+          <strong>Arquivo:</strong> {pendingImport?.name}
+        </p>
+        <p>
+          <strong>Tipo:</strong> {importPreview?.type ?? 'Validando…'}
+        </p>
+        {importPreview?.errors.map((error) => (
+          <p role="alert" key={error}>
+            {error}
+          </p>
+        ))}
+        <p>
+          O conteúdo será validado e importado somente após sua confirmação. Backups preservam
+          registros locais com IDs existentes e criam um ponto de recuperação.
+        </p>
+      </Dialog>
 
       {/* Share/Import Notification */}
       {shareNotice && (
@@ -623,7 +767,10 @@ export const RoutinesView: React.FC = () => {
                           ~{totalSets} SÉRIES
                         </span>
                         <span>•</span>
-                        <span>DIVISÃO LIVRE</span>
+                        <span>
+                          {routine.weekday ? WEEKDAY_SHORT[routine.weekday] : 'DIVISÃO LIVRE'}
+                          {isOptionalRoutine(routine) ? ' · OPCIONAL' : ''}
+                        </span>
                       </div>
                     </div>
 
@@ -807,7 +954,7 @@ export const RoutinesView: React.FC = () => {
                           fontSize: 'var(--tita-text-xs)',
                         }}
                       >
-                        Exportar Ficha
+                        Exportar rotina
                       </Button>
                       <Button
                         size="sm"

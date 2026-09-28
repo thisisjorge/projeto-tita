@@ -54,6 +54,7 @@ const server = http.createServer((req, res) => {
   if (
     reqPath === '/' ||
     reqPath === '/home' ||
+    reqPath === '/routines' ||
     reqPath === '/v2' ||
     reqPath.startsWith('/v2/') ||
     reqPath === '/app' ||

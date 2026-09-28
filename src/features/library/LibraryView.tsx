@@ -1,6 +1,9 @@
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
 import type { Exercise } from '../../domain/entities/exercise.js';
-import { ExerciseLibraryService } from '../../services/exercise-library-service.js';
+import {
+  ExerciseLibraryService,
+  type CustomExerciseAudit,
+} from '../../services/exercise-library-service.js';
 import {
   Card,
   Field,
@@ -45,6 +48,7 @@ export const LibraryView: React.FC = () => {
   );
   const [favoriteIds, setFavoriteIds] = useState<Set<string>>(new Set());
   const [isLoading, setIsLoading] = useState(true);
+  const [customAudit, setCustomAudit] = useState<CustomExerciseAudit[]>([]);
 
   // Dialog states
   const [selectedExercise, setSelectedExercise] = useState<Exercise | null>(null);
@@ -70,6 +74,7 @@ export const LibraryView: React.FC = () => {
 
       const result = await service.getExercises(filterOpts);
       setExercises(result);
+      if (selectedSource === 'custom') setCustomAudit(await service.auditCustomExercises());
     } catch (err) {
       console.error('Erro ao carregar exercícios:', err);
     } finally {
@@ -353,6 +358,45 @@ export const LibraryView: React.FC = () => {
       </div>
 
       {/* Exercise Cards Grid */}
+      {selectedSource === 'custom' &&
+        customAudit.some((item) => item.possibleNative || item.issues.length > 0) && (
+          <section
+            aria-label="Revisão de exercícios personalizados"
+            style={{
+              padding: 'var(--tita-space-4)',
+              background: 'var(--tita-surface-2)',
+              border: '1px solid var(--tita-border)',
+              borderRadius: 'var(--tita-radius-md)',
+            }}
+          >
+            <h3
+              style={{ margin: '0 0 var(--tita-space-2)', fontFamily: 'var(--tita-font-display)' }}
+            >
+              Revisar personalizados
+            </h3>
+            <p
+              style={{
+                margin: '0 0 var(--tita-space-2)',
+                fontSize: 'var(--tita-text-sm)',
+                color: 'var(--tita-text-muted)',
+              }}
+            >
+              Possíveis equivalências para revisão. Nenhum ID, treino ou recorde é alterado.
+            </p>
+            {customAudit
+              .filter((item) => item.possibleNative || item.issues.length > 0)
+              .map((item) => (
+                <p
+                  key={item.custom.id}
+                  style={{ margin: 'var(--tita-space-2) 0', fontSize: 'var(--tita-text-sm)' }}
+                >
+                  <strong>{item.custom.name}</strong>
+                  {item.possibleNative ? ` → ${item.possibleNative.name}` : ''}
+                  {item.issues.length > 0 ? ` · ${item.issues.join('; ')}` : ''}
+                </p>
+              ))}
+          </section>
+        )}
       {isLoading ? (
         <div
           style={{

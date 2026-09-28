@@ -55,7 +55,7 @@ test('mobile mostra built-ins legados em PT-BR sem regravar dados', async ({ pag
   await page.reload();
   const card = page.getByTestId('routine-card-rt_legacy_ptbr');
   await expect(card.getByRole('heading', { name: 'Segunda · Puxar' })).toBeVisible();
-  await expect(card.getByText('Remada na máquina com apoio no peito')).toBeVisible();
+  await expect(card.getByText('Remada Apoiada na Máquina')).toBeVisible();
 
   const stored = await page.evaluate(async (id) => {
     const db = await new Promise<IDBDatabase>((resolve, reject) => {

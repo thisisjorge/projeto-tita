@@ -6,8 +6,11 @@ import { SetType } from '../domain/enums/set-type.js';
 import type { Program } from '../domain/entities/program.js';
 import type { Routine, RoutineExercise, RoutineGroup } from '../domain/entities/routine.js';
 import type { Exercise } from '../domain/entities/exercise.js';
+import type { ExerciseRole } from '../domain/enums/exercise-role.js';
+import { normalizeExerciseQuery } from '../services/exercise-search.js';
 import type { TitaDatabase } from '../repositories/interfaces/database.interface.js';
 import { generateId } from '../domain/common/id.js';
+import { isWeekday, sortRoutinesByWeekday, type Weekday } from '../domain/weekday.js';
 
 export const PROGRAM_SHARE_FORMAT = 'titan-program' as const;
 export const CURRENT_PROGRAM_SHARE_SCHEMA_VERSION = 1 as const;
@@ -33,6 +36,7 @@ export interface ShareableRoutineExercise {
   readonly sets: readonly ShareableSetTemplate[];
   readonly restSeconds?: number;
   readonly notes?: string;
+  readonly progressionStrategy?: ProgressionStrategyType;
 }
 
 export interface ShareableRoutineGroup {
@@ -44,6 +48,9 @@ export interface ShareableRoutineGroup {
 export interface ShareableRoutine {
   readonly localRefId: string;
   readonly name: string;
+  readonly weekday?: Weekday;
+  readonly optional?: boolean;
+  readonly defaultProgressionStrategy?: ProgressionStrategyType;
   readonly notes?: string;
   readonly exercises: readonly ShareableRoutineExercise[];
   readonly groups?: readonly ShareableRoutineGroup[];
@@ -67,6 +74,12 @@ export interface ShareableCustomExercise {
   readonly equipment: string;
   readonly category: string;
   readonly instructions?: readonly string[];
+  readonly aliases?: readonly string[];
+  readonly roles?: readonly ExerciseRole[];
+  readonly defaultRestSeconds?: number;
+  readonly increment?: number;
+  readonly license?: string;
+  readonly attribution?: string;
 }
 
 export interface TitanProgramShareV1 {
@@ -74,6 +87,7 @@ export interface TitanProgramShareV1 {
   readonly schemaVersion: typeof CURRENT_PROGRAM_SHARE_SCHEMA_VERSION;
   readonly appVersion: string;
   readonly exportedAt: string;
+  readonly kind?: 'routine' | 'program';
   readonly program: {
     readonly name: string;
     readonly description?: string;
@@ -140,6 +154,24 @@ export function validateShareableProgram(jsonString: string): ValidateProgramSha
 
   if (!Array.isArray(payload.routines) || payload.routines.length === 0) {
     errors.push('O programa compartilhado deve conter ao menos 1 rotina');
+  } else {
+    for (const routine of payload.routines) {
+      if (
+        !routine ||
+        typeof routine !== 'object' ||
+        typeof routine.name !== 'string' ||
+        !Array.isArray(routine.exercises)
+      ) {
+        errors.push('Rotina compartilhada inválida');
+        continue;
+      }
+      if (routine.weekday !== undefined && !isWeekday(routine.weekday))
+        errors.push(`Dia da semana inválido na rotina '${routine.name}'`);
+      for (const exercise of routine.exercises) {
+        if (!exercise || typeof exercise.exerciseId !== 'string' || !Array.isArray(exercise.sets))
+          errors.push(`Exercício inválido na rotina '${routine.name}'`);
+      }
+    }
   }
 
   // Strictly enforce ZERO personal training records (history-free guarantee)
@@ -173,15 +205,19 @@ export function exportProgramToShareableJson(
   routines: readonly Routine[],
   customExercises: readonly Exercise[] = [],
   appVersion = '2.0.0',
+  kind: 'routine' | 'program' = 'program',
 ): string {
   const routineMap = new Map<string, Routine>();
   for (const r of routines) {
     routineMap.set(r.id, r);
   }
 
-  const shareableRoutines: ShareableRoutine[] = routines.map((r) => ({
+  const shareableRoutines: ShareableRoutine[] = sortRoutinesByWeekday(routines).map((r) => ({
     localRefId: r.id,
     name: r.name,
+    weekday: r.weekday,
+    optional: r.optional,
+    defaultProgressionStrategy: r.defaultProgressionStrategy,
     notes: r.notes,
     exercises: r.exercises.map((e) => ({
       exerciseId: e.exerciseId,
@@ -201,6 +237,7 @@ export function exportProgramToShareableJson(
       })),
       restSeconds: e.restSeconds,
       notes: e.notes,
+      progressionStrategy: e.progressionStrategy,
     })),
     groups: r.groups?.map((g) => ({
       type: g.type,
@@ -215,7 +252,9 @@ export function exportProgramToShareableJson(
     weekNumber: w.weekNumber,
     weekPhase: w.weekPhase,
     name: w.name,
-    routineRefIds: w.routineIds,
+    routineRefIds: sortRoutinesByWeekday(
+      w.routineIds.map((id) => routineMap.get(id)).filter((r): r is Routine => Boolean(r)),
+    ).map((r) => r.id),
     volumeFactor: w.volumeFactor,
     targetRir: w.targetRir,
     notes: w.notes,
@@ -231,6 +270,12 @@ export function exportProgramToShareableJson(
       equipment: e.equipment,
       category: e.category,
       instructions: e.instructions,
+      aliases: e.aliases,
+      roles: e.roles,
+      defaultRestSeconds: e.defaultRestSeconds,
+      increment: e.increment,
+      license: e.license,
+      attribution: e.attribution,
     }));
 
   const shareable: TitanProgramShareV1 = {
@@ -238,6 +283,7 @@ export function exportProgramToShareableJson(
     schemaVersion: CURRENT_PROGRAM_SHARE_SCHEMA_VERSION,
     appVersion,
     exportedAt: new Date().toISOString(),
+    kind,
     program: {
       name: program.name,
       description: program.description,
@@ -273,6 +319,7 @@ export async function importShareableProgram(
   const routineIdMap = new Map<string, EntityId>();
   const importedRoutineIds: EntityId[] = [];
   const importedExerciseIds: EntityId[] = [];
+  const exerciseIdMap = new Map<string, EntityId>();
 
   await db.transaction(['exercises', 'routines', 'programs'], 'readwrite', async (tx) => {
     const exerciseStore = tx.getStore<Exercise>('exercises');
@@ -281,26 +328,41 @@ export async function importShareableProgram(
 
     // 1. Import any bundled custom exercises if not already existing
     if (shareable.customExercises && shareable.customExercises.length > 0) {
+      const existingExercises = await exerciseStore.getAll();
       for (const customEx of shareable.customExercises) {
         const existing = await exerciseStore.get(customEx.id);
-        if (!existing) {
+        const exactEquivalent = existingExercises.find(
+          (item) =>
+            item.source === 'custom' &&
+            normalizeExerciseQuery(item.name) === normalizeExerciseQuery(customEx.name) &&
+            normalizeExerciseQuery(item.equipment) === normalizeExerciseQuery(customEx.equipment),
+        );
+        if (existing || exactEquivalent) {
+          exerciseIdMap.set(customEx.id, (existing ?? exactEquivalent)!.id);
+        } else {
           const newExercise: Exercise = {
             id: customEx.id,
             schemaVersion: 1,
             name: customEx.name,
-            aliases: [],
+            aliases: customEx.aliases ?? [],
             primaryMuscle: customEx.primaryMuscle,
             secondaryMuscles: customEx.secondaryMuscles ?? [],
             equipment: customEx.equipment,
             category: customEx.category,
             instructions: customEx.instructions ?? [],
             source: 'custom',
-            roles: [],
+            roles: customEx.roles ?? [],
+            defaultRestSeconds: customEx.defaultRestSeconds,
+            increment: customEx.increment,
+            license: customEx.license,
+            attribution: customEx.attribution,
             createdAt: now,
             updatedAt: now,
           };
           await exerciseStore.put(newExercise);
+          existingExercises.push(newExercise);
           importedExerciseIds.push(newExercise.id);
+          exerciseIdMap.set(customEx.id, newExercise.id);
         }
       }
     }
@@ -316,7 +378,7 @@ export async function importShareableProgram(
         slotMap.set(e.order, slotId);
         return {
           id: slotId,
-          exerciseId: e.exerciseId,
+          exerciseId: exerciseIdMap.get(e.exerciseId) ?? e.exerciseId,
           order: e.order,
           sets: e.sets.map((s) => ({
             id: generateId('st'),
@@ -333,6 +395,7 @@ export async function importShareableProgram(
           })),
           restSeconds: e.restSeconds,
           notes: e.notes,
+          progressionStrategy: e.progressionStrategy,
         };
       });
 
@@ -349,6 +412,9 @@ export async function importShareableProgram(
         id: newRoutineId,
         schemaVersion: 1,
         name: r.name,
+        weekday: r.weekday,
+        optional: r.optional,
+        defaultProgressionStrategy: r.defaultProgressionStrategy,
         notes: r.notes,
         programId,
         exercises,

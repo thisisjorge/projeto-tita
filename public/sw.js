@@ -95,6 +95,15 @@ self.addEventListener('fetch', (event) => {
   const { request } = event;
   const url = new URL(request.url);
 
+  if (
+    request.method === 'POST' &&
+    url.origin === self.location.origin &&
+    url.pathname === '/routines'
+  ) {
+    event.respondWith(receiveSharedJson(request));
+    return;
+  }
+
   // 1. Only handle GET requests
   if (request.method !== 'GET') return;
 
@@ -137,6 +146,39 @@ self.addEventListener('fetch', (event) => {
   // 6. Static shell assets: Cache-first with Network fallback
   event.respondWith(cacheFirst(request, SHELL_CACHE));
 });
+
+async function receiveSharedJson(request) {
+  try {
+    const form = await request.formData();
+    const file = form.get('json');
+    if (
+      !file ||
+      typeof file.text !== 'function' ||
+      !file.name?.toLowerCase().endsWith('.json') ||
+      file.size > 5_000_000
+    ) {
+      return Response.redirect('/routines?shareError=invalid', 303);
+    }
+    const text = await file.text();
+    const db = await new Promise((resolve, reject) => {
+      const open = indexedDB.open('tita-incoming-share', 1);
+      open.onupgradeneeded = () => open.result.createObjectStore('files');
+      open.onsuccess = () => resolve(open.result);
+      open.onerror = () => reject(open.error);
+    });
+    await new Promise((resolve, reject) => {
+      const transaction = db.transaction('files', 'readwrite');
+      transaction.objectStore('files').put({ name: file.name, text }, 'pending');
+      transaction.oncomplete = resolve;
+      transaction.onerror = () => reject(transaction.error);
+    });
+    db.close();
+    return Response.redirect('/routines?shared=1', 303);
+  } catch (error) {
+    console.error('[SW] Shared JSON could not be received:', error);
+    return Response.redirect('/routines?shareError=invalid', 303);
+  }
+}
 
 // Message event: Listen for SKIP_WAITING signal from client upon user update approval
 self.addEventListener('message', (event) => {
