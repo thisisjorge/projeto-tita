@@ -27,6 +27,7 @@ test('home sugere a rotina do dia local e inicia a sessão escolhida', async ({ 
   await editor.getByTestId('add-exercise-to-routine-btn').click();
   await page.getByText('Puxada Frontal na Polia', { exact: true }).first().click();
   await editor.getByTestId('save-routine-btn').click();
+  await expect(page.getByTestId('routines-grid')).toContainText('Rotina de hoje');
   await page.goto('/app');
   await expect(page.getByTestId('start-today-routine-button')).toContainText('Rotina de hoje');
   await page.getByTestId('start-today-routine-button').click();
