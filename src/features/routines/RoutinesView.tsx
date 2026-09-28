@@ -124,7 +124,9 @@ export const RoutinesView: React.FC = () => {
         .catch(() => {
           if (mounted) setShareNotice('Não foi possível receber o arquivo compartilhado.');
         })
-        .finally(() => { receivingNative = false; });
+        .finally(() => {
+          receivingNative = false;
+        });
     };
     window.addEventListener('tita-native-json-received', receiveNative);
     receiveNative();

@@ -3,12 +3,13 @@ import './public-home.css';
 
 const media = '/showcase/v1/';
 const repository = 'https://github.com/thisisjorge/projeto-tita';
+const currentVersion = 'v1.0.2';
 
 export const PublicHome: React.FC = () => (
   <div className="tita-public-home">
     <section className="tita-public-hero" aria-labelledby="public-home-title">
       <div className="tita-public-hero__copy">
-        <span className="tita-public-eyebrow">PROJETO TITÃ · V1.0.0</span>
+        <span className="tita-public-eyebrow">PROJETO TITÃ · {currentVersion}</span>
         <h1 id="public-home-title">Seu treino, seus dados, sua evolução.</h1>
         <p>
           Registre cada série, organize suas rotinas e acompanhe o progresso em um app que funciona
@@ -175,9 +176,9 @@ export const PublicHome: React.FC = () => (
         </a>
         <a
           className="tita-public-button tita-public-button--secondary"
-          href={`${repository}/releases/tag/v1.0.0`}
+          href={`${repository}/releases/tag/${currentVersion}`}
         >
-          Ver a V1.0.0
+          Ver a {currentVersion}
         </a>
       </div>
     </section>

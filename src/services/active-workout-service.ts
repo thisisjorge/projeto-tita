@@ -31,7 +31,13 @@ import type { TitaDatabase } from '../repositories/interfaces/database.interface
 import { IdbActiveWorkoutRepository } from '../repositories/indexeddb/idb-workout-repository.js';
 import { IdbMetadataRepository } from '../repositories/indexeddb/idb-metadata-repository.js';
 import { isAndroidApk } from '../platform/native-incoming-json.js';
-import { nativeTimerAction, nativeTimerState, reconcileNativeTimer, requestTimerNotificationPermission, startNativeTimer } from '../platform/native-rest-timer.js';
+import {
+  nativeTimerAction,
+  nativeTimerState,
+  reconcileNativeTimer,
+  requestTimerNotificationPermission,
+  startNativeTimer,
+} from '../platform/native-rest-timer.js';
 
 import type { RoutineGroup } from '../domain/entities/routine.js';
 import { GroupType } from '../domain/enums/group-type.js';
@@ -637,7 +643,11 @@ export class ActiveWorkoutService {
     const timer = createRestTimer(durationSeconds, workoutId, nowMs);
     if (isAndroidApk() && timer.status === TimerStatus.RUNNING) {
       await startNativeTimer(timer);
-      try { await requestTimerNotificationPermission(); } catch { /* Timer runs even if permission is denied. */ }
+      try {
+        await requestTimerNotificationPermission();
+      } catch {
+        /* Timer runs even if permission is denied. */
+      }
     }
     await this.metaRepo.set(ACTIVE_TIMER_KEY, timer);
     return timer;

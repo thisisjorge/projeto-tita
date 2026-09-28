@@ -47,7 +47,11 @@ import { ProgressionSuggestionCard } from './ProgressionSuggestionCard.js';
 import { serviceWorkerManager } from '../../services/service-worker-manager.js';
 import type { Exercise } from '../../domain/entities/exercise.js';
 import { isAndroidApk } from '../../platform/native-incoming-json.js';
-import { nativeTimerState, onNativeTimerChanged, openExactAlarmSettings } from '../../platform/native-rest-timer.js';
+import {
+  nativeTimerState,
+  onNativeTimerChanged,
+  openExactAlarmSettings,
+} from '../../platform/native-rest-timer.js';
 import {
   notificationAdapter,
   hapticsAdapter,
@@ -319,7 +323,10 @@ export const WorkoutView: React.FC = () => {
       if (!live) void handle?.remove();
       else listener = handle;
     });
-    return () => { live = false; void listener?.remove(); };
+    return () => {
+      live = false;
+      void listener?.remove();
+    };
   }, [service]);
 
   // Timer countdown synchronization (derived purely from deadline, zero tick drift)
@@ -539,13 +546,21 @@ export const WorkoutView: React.FC = () => {
         if (isAndroidApk() && activeTimer.status === TimerStatus.RUNNING) {
           const native = await nativeTimerState();
           if (native && !native.notificationsAllowed)
-            setTimerWarning('Permita notificações do Titã nas configurações do Android para receber alertas fora do app.');
+            setTimerWarning(
+              'Permita notificações do Titã nas configurações do Android para receber alertas fora do app.',
+            );
           else if (native && !native.exactAlertsAllowed)
-            setTimerWarning('Ative alarmes precisos para avisos pontuais com a tela apagada. O timer continua contando.');
+            setTimerWarning(
+              'Ative alarmes precisos para avisos pontuais com a tela apagada. O timer continua contando.',
+            );
           else setTimerWarning(null);
           setExactAlarmNeedsAccess(Boolean(native && !native.exactAlertsAllowed));
         }
-        if (!isAndroidApk() && activeTimer.status === TimerStatus.RUNNING && activeTimer.deadlineAt) {
+        if (
+          !isAndroidApk() &&
+          activeTimer.status === TimerStatus.RUNNING &&
+          activeTimer.deadlineAt
+        ) {
           notificationAdapter.scheduleNotification({
             id: 1001,
             title: 'Tempo de Descanso Concluído!',
@@ -1525,7 +1540,11 @@ export const WorkoutView: React.FC = () => {
           <StatusBanner
             type="warning"
             message={timerWarning}
-            action={exactAlarmNeedsAccess ? { label: 'Ativar alarmes precisos', onClick: () => void openExactAlarmSettings() } : undefined}
+            action={
+              exactAlarmNeedsAccess
+                ? { label: 'Ativar alarmes precisos', onClick: () => void openExactAlarmSettings() }
+                : undefined
+            }
             onDismiss={() => setTimerWarning(null)}
           />
         )}
