@@ -42,32 +42,32 @@ interface EditableSlot {
 const STRATEGY_OPTIONS: { value: ProgressionStrategyType; label: string; desc: string }[] = [
   {
     value: ProgressionStrategyType.DOUBLE_PROGRESSION,
-    label: 'Dupla Progressão (Reps → Carga)',
+    label: 'Dupla progressão',
     desc: 'Aumenta repetições até o topo da faixa; ao bater o teto em todas as séries, sobe a carga.',
   },
   {
     value: ProgressionStrategyType.LINEAR_PROGRESSION,
-    label: 'Progressão Linear (Carga por Sessão)',
+    label: 'Progressão linear',
     desc: 'Adiciona um incremento fixo de carga a cada treino completo com sucesso.',
   },
   {
     value: ProgressionStrategyType.DYNAMIC_DOUBLE_PROGRESSION,
-    label: 'Dupla Progressão Dinâmica (Set por Set)',
+    label: 'Dupla progressão dinâmica',
     desc: 'Cada série progride de forma independente ao atingir o teto de repetições.',
   },
   {
     value: ProgressionStrategyType.REP_GOAL,
-    label: 'Meta de Repetições Totais (Rep Goal)',
+    label: 'Meta de repetições',
     desc: 'Sobe a carga ao atingir a soma global estipulada de repetições em todas as séries.',
   },
   {
     value: ProgressionStrategyType.PERCENTAGE_BASED,
-    label: 'Percentual de 1RM (% Baseado em Carga Máxima)',
+    label: 'Percentual de 1RM',
     desc: 'Calcula cargas relativas a partir da estimativa de 1RM do praticante.',
   },
   {
     value: ProgressionStrategyType.RPE_RIR_BASED,
-    label: 'Autorregulação RPE / RIR (Esforço Percebido)',
+    label: 'Autorregulação por RIR',
     desc: 'Sugere ajustes de carga conforme a percepção de esforço e repetições de reserva.',
   },
   {
@@ -77,7 +77,7 @@ const STRATEGY_OPTIONS: { value: ProgressionStrategyType; label: string; desc: s
   },
   {
     value: ProgressionStrategyType.MANUAL,
-    label: 'Manual (Sem Sugestões Automáticas)',
+    label: 'Manual',
     desc: 'O praticante define todas as cargas sem sugestões automáticas do sistema.',
   },
   {
@@ -119,6 +119,18 @@ export const RoutineEditorDialog: React.FC<RoutineEditorDialogProps> = ({
     }
   }, [isOpen, libraryService]);
 
+  useEffect(() => {
+    if (!isOpen || !routineToEdit || availableExercises.length === 0) return;
+    setSlots((current) =>
+      current.map((slot) => {
+        const exercise = availableExercises.find((item) => item.id === slot.exerciseId);
+        return exercise
+          ? { ...slot, exerciseName: exercise.name, primaryMuscle: exercise.primaryMuscle }
+          : slot;
+      }),
+    );
+  }, [isOpen, routineToEdit, availableExercises]);
+
   // Reset or populate fields
   useEffect(() => {
     if (!isOpen) {
@@ -144,7 +156,7 @@ export const RoutineEditorDialog: React.FC<RoutineEditorDialogProps> = ({
         return {
           id: slot.id,
           exerciseId: slot.exerciseId,
-          exerciseName: foundEx?.name || `Exercício (${slot.exerciseId})`,
+          exerciseName: foundEx?.name || 'Exercício',
           primaryMuscle: foundEx?.primaryMuscle,
           restSeconds: slot.restSeconds ?? 90,
           notes: slot.notes,
@@ -398,46 +410,46 @@ export const RoutineEditorDialog: React.FC<RoutineEditorDialogProps> = ({
 
           {/* Routine Name */}
           <Field
-            label="Nome da Rotina:"
+            label="Nome da rotina"
             placeholder="Ex.: Superior A — Força e peitoral"
             value={name}
             onChange={(e) => setName(e.target.value)}
           />
 
-          <label
-            style={{
-              display: 'grid',
-              gap: 'var(--tita-space-1)',
-              fontSize: 'var(--tita-text-sm)',
-              color: 'var(--tita-text-secondary)',
-            }}
-          >
-            Dia da semana
-            <select
-              value={weekday}
-              onChange={(event) => {
-                const day = event.target.value as Weekday | '';
-                setWeekday(day);
-                if (day === 'SÁBADO' || day === 'DOMINGO') setOptional(true);
-              }}
-              data-testid="routine-weekday-select"
-              style={{
-                minHeight: 44,
-                background: 'var(--tita-surface-2)',
-                color: 'var(--tita-text)',
-                border: '1px solid var(--tita-border)',
-                borderRadius: 'var(--tita-radius-sm)',
-                padding: '0 var(--tita-space-3)',
-              }}
-            >
-              <option value="">Sem dia fixo</option>
+          <fieldset className="tita-weekday-picker" data-testid="routine-weekday-picker">
+            <legend>Dia da semana</legend>
+            <div className="tita-weekday-picker__options">
               {WEEKDAYS.map((day) => (
-                <option key={day} value={day}>
-                  {WEEKDAY_SHORT[day]} · {day}
-                </option>
+                <label key={day} className="tita-weekday-picker__choice">
+                  <input
+                    type="radio"
+                    name="routine-weekday"
+                    value={day}
+                    checked={weekday === day}
+                    onChange={() => {
+                      setWeekday(day);
+                      if (!routineToEdit && (day === 'SÁBADO' || day === 'DOMINGO'))
+                        setOptional(true);
+                    }}
+                    aria-label={day[0] + day.slice(1).toLowerCase()}
+                    data-testid={`routine-weekday-${day}`}
+                  />
+                  <span>{WEEKDAY_SHORT[day]}</span>
+                </label>
               ))}
-            </select>
-          </label>
+              <label className="tita-weekday-picker__choice tita-weekday-picker__choice--free">
+                <input
+                  type="radio"
+                  name="routine-weekday"
+                  value=""
+                  checked={weekday === ''}
+                  onChange={() => setWeekday('')}
+                  data-testid="routine-weekday-none"
+                />
+                <span>Sem dia fixo</span>
+              </label>
+            </div>
+          </fieldset>
 
           <label
             style={{
@@ -478,26 +490,11 @@ export const RoutineEditorDialog: React.FC<RoutineEditorDialogProps> = ({
               borderRadius: 'var(--tita-radius-md)',
             }}
           >
-            <strong
-              style={{
-                color: 'var(--tita-text)',
-                fontFamily: 'var(--tita-font-display)',
-                fontSize: 'var(--tita-text-base)',
-              }}
-            >
-              Progressão
-            </strong>
             <label
               htmlFor="routine-progression-strategy"
-              style={{
-                fontSize: 'var(--tita-text-xs)',
-                fontWeight: 'var(--tita-weight-bold)',
-                textTransform: 'uppercase',
-                letterSpacing: '0.04em',
-                color: 'var(--tita-text-muted)',
-              }}
+              style={{ fontWeight: 'var(--tita-weight-bold)', color: 'var(--tita-text)' }}
             >
-              Estratégia de Sobrecarga Progressiva:
+              Progressão
             </label>
             <select
               id="routine-progression-strategy"
@@ -524,24 +521,18 @@ export const RoutineEditorDialog: React.FC<RoutineEditorDialogProps> = ({
                 </option>
               ))}
             </select>
-            <span style={{ fontSize: '11px', color: 'var(--tita-text-muted)', marginTop: '2px' }}>
-              {STRATEGY_OPTIONS.find((o) => o.value === defaultProgressionStrategy)?.desc}
-            </span>
-            {defaultProgressionStrategy === ProgressionStrategyType.DOUBLE_PROGRESSION && (
-              <p
-                style={{
-                  margin: 0,
-                  fontSize: 'var(--tita-text-xs)',
-                  lineHeight: 1.5,
-                  color: 'var(--tita-text-secondary)',
-                }}
-              >
-                Exemplo 4 × 5–8: com 70 kg, 8/8/7/6 indica manter. Quando todas as séries chegarem a
-                8 com RIR adequado, considere o menor aumento disponível. Com 72,5 kg, volte à base
-                da faixa. Uma queda isolada pede observação; quedas repetidas podem pedir redução.
-                Toda mudança de carga exige sua confirmação.
-              </p>
-            )}
+            <details className="tita-progression-help">
+              <summary>Como funciona?</summary>
+              <p>{STRATEGY_OPTIONS.find((o) => o.value === defaultProgressionStrategy)?.desc}</p>
+              {defaultProgressionStrategy === ProgressionStrategyType.DOUBLE_PROGRESSION && (
+                <p>
+                  Exemplo 4 × 5–8: com 70 kg, 8/8/7/6 indica manter. Quando todas as séries chegarem
+                  a 8 com RIR adequado, considere o menor aumento disponível. Uma queda isolada pede
+                  observação; quedas repetidas podem pedir redução. Toda mudança de carga exige sua
+                  confirmação.
+                </p>
+              )}
+            </details>
           </div>
 
           {/* Exercise Slots Section */}

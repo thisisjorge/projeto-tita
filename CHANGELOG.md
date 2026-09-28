@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.0.3
+
+- Organiza rotinas por dia da semana e oferece revisão explícita para atribuir dias a fichas antigas, sem alterar IDs ou históricos.
+- Refina a tela de rotinas, os cards, o editor e o seletor de dia para uso em celulares pequenos.
+- Simplifica a navegação móvel para cinco destinos, mantendo Exercícios, Histórico e Ajustes em Mais.
+- Trata várias rotinas no mesmo dia como escolha explícita e mantém dia da semana separado de treino opcional.
+- Mantém o recebimento de JSON e o timer nativo do Android; o APK desta versão é um build debug.
+
 ## 1.0.0
 
 - Corrige edição de reps/carga e ordenação das gravações ao concluir treino.

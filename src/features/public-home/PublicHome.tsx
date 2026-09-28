@@ -3,7 +3,7 @@ import './public-home.css';
 
 const media = '/showcase/v1/';
 const repository = 'https://github.com/thisisjorge/projeto-tita';
-const currentVersion = 'v1.0.2';
+const currentVersion = 'v1.0.3';
 
 export const PublicHome: React.FC = () => (
   <div className="tita-public-home">

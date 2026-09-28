@@ -22,7 +22,8 @@ test.describe('Projeto Titã — Advanced Tracking & Progressive Disclosure E2E 
     await expect(presetBtn).toBeVisible();
     await presetBtn.click();
 
-    // Verify master toggle is now checked
+    // Wait for the async IndexedDB write before leaving Settings.
+    await expect(page.getByText('Predefinição aplicada e salva localmente.')).toBeVisible();
     await expect(masterToggle).toBeChecked();
 
     // 4. Navigate back to Workout / Treinar view

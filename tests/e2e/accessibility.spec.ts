@@ -189,9 +189,9 @@ test.describe('Projeto Titã — Accessibility Quality Gates (Phase 12, Task 15.
     // Measure the resulting shell, not the brief document being replaced.
     await page.waitForFunction(() => Boolean(navigator.serviceWorker.controller));
     await page.waitForLoadState('networkidle');
-    for (const { width, height, selector } of [
-      { width: 1280, height: 800, selector: '.tita-sidebar nav button' },
-      { width: 390, height: 844, selector: '.tita-bottom-nav button' },
+    for (const { width, height, selector, expectedCount } of [
+      { width: 1280, height: 800, selector: '.tita-sidebar nav button', expectedCount: 7 },
+      { width: 390, height: 844, selector: '.tita-bottom-nav button', expectedCount: 5 },
     ]) {
       await page.setViewportSize({ width, height });
       const buttons = page.locator(selector);
@@ -205,13 +205,23 @@ test.describe('Projeto Titã — Accessibility Quality Gates (Phase 12, Task 15.
             return { width, height, visibility: getComputedStyle(element).visibility };
           }),
         );
-        expect(sizes).toHaveLength(7);
+        expect(sizes).toHaveLength(expectedCount);
         for (const size of sizes) {
           expect(size.visibility).toBe('visible');
           expect(size.width).toBeGreaterThanOrEqual(44);
           expect(size.height).toBeGreaterThanOrEqual(44);
         }
       }).toPass({ timeout: 5000 });
+      if (width === 390) {
+        await page.getByRole('button', { name: 'Mais destinos' }).click();
+        const extraButtons = page.locator('#tita-mobile-more-menu button');
+        await expect(extraButtons).toHaveCount(3);
+        for (const button of await extraButtons.all()) {
+          const box = await button.boundingBox();
+          expect(box?.width).toBeGreaterThanOrEqual(44);
+          expect(box?.height).toBeGreaterThanOrEqual(44);
+        }
+      }
     }
   });
 });

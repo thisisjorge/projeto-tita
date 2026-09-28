@@ -14,7 +14,8 @@ for (const width of [320, 390, 834, 1440]) {
     await page.screenshot({ path: testInfo.outputPath('populated-editor.png') });
     const invalid = await dialog.evaluate((el) => {
       const boundary = el.querySelector('.tita-dialog')!.getBoundingClientRect();
-      return [...el.querySelectorAll('button, input, select')]
+      return [...el.querySelectorAll('button, input, select, .tita-weekday-picker__choice span')]
+        .filter((control) => !(control instanceof HTMLInputElement && control.type === 'radio'))
         .filter((control) => {
           const r = control.getBoundingClientRect();
           return (

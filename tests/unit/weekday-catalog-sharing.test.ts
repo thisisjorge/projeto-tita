@@ -1,8 +1,10 @@
 import { describe, expect, it } from 'vitest';
 import { createTestDatabase } from '../helpers/test-db.js';
 import {
+  inferWeekdayFromRoutineName,
   isOptionalRoutine,
   localWeekday,
+  routineDisplayTitle,
   sortRoutinesByWeekday,
   WEEKDAYS,
 } from '../../src/domain/weekday.js';
@@ -33,9 +35,28 @@ describe('Semana, catálogo e compartilhamento incremental', () => {
     expect(sortRoutinesByWeekday(shuffled).map((routine) => routine.weekday)).toEqual(WEEKDAYS);
     expect(localWeekday(new Date(2026, 8, 28, 0, 30))).toBe('SEGUNDA');
     expect(localWeekday(new Date(2026, 8, 27, 23, 30))).toBe('DOMINGO');
-    expect(isOptionalRoutine({ weekday: 'SÁBADO' })).toBe(true);
-    expect(isOptionalRoutine({ weekday: 'DOMINGO' })).toBe(true);
+    expect(isOptionalRoutine({ weekday: 'SÁBADO' })).toBe(false);
+    expect(isOptionalRoutine({ weekday: 'DOMINGO' })).toBe(false);
+    expect(isOptionalRoutine({ weekday: 'SÁBADO', optional: true })).toBe(true);
     expect(isOptionalRoutine({ weekday: 'SÁBADO', optional: false })).toBe(false);
+  });
+
+  it('mantém sem dia fixo por último e só sugere dias explícitos no nome', () => {
+    const routines = [
+      { id: 'a', name: 'Quinta - PULL + PUSH B', weekday: undefined },
+      { id: 'b', name: 'Segunda - PULL A', weekday: 'SEGUNDA' as const },
+      { id: 'c', name: 'Terça - PUSH A', weekday: undefined },
+    ];
+    expect(sortRoutinesByWeekday(routines).map((routine) => routine.id)).toEqual(['b', 'a', 'c']);
+    expect(inferWeekdayFromRoutineName('Segunda - PULL A')).toBe('SEGUNDA');
+    expect(inferWeekdayFromRoutineName('Terça - PUSH A')).toBe('TERÇA');
+    expect(inferWeekdayFromRoutineName('Quinta - PULL + PUSH B')).toBe('QUINTA');
+    expect(inferWeekdayFromRoutineName('Sábado- Opcional')).toBe('SÁBADO');
+    expect(inferWeekdayFromRoutineName('Mon Pull')).toBe('SEGUNDA');
+    expect(inferWeekdayFromRoutineName('Posterior de quinta')).toBeNull();
+    expect(routines[0]?.weekday).toBeUndefined();
+    expect(routineDisplayTitle('Quinta - PULL + PUSH B', 'QUINTA')).toBe('Pull + Push B');
+    expect(routineDisplayTitle('Quinta - PULL + PUSH B', 'SEGUNDA')).toBe('Quinta - PULL + PUSH B');
   });
 
   it('sugere a rotina do dia sem trocar a sessão ativa escolhida manualmente', async () => {

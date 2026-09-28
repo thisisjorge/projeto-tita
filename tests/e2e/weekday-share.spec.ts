@@ -6,11 +6,12 @@ test('weekday no editor fica visível na lista', async ({ page }) => {
   await page.getByTestId('create-routine-btn').click();
   const editor = page.getByRole('dialog');
   await editor.getByPlaceholder(/Superior A/).fill('Pull A');
-  await editor.getByTestId('routine-weekday-select').selectOption('SEGUNDA');
+  await editor.getByTestId('routine-weekday-SEGUNDA').locator('..').click();
   await editor.getByTestId('add-exercise-to-routine-btn').click();
   await page.getByText('Puxada Frontal na Polia', { exact: true }).first().click();
   await editor.getByTestId('save-routine-btn').click();
   await expect(page.getByTestId('routines-grid')).toContainText('Seg');
+  await page.getByTestId('routine-more-actions').click();
   await expect(page.getByTestId('export-week-btn')).toBeVisible();
 });
 
@@ -23,7 +24,7 @@ test('home sugere a rotina do dia local e inicia a sessão escolhida', async ({ 
     () =>
       ['DOMINGO', 'SEGUNDA', 'TERÇA', 'QUARTA', 'QUINTA', 'SEXTA', 'SÁBADO'][new Date().getDay()],
   );
-  await editor.getByTestId('routine-weekday-select').selectOption(today!);
+  await editor.getByTestId(`routine-weekday-${today}`).locator('..').click();
   await editor.getByTestId('add-exercise-to-routine-btn').click();
   await page.getByText('Puxada Frontal na Polia', { exact: true }).first().click();
   await editor.getByTestId('save-routine-btn').click();
@@ -34,6 +35,104 @@ test('home sugere a rotina do dia local e inicia a sessão escolhida', async ({ 
   await expect(page.getByTestId('active-workout-session')).toBeVisible();
   await page.reload();
   await expect(page.getByTestId('active-workout-session')).toBeVisible();
+});
+
+test('dias de rotinas antigas só são gravados após revisão e confirmação', async ({ page }) => {
+  await page.goto('/routines');
+  for (const name of ['Quinta - PULL + PUSH B', 'Segunda - PULL A']) {
+    await page.getByTestId('create-routine-btn').click();
+    const editor = page.getByRole('dialog');
+    await editor.getByPlaceholder(/Superior A/).fill(name);
+    await editor.getByTestId('add-exercise-to-routine-btn').click();
+    await page
+      .getByRole('dialog')
+      .last()
+      .getByText('Puxada Frontal na Polia', { exact: true })
+      .click();
+    await editor.getByTestId('save-routine-btn').click();
+    await expect(page.getByTestId('routines-grid')).toContainText(name);
+  }
+  await expect(page.getByTestId('review-weekday-suggestions')).toBeVisible();
+  await page.reload();
+  await expect(page.getByTestId('review-weekday-suggestions')).toBeVisible();
+  await page.getByTestId('review-weekday-suggestions').click();
+  await expect(page.locator('.tita-routine-organizer__row')).toHaveCount(2);
+  await page
+    .locator('.tita-routine-organizer__row')
+    .filter({ hasText: 'Quinta - PULL + PUSH B' })
+    .getByRole('checkbox')
+    .uncheck();
+  await page.getByTestId('apply-weekday-suggestions').click();
+  const cards = page.getByTestId('routines-grid').locator('[data-testid^="routine-card-"]');
+  await expect(cards.first()).toContainText('Pull A');
+  await expect(page.getByTestId('review-weekday-suggestions')).toBeVisible();
+  await page.reload();
+  await expect(cards.first()).toContainText('Pull A');
+  await expect(page.getByTestId('review-weekday-suggestions')).toBeVisible();
+});
+
+test('seletor de dia usa radios acessíveis e teclado', async ({ page }) => {
+  await page.goto('/routines');
+  await page.getByTestId('create-routine-btn').click();
+  const editor = page.getByRole('dialog');
+  const monday = editor.getByRole('radio', { name: 'Segunda' });
+  await monday.focus();
+  await page.keyboard.press('Space');
+  await expect(monday).toBeChecked();
+  await page.keyboard.press('ArrowRight');
+  await expect(editor.getByRole('radio', { name: 'Terça' })).toBeChecked();
+});
+
+test('duas rotinas no mesmo dia exigem escolha explícita', async ({ page }) => {
+  await page.goto('/routines');
+  const today = await page.evaluate(
+    () =>
+      ['DOMINGO', 'SEGUNDA', 'TERÇA', 'QUARTA', 'QUINTA', 'SEXTA', 'SÁBADO'][new Date().getDay()],
+  );
+  for (const name of ['Treino A', 'Treino B']) {
+    await page.getByTestId('create-routine-btn').click();
+    const editor = page.getByRole('dialog');
+    await editor.getByPlaceholder(/Superior A/).fill(name);
+    await editor.getByTestId(`routine-weekday-${today}`).locator('..').click();
+    await editor.getByTestId('add-exercise-to-routine-btn').click();
+    await page
+      .getByRole('dialog')
+      .last()
+      .getByText('Puxada Frontal na Polia', { exact: true })
+      .click();
+    await editor.getByTestId('save-routine-btn').click();
+    await expect(page.getByTestId('routines-grid')).toContainText(name);
+  }
+  await page.goto('/app');
+  await expect(page.getByTestId('start-today-routine-button')).toHaveCount(2);
+  await expect(page.getByText('Escolha qual iniciar.')).toBeVisible();
+});
+
+for (const [width, height] of [
+  [360, 800],
+  [375, 812],
+  [390, 844],
+  [412, 915],
+]) {
+  test(`rotinas e seletor não transbordam em ${width}x${height}`, async ({ page }) => {
+    await page.setViewportSize({ width, height });
+    await page.goto('/routines');
+    await expect(page.getByTestId('routine-more-actions')).toBeVisible();
+    await page.getByTestId('create-routine-btn').click();
+    await expect(page.getByTestId('routine-weekday-picker')).toBeVisible();
+    expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(
+      width,
+    );
+  });
+}
+
+test('Mais mantém Exercícios, Histórico e Ajustes acessíveis no mobile', async ({ page }) => {
+  await page.setViewportSize({ width: 360, height: 800 });
+  await page.goto('/routines');
+  await page.getByRole('button', { name: 'Mais destinos' }).click();
+  await expect(page.locator('#tita-mobile-more-menu').getByRole('button')).toHaveCount(3);
+  await page.locator('#tita-mobile-more-menu').getByRole('button', { name: 'Histórico' }).click();
+  await expect(page).toHaveURL(/\/history$/);
 });
 
 test('JSON recebido pelo share target aguarda confirmação', async ({ page }) => {

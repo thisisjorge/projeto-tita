@@ -4,7 +4,12 @@ import { HistoryService } from '../../services/history-service.js';
 import type { WorkoutSnapshot } from '../../domain/entities/workout-snapshot.js';
 import type { WeeklyReview } from '../../domain/analytics/types.js';
 import type { Routine } from '../../domain/entities/routine.js';
-import { isOptionalRoutine, localWeekday, WEEKDAY_SHORT } from '../../domain/weekday.js';
+import {
+  isOptionalRoutine,
+  localWeekday,
+  routineDisplayTitle,
+  WEEKDAY_SHORT,
+} from '../../domain/weekday.js';
 import { RoutineService } from '../../services/routine-service.js';
 import { Button, DumbbellIcon, StatusBanner } from '../../ui/components/index.js';
 import './home.css';
@@ -28,7 +33,7 @@ export function HomeTrainingSummary({
     null,
   );
   const [loadFailed, setLoadFailed] = useState(false);
-  const [todayRoutine, setTodayRoutine] = useState<Routine | null>(null);
+  const [todayRoutines, setTodayRoutines] = useState<Routine[]>([]);
   useEffect(() => {
     let mounted = true;
     const history = new HistoryService();
@@ -36,8 +41,8 @@ export function HomeTrainingSummary({
       .getRoutines()
       .then((routines) => {
         if (mounted)
-          setTodayRoutine(
-            routines.find((routine) => routine.weekday === localWeekday(new Date())) ?? null,
+          setTodayRoutines(
+            routines.filter((routine) => routine.weekday === localWeekday(new Date())),
           );
       })
       .catch(() => {});
@@ -61,18 +66,24 @@ export function HomeTrainingSummary({
         <h2>Pronto para treinar?</h2>
         <p>Escolha sua rotina ou comece uma sessão livre. Uma série de cada vez.</p>
         <div className="tita-home__actions">
-          {todayRoutine && onStartRoutine && (
-            <Button
-              size="lg"
-              onClick={() => onStartRoutine(todayRoutine)}
-              disabled={startDisabled}
-              data-testid="start-today-routine-button"
-              leftIcon={<DumbbellIcon size={20} />}
-            >
-              {WEEKDAY_SHORT[todayRoutine.weekday!]} · {todayRoutine.name}
-              {isOptionalRoutine(todayRoutine) ? ' (opcional)' : ''}
-            </Button>
+          {todayRoutines.length > 1 && (
+            <p>Há {todayRoutines.length} rotinas para hoje. Escolha qual iniciar.</p>
           )}
+          {onStartRoutine &&
+            todayRoutines.map((routine) => (
+              <Button
+                key={routine.id}
+                size="lg"
+                onClick={() => onStartRoutine(routine)}
+                disabled={startDisabled}
+                data-testid="start-today-routine-button"
+                leftIcon={<DumbbellIcon size={20} />}
+              >
+                {WEEKDAY_SHORT[routine.weekday!]} ·{' '}
+                {routineDisplayTitle(routine.name, routine.weekday)}
+                {isOptionalRoutine(routine) ? ' (opcional)' : ''}
+              </Button>
+            ))}
           <Button
             size="lg"
             onClick={onStart}

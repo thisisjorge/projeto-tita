@@ -52,7 +52,8 @@ for (const theme of ['dark', 'light']) {
     };
     await page.goto('/app/onboarding');
     await page.getByTestId('onboarding-load-sample-btn').click();
-    await page.getByRole('button', { name: 'Ajustes', exact: true }).click();
+    await page.getByRole('button', { name: 'Mais destinos' }).click();
+    await page.locator('#tita-mobile-more-menu').getByRole('button', { name: 'Ajustes' }).click();
     await page.getByRole('button', { name: '? Ajude-me', exact: true }).click();
     const dialog = page.getByRole('dialog', { name: 'Ajude-me', exact: true });
     await dialog.getByRole('button', { name: 'Minha chave fica salva?', exact: true }).click();

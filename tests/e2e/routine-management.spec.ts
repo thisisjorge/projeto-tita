@@ -88,6 +88,7 @@ test.describe('Projeto Titã — React Routine Management & Discovery E2E (REQ-5
     await expect(page.locator('text=Modelos de Treino Oficiais')).not.toBeVisible();
 
     // 9. Open and execute Discovery Wizard
+    await page.getByTestId('routine-more-actions').click();
     const openDiscoveryBtn = page.locator('[data-testid="open-discovery-btn"]');
     await openDiscoveryBtn.click();
 

@@ -11,7 +11,7 @@
  * 6. Listen for SKIP_WAITING message to activate only upon explicit client/user approval.
  */
 
-const RELEASE_ID = 'v1.0.0';
+const RELEASE_ID = 'v1.0.3';
 const SHELL_CACHE = `tita-shell-${RELEASE_ID}`;
 // Downloaded media survives shell upgrades. Assets are pinned to a reviewed source.
 const MEDIA_CACHE = 'tita-exercise-media-v1';

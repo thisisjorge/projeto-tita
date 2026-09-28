@@ -15,7 +15,13 @@ import { ActiveWorkoutService } from '../../services/active-workout-service.js';
 import { startRoutineWorkout } from '../../services/start-routine-workout.js';
 import { getAppDatabase } from '../../services/db-provider.js';
 import { generateId } from '../../domain/common/id.js';
-import { WEEKDAY_SHORT, isOptionalRoutine, sortRoutinesByWeekday } from '../../domain/weekday.js';
+import {
+  WEEKDAY_SHORT,
+  inferWeekdayFromRoutineName,
+  isOptionalRoutine,
+  routineDisplayTitle,
+  sortRoutinesByWeekday,
+} from '../../domain/weekday.js';
 import { preflightImport, executeImport } from '../../backup/backup-importer.js';
 import { takeIncomingShare } from '../../platform/incoming-share.js';
 import { takeNativeIncomingJson } from '../../platform/native-incoming-json.js';
@@ -61,6 +67,10 @@ export const RoutinesView: React.FC = () => {
   const [isDiscoveryOpen, setIsDiscoveryOpen] = useState(false);
   const [startingRoutineId, setStartingRoutineId] = useState<string | null>(null);
   const [shareNotice, setShareNotice] = useState<string | null>(null);
+  const [showOrganizer, setShowOrganizer] = useState(false);
+  const [excludedSuggestionIds, setExcludedSuggestionIds] = useState<string[]>([]);
+  const [organizing, setOrganizing] = useState(false);
+  const [showMoreActions, setShowMoreActions] = useState(false);
   const [pendingImport, setPendingImport] = useState<{ name: string; text: string } | null>(null);
   const [importPreview, setImportPreview] = useState<{
     valid: boolean;
@@ -68,6 +78,34 @@ export const RoutinesView: React.FC = () => {
     errors: readonly string[];
   } | null>(null);
   const importFileInputRef = useRef<HTMLInputElement>(null);
+
+  const weekdaySuggestions = routines
+    .filter((routine) => !routine.weekday && !routine.deletedAt)
+    .map((routine) => ({ routine, day: inferWeekdayFromRoutineName(routine.name) }))
+    .filter(
+      (item): item is { routine: Routine; day: NonNullable<typeof item.day> } => item.day !== null,
+    );
+
+  const applyWeekdaySuggestions = async () => {
+    setOrganizing(true);
+    try {
+      for (const { routine, day } of weekdaySuggestions) {
+        if (!excludedSuggestionIds.includes(routine.id)) {
+          await routineService.updateRoutine(routine.id, { weekday: day });
+        }
+      }
+      setShowOrganizer(false);
+      setExcludedSuggestionIds([]);
+      await loadData();
+    } catch (error) {
+      setShareNotice(
+        error instanceof Error ? error.message : 'Não foi possível organizar as rotinas.',
+      );
+      await loadData();
+    } finally {
+      setOrganizing(false);
+    }
+  };
 
   const loadData = useCallback(async () => {
     setIsLoading(true);
@@ -291,7 +329,7 @@ export const RoutinesView: React.FC = () => {
         programWrapper,
         selectedRoutines,
         usedExercises,
-        '1.0.0',
+        '1.0.3',
         wholeWeek ? 'program' : 'routine',
       );
       const blob = new Blob([json], { type: 'application/json' });
@@ -440,7 +478,7 @@ export const RoutinesView: React.FC = () => {
                 fontVariantNumeric: 'tabular-nums',
               }}
             >
-              {routines.length} {routines.length === 1 ? 'programa' : 'programas'}
+              {routines.length} {routines.length === 1 ? 'rotina' : 'rotinas'}
             </span>
           </div>
           <p
@@ -465,51 +503,59 @@ export const RoutinesView: React.FC = () => {
         >
           Nova Rotina
         </Button>
-        <div
-          className="tita-routines-secondary"
-          style={{
-            display: 'flex',
-            gap: 'var(--tita-space-2)',
-            flexWrap: 'wrap',
-            alignItems: 'center',
-          }}
-        >
-          <Button
-            variant="secondary"
-            onClick={() => setIsDiscoveryOpen(true)}
-            data-testid="open-discovery-btn"
-            style={{ display: 'inline-flex', alignItems: 'center', gap: 'var(--tita-space-2)' }}
-          >
-            <CompassIcon size={16} color="var(--tita-accent)" />
-            <span>Descobrir</span>
-          </Button>
+        <div className="tita-routines-secondary">
           <Button
             variant="secondary"
             onClick={() => setIsTemplateBrowserOpen(true)}
             data-testid="open-templates-btn"
-            style={{ display: 'inline-flex', alignItems: 'center', gap: 'var(--tita-space-2)' }}
+            leftIcon={<ClipboardIcon size={16} />}
           >
-            <ClipboardIcon size={16} color="var(--tita-accent)" />
-            <span>Modelos</span>
+            Modelos
           </Button>
           <Button
             variant="secondary"
             onClick={() => importFileInputRef.current?.click()}
             data-testid="import-routine-btn"
-            style={{ display: 'inline-flex', alignItems: 'center', gap: 'var(--tita-space-2)' }}
+            leftIcon={<UploadIcon size={16} />}
           >
-            <UploadIcon size={16} color="var(--tita-accent)" />
-            <span>Importar JSON</span>
+            Importar
           </Button>
-          {routines.length > 0 && activeTab === 'active' && (
-            <Button
-              variant="secondary"
-              onClick={() => void handleExportRoutine(routines[0]!, true)}
-              data-testid="export-week-btn"
-              leftIcon={<DownloadIcon size={16} />}
-            >
-              Exportar programa/semana
-            </Button>
+          <Button
+            variant="secondary"
+            onClick={() => setShowMoreActions((value) => !value)}
+            aria-expanded={showMoreActions}
+            aria-controls="routine-more-actions"
+            data-testid="routine-more-actions"
+          >
+            Mais
+          </Button>
+          {showMoreActions && (
+            <div id="routine-more-actions" className="tita-routines-more">
+              <Button
+                variant="ghost"
+                onClick={() => {
+                  setShowMoreActions(false);
+                  setIsDiscoveryOpen(true);
+                }}
+                data-testid="open-discovery-btn"
+                leftIcon={<CompassIcon size={16} />}
+              >
+                Descobrir
+              </Button>
+              {routines.length > 0 && activeTab === 'active' && (
+                <Button
+                  variant="ghost"
+                  onClick={() => {
+                    setShowMoreActions(false);
+                    void handleExportRoutine(routines[0]!, true);
+                  }}
+                  data-testid="export-week-btn"
+                  leftIcon={<DownloadIcon size={16} />}
+                >
+                  Exportar semana
+                </Button>
+              )}
+            </div>
           )}
           <input
             ref={importFileInputRef}
@@ -558,6 +604,65 @@ export const RoutinesView: React.FC = () => {
           registros locais com IDs existentes e criam um ponto de recuperação.
         </p>
       </Dialog>
+
+      {activeTab === 'active' && weekdaySuggestions.length > 0 && (
+        <section className="tita-routine-organizer" aria-label="Organizar suas rotinas">
+          <div className="tita-routine-organizer__intro">
+            <div>
+              <strong>Organizar suas rotinas</strong>
+              <p>
+                Encontramos dias prováveis para {weekdaySuggestions.length}{' '}
+                {weekdaySuggestions.length === 1 ? 'rotina' : 'rotinas'}. Confira antes de aplicar.
+              </p>
+            </div>
+            <Button
+              variant="secondary"
+              size="sm"
+              onClick={() => setShowOrganizer((value) => !value)}
+              aria-expanded={showOrganizer}
+              data-testid="review-weekday-suggestions"
+            >
+              {showOrganizer ? 'Ocultar' : 'Revisar'}
+            </Button>
+          </div>
+          {showOrganizer && (
+            <div className="tita-routine-organizer__review">
+              {weekdaySuggestions.map(({ routine, day }) => (
+                <label key={routine.id} className="tita-routine-organizer__row">
+                  <input
+                    type="checkbox"
+                    checked={!excludedSuggestionIds.includes(routine.id)}
+                    onChange={() =>
+                      setExcludedSuggestionIds((ids) =>
+                        ids.includes(routine.id)
+                          ? ids.filter((id) => id !== routine.id)
+                          : [...ids, routine.id],
+                      )
+                    }
+                    data-testid={`weekday-suggestion-${routine.id}`}
+                  />
+                  <span>{WEEKDAY_SHORT[day]}</span>
+                  <span>{routine.name}</span>
+                </label>
+              ))}
+              <Button
+                variant="primary"
+                size="sm"
+                disabled={
+                  organizing ||
+                  weekdaySuggestions.every(({ routine }) =>
+                    excludedSuggestionIds.includes(routine.id),
+                  )
+                }
+                onClick={() => void applyWeekdaySuggestions()}
+                data-testid="apply-weekday-suggestions"
+              >
+                {organizing ? 'Aplicando…' : 'Aplicar dias selecionados'}
+              </Button>
+            </div>
+          )}
+        </section>
+      )}
 
       {/* Share/Import Notification */}
       {shareNotice && (
@@ -686,7 +791,12 @@ export const RoutinesView: React.FC = () => {
           {routines.map((routine) => {
             const exerciseNames = routine.exercises
               .map((slot) => exercisesMap[slot.exerciseId] || 'Exercício')
-              .slice(0, 4);
+              .slice(0, 3);
+            const displayedName = builtinRoutineName(
+              templateRefs[routine.programId ?? ''],
+              routine.name,
+            );
+            const title = routineDisplayTitle(displayedName, routine.weekday);
 
             const totalSets = routine.exercises.reduce((acc, slot) => acc + slot.sets.length, 0);
 
@@ -701,7 +811,7 @@ export const RoutinesView: React.FC = () => {
                   padding: 'var(--tita-space-4)',
                   display: 'flex',
                   flexDirection: 'column',
-                  justifyContent: 'space-between',
+                  justifyContent: 'flex-start',
                   position: 'relative',
                   overflow: 'hidden',
                   transition: 'border-color 0.15s ease, background-color 0.15s ease',
@@ -731,6 +841,12 @@ export const RoutinesView: React.FC = () => {
                     }}
                   >
                     <div style={{ flex: 1, minWidth: 0 }}>
+                      {routine.weekday && (
+                        <span className="tita-routine-card__day">
+                          {WEEKDAY_SHORT[routine.weekday]}
+                          {isOptionalRoutine(routine) ? ' · opcional' : ''}
+                        </span>
+                      )}
                       <h3
                         style={{
                           fontFamily: 'var(--tita-font-display)',
@@ -744,35 +860,13 @@ export const RoutinesView: React.FC = () => {
                           whiteSpace: 'nowrap',
                         }}
                       >
-                        {builtinRoutineName(templateRefs[routine.programId ?? ''], routine.name)}
+                        {title}
                       </h3>
 
-                      {/* Clean Telemetry String (NO CARD-ITIS CHIPS) */}
-                      <div
-                        style={{
-                          fontFamily: 'var(--tita-font-mono)',
-                          fontSize: 'var(--tita-text-2xs)',
-                          color: 'var(--tita-text-muted)',
-                          marginTop: '4px',
-                          display: 'flex',
-                          alignItems: 'center',
-                          gap: '6px',
-                          letterSpacing: '0.06em',
-                          textTransform: 'uppercase',
-                        }}
-                      >
-                        <span style={{ color: 'var(--tita-text-secondary)' }}>
-                          {routine.exercises.length} EXERCÍCIOS
-                        </span>
-                        <span>•</span>
-                        <span style={{ color: 'var(--tita-text-secondary)' }}>
-                          ~{totalSets} SÉRIES
-                        </span>
-                        <span>•</span>
-                        <span>
-                          {routine.weekday ? WEEKDAY_SHORT[routine.weekday] : 'DIVISÃO LIVRE'}
-                          {isOptionalRoutine(routine) ? ' · OPCIONAL' : ''}
-                        </span>
+                      <div className="tita-routine-card__metadata">
+                        {routine.exercises.length}{' '}
+                        {routine.exercises.length === 1 ? 'exercício' : 'exercícios'} · ~{totalSets}{' '}
+                        {totalSets === 1 ? 'série' : 'séries'}
                       </div>
                     </div>
 
@@ -865,17 +959,16 @@ export const RoutinesView: React.FC = () => {
                         </span>
                       </div>
                     ))}
-                    {routine.exercises.length > 4 && (
+                    {routine.exercises.length > 3 && (
                       <div
                         style={{
-                          fontFamily: 'var(--tita-font-mono)',
-                          fontSize: '11px',
+                          fontSize: 'var(--tita-text-xs)',
                           color: 'var(--tita-text-muted)',
                           paddingLeft: '26px',
                           marginTop: '2px',
                         }}
                       >
-                        + {routine.exercises.length - 4} outros exercícios no plano
+                        +{routine.exercises.length - 3} exercícios
                       </div>
                     )}
                   </div>

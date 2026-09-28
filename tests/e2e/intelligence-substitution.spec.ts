@@ -11,8 +11,16 @@ async function capture(page: Page, name: string) {
   await page.screenshot({ path: path.join(process.env.RC_CAPTURE_DIR, `${name}.png`) });
 }
 async function nav(page: Page, route: string) {
-  const label = route === '/settings' ? 'Ajustes' : 'Rotinas';
-  await page.getByRole('button', { name: label, exact: true }).click();
+  if (route === '/settings') {
+    if (await page.locator('.tita-bottom-nav').isVisible()) {
+      await page.getByRole('button', { name: 'Mais destinos' }).click();
+      await page.locator('#tita-mobile-more-menu').getByRole('button', { name: 'Ajustes' }).click();
+    } else {
+      await page.getByRole('button', { name: 'Ajustes', exact: true }).click();
+    }
+  } else {
+    await page.getByRole('button', { name: 'Rotinas', exact: true }).click();
+  }
 }
 async function configure(page: Page, preset = 'nvidia') {
   await page.getByLabel('Ativar Titã Intelligence').check();

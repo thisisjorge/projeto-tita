@@ -29,8 +29,51 @@ export function localWeekday(date: Date): Weekday {
   return WEEKDAYS[(date.getDay() + 6) % 7]!;
 }
 
+const DAY_PREFIXES: ReadonlyArray<readonly [Weekday, readonly string[]]> = [
+  ['SEGUNDA', ['segunda', 'seg', 'monday', 'mon']],
+  ['TERÇA', ['terca', 'ter', 'tuesday', 'tue']],
+  ['QUARTA', ['quarta', 'qua', 'wednesday', 'wed']],
+  ['QUINTA', ['quinta', 'qui', 'thursday', 'thu']],
+  ['SEXTA', ['sexta', 'sex', 'friday', 'fri']],
+  ['SÁBADO', ['sabado', 'sab', 'saturday', 'sat']],
+  ['DOMINGO', ['domingo', 'dom', 'sunday', 'sun']],
+];
+
+/** Suggest only when a day explicitly begins the routine name. Never persist here. */
+export function inferWeekdayFromRoutineName(name: string): Weekday | null {
+  const normalized = name
+    .trim()
+    .toLowerCase()
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '');
+  for (const [day, prefixes] of DAY_PREFIXES) {
+    if (prefixes.some((prefix) => new RegExp(`^${prefix}(?:\\s|[-–—:|])`).test(normalized))) {
+      return day;
+    }
+  }
+  return null;
+}
+
+export function routineDisplayTitle(name: string, weekday?: Weekday): string {
+  if (!weekday || inferWeekdayFromRoutineName(name) !== weekday) return name;
+  const title =
+    name
+      .replace(
+        /^\s*(?:segunda|terça|terca|quarta|quinta|sexta|sábado|sabado|domingo|seg|ter|qua|qui|sex|sáb|sab|dom|monday|tuesday|wednesday|thursday|friday|saturday|sunday|mon|tue|wed|thu|fri|sat|sun)(?:-feira)?\s*(?:[-–—:]\s*|\s+)/iu,
+        '',
+      )
+      .trim() || name;
+  if (title !== title.toLocaleUpperCase('pt-BR')) return title;
+  return title
+    .toLocaleLowerCase('pt-BR')
+    .replace(
+      /(^|[\s+])(\p{L})/gu,
+      (_, before: string, letter: string) => before + letter.toLocaleUpperCase('pt-BR'),
+    );
+}
+
 export function isOptionalRoutine(routine: Pick<Routine, 'weekday' | 'optional'>): boolean {
-  return routine.optional ?? (routine.weekday === 'SÁBADO' || routine.weekday === 'DOMINGO');
+  return routine.optional === true;
 }
 
 export function sortRoutinesByWeekday<T extends Pick<Routine, 'weekday' | 'name' | 'id'>>(

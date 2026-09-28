@@ -18,3 +18,4 @@ ios/App/App.xcworkspace/xcuserdata/
 *.jks
 *.keystore
 release-assets/
+dist-apk/

@@ -1,13 +1,13 @@
 # Projeto Titã
 
-**Treine, registre e acompanhe sua evolução, mesmo offline.** O Titã é um diário de treino local-first para Web/PWA, com rotinas, biblioteca de exercícios, histórico e progresso. [Abrir o app](https://tita.jorgetavares.dev) · [Release v1.0.2](https://github.com/thisisjorge/projeto-tita/releases/tag/v1.0.2)
+**Treine, registre e acompanhe sua evolução, mesmo offline.** O Titã é um diário de treino local-first para Web/PWA, com rotinas, biblioteca de exercícios, histórico e progresso. [Abrir o app](https://tita.jorgetavares.dev) · [Release v1.0.3](https://github.com/thisisjorge/projeto-tita/releases/tag/v1.0.3)
 
 ## Versão atual e download
 
-- **Versão:** 1.0.2
-- **Android versionCode:** 3
-- **GitHub Release:** [Projeto Titã v1.0.2](https://github.com/thisisjorge/projeto-tita/releases/tag/v1.0.2)
-- **APK:** [Projeto-Tita-v1.0.2-debug.apk](https://github.com/thisisjorge/projeto-tita/releases/download/v1.0.2/Projeto-Tita-v1.0.2-debug.apk) — build debug para teste, sem assinatura de release.
+- **Versão:** 1.0.3
+- **Android versionCode:** 4
+- **GitHub Release:** [Projeto Titã v1.0.3](https://github.com/thisisjorge/projeto-tita/releases/tag/v1.0.3)
+- **APK:** [Projeto-Tita-v1.0.3-debug.apk](https://github.com/thisisjorge/projeto-tita/releases/download/v1.0.3/Projeto-Tita-v1.0.3-debug.apk) — build debug para teste, sem assinatura de release.
 
 ## Visão geral
 
@@ -53,7 +53,7 @@ React, TypeScript, Vite, IndexedDB, Service Worker e Capacitor.
 
 ## Android
 
-A [Web/PWA está publicada](https://tita.jorgetavares.dev). O APK Android v1.0.2 usa **assinatura debug e é apenas para teste**; não é um release assinado para distribuição. iOS não foi validado em dispositivo físico. Veja [limites e validação da V1](docs/V1_RELEASE.md).
+A [Web/PWA está publicada](https://tita.jorgetavares.dev). O APK Android v1.0.3 usa **assinatura debug e é apenas para teste**; não é um release assinado para distribuição. iOS não foi validado em dispositivo físico. Veja [limites e validação da V1](docs/V1_RELEASE.md).
 
 ## Executar localmente
 

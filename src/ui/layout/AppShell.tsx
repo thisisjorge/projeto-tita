@@ -48,6 +48,7 @@ export const AppShell: React.FC = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const [theme, setTheme] = useState(readTheme);
+  const [mobileMoreOpen, setMobileMoreOpen] = useState(false);
   const [pwaState, setPwaState] = useState<PwaState>(serviceWorkerManager.getState());
   const [isOnline, setIsOnline] = useState(
     typeof navigator !== 'undefined' ? navigator.onLine : true,
@@ -130,6 +131,7 @@ export const AppShell: React.FC = () => {
     return currentPath === item.path;
   };
   const goToNav = (item: NavItem) => {
+    setMobileMoreOpen(false);
     if (publicRoot && item.path !== '/home') {
       window.location.assign(`/app${item.path === '/' ? '' : item.path}`);
       return;
@@ -571,7 +573,7 @@ export const AppShell: React.FC = () => {
             paddingBottom: 'env(safe-area-inset-bottom, 0px)',
           }}
         >
-          {NAV_ITEMS.map((item) => {
+          {[NAV_ITEMS[0]!, NAV_ITEMS[1]!, NAV_ITEMS[2]!, NAV_ITEMS[5]!].map((item) => {
             const isActive = isNavActive(item);
             const Icon = item.icon;
             return (
@@ -627,6 +629,37 @@ export const AppShell: React.FC = () => {
               </button>
             );
           })}
+          <div className="tita-bottom-nav__more">
+            {mobileMoreOpen && (
+              <div id="tita-mobile-more-menu" className="tita-bottom-nav__menu">
+                {[NAV_ITEMS[3]!, NAV_ITEMS[4]!, NAV_ITEMS[6]!].map((item) => (
+                  <button key={item.path} type="button" onClick={() => goToNav(item)}>
+                    <item.icon size={18} color="currentColor" />
+                    {item.label}
+                  </button>
+                ))}
+              </div>
+            )}
+            <button
+              type="button"
+              className="tita-bottom-nav__more-trigger"
+              onClick={() => setMobileMoreOpen((open) => !open)}
+              onKeyDown={(event) => {
+                if (event.key === 'Escape') setMobileMoreOpen(false);
+              }}
+              aria-label="Mais destinos"
+              aria-expanded={mobileMoreOpen}
+              aria-controls="tita-mobile-more-menu"
+              aria-current={
+                ['/library', '/history', '/settings'].includes(currentPath) ? 'page' : undefined
+              }
+            >
+              <span aria-hidden="true" className="tita-bottom-nav__more-icon">
+                •••
+              </span>
+              <span>Mais</span>
+            </button>
+          </div>
         </nav>
       </div>
 
