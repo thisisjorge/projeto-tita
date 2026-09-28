@@ -12,7 +12,7 @@ async function capture(page: Page, name: string) {
 }
 async function nav(page: Page, route: string) {
   if (route === '/settings') {
-    if (await page.locator('.tita-bottom-nav').isVisible()) {
+    if ((page.viewportSize()?.width ?? 0) < 768) {
       await page.getByRole('button', { name: 'Mais destinos' }).click();
       await page.locator('#tita-mobile-more-menu').getByRole('button', { name: 'Ajustes' }).click();
     } else {
